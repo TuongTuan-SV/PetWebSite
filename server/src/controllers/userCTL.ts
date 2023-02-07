@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
-import { nextTick } from "process";
+
 import User from "../models/User";
+import jwt from "jsonwebtoken"
+import bcrypt from 'bcrypt'
 
 const UserController = {
     //Đăng nhập
@@ -15,8 +17,14 @@ const UserController = {
             if(!user) return res.status(400).json({msg:"User not exists. "})
 
             // Nếu tài khoản tồn tại thì kiểm tra mật khẩu không đúng thì trả về status 400 và thông báo mật khẩu không đúng
-            if(user.password != password) return res.status(400).json({msg : "Password not correct. "})
-            res.json(user)
+            const Match = await bcrypt.compare(password, user.password)
+            if(!Match) return res.status(400).json({msg : "Password not correct. "})
+
+            //tạo json web token
+            const accesstoken = createAccessToken({_id: user.id})
+            const refreshtoken = createRefreshToken({ id: user._id });
+
+            res.json({user,accesstoken})
         } catch (err) {
             if (err instanceof Error) {
                 // ✅ TypeScript knows err is Error
@@ -32,15 +40,40 @@ const UserController = {
     // Tạo tài khoản 
     register : async(req : Request, res : Response) => {
         try {
-            const user = new User({
-                FirstName: req.body.FirstName,
-                LastName : req.body.LastName,
-                email: req.body.email,
-                avatar: req.body.avatar,
-                password: req.body.password
+            //Lấy thông tin từ form đăng ký
+            const {email, FirstName, LastName, avatar, password} = req.body
+            
+            //kiểm tra email đã tồn tại chưa
+            const user = await User.findOne({email})
+            
+            //Nếu tồn tại thông tại email đã có tài khoản dùng email đó
+            if(user) return res.status(400).json({msg : "Email alredy exists."})
+
+            //Kiểm tra mât khẩu có 1 chữ thường, 1 chữ hoa, 1 số với 1 ký tự đặc biệt không
+            var decimal=  /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{6,15}$/;
+            if (!password.match(decimal))
+                return res
+                .status(400)
+                .json({ msg: "password between 8 to 15 characters which contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character. " });
+
+            //Mã hóa mật khẩu
+            const pswHash = await bcrypt.hash(password,10)
+
+            //Tạo object User mới
+            const newuser = new User({
+                FirstName,
+                LastName,
+                email,
+                avatar,
+                password: pswHash
             });
-            const newUser = await user.save();
-            res.json(newUser)
+
+            // Lưu user lên db
+            await newuser.save();
+
+
+            res.json("Create Success.")
+
         } catch (err) {
             if (err instanceof Error) {
                 // ✅ TypeScript knows err is Error
@@ -90,7 +123,6 @@ const UserController = {
     },
 
     //Xem thông tin cá nhân 
-
     info :async(req : Request, res : Response) => {
         try {
             const user = await User.findById(req.params.id)
@@ -112,4 +144,11 @@ const UserController = {
     }
 }
 
+const createAccessToken = (user: string | object) => {
+    return jwt.sign(user,process.env.ACCESS_TOKEN_SECRET!, { expiresIn: "2d" });
+}
+
+const createRefreshToken = (user: string | object) => {
+  return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: "7d" });
+};
 module.exports = UserController
