@@ -1,10 +1,15 @@
-const router = require("express").Router();
-const userCTL = require('../controllers/userCTL')
+const router = require('express').Router();
+const userCTL = require('../controllers/userCTL');
+import { Verifytoken } from '../middleware/auth';
 
-router.get('/:id',userCTL.info)
-router.post('/login',userCTL.login)
-router.post('/signup',userCTL.register);
+//Read
+router.get('/:id', userCTL.info);
 
-router.route('/:id').delete(userCTL.delete).put(userCTL.update)
+//Write
+router.post('/login', userCTL.login);
+router.post('/signup', userCTL.register);
 
-module.exports = router
+//Update
+router.route('/:id').delete(userCTL.delete).put(userCTL.update);
+
+module.exports = router;
