@@ -14,7 +14,10 @@ app.use(express.json());
 app.use(cors());
 
 //Routes
+//User
 app.use('/user', require('./routers/userRouter'));
+//Product
+app.use('/api', require('./routers/productRoutes'));
 
 //Connect to mongoAtals
 mongoose.set('strictQuery', false);

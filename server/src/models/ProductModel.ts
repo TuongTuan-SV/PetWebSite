@@ -21,7 +21,7 @@ interface Iproduct {
   Name: string;
   Description: string;
   Price: number;
-  Sock: number;
+  Socks: number;
   Brand: string;
   Category: string;
   image: string;
@@ -60,7 +60,7 @@ const ProductSchema = new Schema<Iproduct>(
     images: {
       type: Array,
     },
-    Sock: {
+    Socks: {
       type: Number,
       require: true,
     },
