@@ -17,7 +17,9 @@ const UserController = {
       if (!user) return res.status(400).json({ msg: 'User not exists. ' });
 
       // Nếu tài khoản tồn tại thì kiểm tra mật khẩu không đúng thì trả về status 400 và thông báo mật khẩu không đúng
-      const Match = bcrypt.compare(password, user.password);
+      const Match = await bcrypt.compare(password, user.password);
+
+      // console.log(Match, user.password, password);
       if (!Match)
         return res.status(400).json({ msg: 'Password not correct. ' });
 
@@ -27,7 +29,7 @@ const UserController = {
 
       //Xóa mật khẩu khi trả về front end ****(cần sửa lại sao cho xóa psw thay thì vì thay đổi giá trị)
       user.password = ' ';
-      res.json({ user });
+      res.json({ user, accesstoken });
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error

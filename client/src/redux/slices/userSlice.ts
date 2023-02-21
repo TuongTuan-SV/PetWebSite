@@ -1,8 +1,13 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialState = {
-  token: null,
-  user: null,
+export interface IUser {
+  token: string;
+  user: Object;
+  cart: Array<object>;
+}
+const initialState: IUser = {
+  token: '',
+  user: {},
   cart: [],
 };
 
@@ -13,11 +18,13 @@ export const userSlice = createSlice({
     //action == payload
     setLogin: (state, action) => {
       state.user = action.payload.user;
-      state.token = action.payload.token;
+      state.token = action.payload.accesstoken;
+      console.log(state.user);
     },
     setLogout: (state) => {
-      state.user = null;
-      state.token = null;
+      state.user = {};
+      state.token = '';
+      console.log(state.user);
     },
   },
 });
