@@ -1,5 +1,4 @@
 import { Request, Response } from 'express';
-import { stat } from 'fs';
 import Product from '../models/ProductModel';
 
 const ProductController = {
