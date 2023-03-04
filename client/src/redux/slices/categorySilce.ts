@@ -1,43 +1,41 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 import { API_URL } from '../../api/config';
-export interface IBrand {
-  Brands: Array<object>;
-  SelectBrand: null | string;
+export interface ICategory {
+  Categories: [];
+  SelectCategory: null | string;
   loading: boolean;
   err: string;
   msg: string;
 }
-
-const initialState: IBrand = {
-  Brands: [],
-  SelectBrand: '',
+const initialState: ICategory = {
+  Categories: [],
+  SelectCategory: '',
   loading: false,
   err: '',
   msg: '',
 };
 //ACTION
 // GET BRAND
-export const getBrand = createAsyncThunk(
-  'Brand/getBrand',
+export const getCategory = createAsyncThunk(
+  'Category/getCategory',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`${API_URL}/api/brands`);
+      const response = await axios.get(`${API_URL}/api/category`);
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
-      // console.log(response.data.brands);
-      return response.data.brands;
+      return response.data.categories;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
 //CREATE POST
-export const createBrand = createAsyncThunk(
-  'Brand/postBrand',
+export const createCategory = createAsyncThunk(
+  'Category/postBrand',
   async (data: any, thunkAPI) => {
     try {
-      const response = await axios.post(`${API_URL}/api/brands`, data);
+      const response = await axios.post(`${API_URL}/api/category`, data);
       // Inferred return type: Promise<MyData>
       return response.data;
     } catch (error: any) {
@@ -47,46 +45,46 @@ export const createBrand = createAsyncThunk(
 );
 //SLICE
 export const BrandSlice = createSlice({
-  name: 'Brand',
+  name: 'Category',
   initialState,
   reducers: {
     //Add brand to state
-    addBrands: (state, action) => {
-      state.Brands = action.payload.Brands;
+    addCategory: (state, action) => {
+      state.Categories = action.payload;
     },
     //Add seleted brand to state
-    setBrand: (state, action) => {
-      state.SelectBrand = action.payload.brand;
+    setCategory: (state, action) => {
+      state.SelectCategory = action.payload;
     },
   },
   extraReducers: (builder) => {
     //GET BRAND
     builder
-      .addCase(getBrand.pending, (state, action) => {
+      .addCase(getCategory.pending, (state, action) => {
         state.loading = true;
       })
-      .addCase(getBrand.fulfilled, (state, action) => {
+      .addCase(getCategory.fulfilled, (state, action) => {
         state.loading = false;
-        state.Brands = action.payload;
+        state.Categories = action.payload;
       })
-      .addCase(getBrand.rejected, (state, action) => {
+      .addCase(getCategory.rejected, (state, action) => {
         state.loading = false;
       });
     //CREATE BRAND
     builder
-      .addCase(createBrand.pending, (state, action) => {
+      .addCase(createCategory.pending, (state, action) => {
         state.loading = true;
       })
-      .addCase(createBrand.fulfilled, (state, action) => {
+      .addCase(createCategory.fulfilled, (state, action) => {
         state.loading = false;
         state.msg = action.payload;
       })
-      .addCase(createBrand.rejected, (state, action) => {
+      .addCase(createCategory.rejected, (state, action) => {
         state.loading = false;
       });
   },
 });
 
-export const { addBrands, setBrand } = BrandSlice.actions;
+export const { addCategory, setCategory } = BrandSlice.actions;
 
 export default BrandSlice.reducer;

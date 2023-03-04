@@ -13,8 +13,8 @@ const BrandController = {
   //Lấy tất cả brands từ db
   getBrands: async (req: Request, res: Response) => {
     try {
-      const brands = await Brand.findOne();
-      return res.status(400).json({ brands });
+      const brands = await Brand.find();
+      return res.status(200).json({ brands });
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error

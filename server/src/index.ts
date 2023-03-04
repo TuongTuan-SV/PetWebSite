@@ -24,6 +24,7 @@ app.use('/user', require('./routers/userRouter'));
 app.use('/api', require('./routers/productRoutes'));
 app.use('/api', require('./routers/brandRouter'));
 app.use('/api', require('./routers/upload'));
+app.use('/api', require('./routers/categoryRouter'));
 //Connect to mongoAtals
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_URL!).then(() => {

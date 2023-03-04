@@ -1,0 +1,157 @@
+header {
+  min-height: 70px;
+  width: 100%;
+  overflow: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  background-color: rgb(255 255 255);
+}
+
+header .Logo {
+  flex: 1;
+}
+
+header a {
+  text-transform: uppercase;
+  color: black;
+  display: inline-block;
+  position: relative;
+  color: #0087ca;
+}
+
+header ul li {
+  display: inline-block;
+  padding: 0 20px;
+}
+
+/* active navlink */
+header .active:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(1);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #0087ca;
+}
+/* underline hover */
+header a:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(0);
+  height: 2px;
+  bottom: 0;
+  left: 0;
+  background-color: #0087ca;
+  transform-origin: bottom right;
+  transition: transform 0.25s ease-out;
+}
+
+header a:hover:after {
+  transform: scaleX(1);
+  transform-origin: bottom left;
+}
+/* Remove underline from logo */
+.LogoText:after {
+  transform: scaleX(0) !important ;
+}
+.Menu {
+  display: none;
+}
+
+.Cart-icon {
+  position: relative;
+  margin-right: 20px;
+  margin-top: 0.2em;
+}
+
+.Cart-icon a {
+  color: black;
+}
+.Cart-icon a:hover {
+  color: orange;
+}
+
+.Cart-icon span {
+  background: crimson;
+  border-radius: 20px;
+  color: white;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 7px;
+  font-size: 10px;
+}
+
+#header-search-bar {
+  position: relative;
+  margin-right: 10px;
+}
+#header-search-text {
+  padding: 20px;
+  border-radius: 20px;
+  background-color: #f7f6f6cb;
+  border: none;
+  height: 7vh;
+}
+#header-search-icon {
+  width: 2.4vw;
+  height: 5vh;
+  /* padding: 0 10px; */
+  /* margin-right: 10px; */
+  position: absolute;
+  background-color: #6839cc;
+  border-radius: 50%;
+  right: 8px;
+  top: 7px;
+}
+.SeachBar {
+  display: flex;
+}
+
+#Seachbtn {
+  font-size: 16px;
+  text-transform: uppercase;
+  color: #fffdfd;
+}
+#header-search-icon:hover {
+  background-color: orange;
+}
+.client_body {
+  padding: 30px 20px;
+  background-color: #fcfcfe;
+}
+header {
+  padding: 0 20px;
+}
+
+.user-icon {
+  cursor: pointer;
+}
+.user-icon::after {
+  content: '';
+  position: absolute;
+  padding-bottom: 10px;
+}
+.user-icon:hover {
+  color: orange;
+}
+.user-form .hide {
+  visibility: hidden;
+}
+.user-form div {
+  position: absolute;
+  z-index: 99999;
+  right: 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  /* height: 100vh;
+  margin: 40px; */
+}

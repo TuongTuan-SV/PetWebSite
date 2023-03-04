@@ -1,0 +1,30 @@
+.main-footer {
+    background-color: rgb(255 255 255);
+    color: black;
+    position: relative;
+    width: 100%;
+    border-top: 1px solid #ddd;
+}
+
+.footer_container{
+    margin: 10px 10px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: nowrap;
+    flex-direction: column;
+}
+.footet_row {
+    display: flex;
+    list-style: none;
+    margin-bottom: 20px;
+    justify-content: space-around;
+}
+.footet_row li{
+    margin : 10px 0;
+}
+
+@media (width < 550px) {
+    .footet_row{
+        font-size: 0.5em;
+    }
+}

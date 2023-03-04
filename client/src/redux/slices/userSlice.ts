@@ -2,29 +2,33 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface IUser {
   token: string;
-  user: Object;
+  User: Object;
+  login: boolean;
   cart: Array<object>;
 }
 const initialState: IUser = {
   token: '',
-  user: {},
+  User: {},
+  login: false,
   cart: [],
 };
 
 export const userSlice = createSlice({
-  name: 'user',
+  name: 'User',
   initialState,
   reducers: {
     //action == payload
     setLogin: (state, action) => {
-      state.user = action.payload.user;
+      state.User = action.payload.user;
       state.token = action.payload.accesstoken;
-      console.log(state.user);
+      state.login = true;
+      console.log(state.User);
     },
     setLogout: (state) => {
-      state.user = {};
+      state.User = {};
+      state.login = false;
       state.token = '';
-      console.log(state.user);
+      console.log(state.User);
     },
   },
 });

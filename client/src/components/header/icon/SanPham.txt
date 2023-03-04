@@ -1,0 +1,96 @@
+product_id : "product01"
+title : "product1_title" (ten sp)
+price : 12356 (gia sp)
+description : "product1_description" (mieu ta sp)
+content : "product1_content" (thong tin sp)
+image : Object
+category : "large_dog" (loai sp)
+
+product_id : "Hama0"
+title : ""
+price : 400000
+description : ""
+content : ""
+image : 
+category : "HamaLv0"
+
+product_id : "Hama01"
+title : "Cast Cross"
+price : 400000
+description : "Gồm 2 mảnh phải được tháo rời và sau đó ghép lại với nhau. Mỗi mảnh có nhiều góc cạnh và lồi lõm làm hạn chế chuyển động của các mảnh. Ngay cả với tất cả các góc, khối hình vẫn có chuyển động mượt mà. Giải câu đố bằng cách sử dụng tốt các chuyển động dọc, ngang, chéo và xoay"
+content : "	3,5 cm x 3,5 cm x 1,4 cm / 1,4 inch x 1,4 inch x 0,5 inch"
+image : https://www.puzzlemaster.ca/browse/metalpuzzles/16828-cast-cross
+category : "HamaLv07"
+
+product_id : "Hama02"
+title : "Cast News"
+price : 400000
+description : "Gồm 2 mảnh phải được tháo rời và sau đó ghép lại với nhau. Mỗi mảnh có nhiều góc cạnh và lồi lõm làm hạn chế chuyển động của các mảnh. Ngay cả với tất cả các góc, khối hình vẫn có chuyển động mượt mà. Giải câu đố bằng cách sử dụng tốt các chuyển động dọc, ngang, chéo và xoay"
+content : "3 1/8 in x 2 5/8 in x 1 3/8 in / 5.3 cm x 5.1 cm"
+image : https://www.puzzlemaster.ca/browse/metalpuzzles/311-cast-news
+category : "HamaLv10"
+
+product_id : "Hama03"
+title : "Cast Quartet"
+price : 400000
+description : "Gồm 4 mảnh phải được tháo rời và sau đó ghép lại với nhau. Mỗi mảnh có nhiều góc cạnh và lồi lõm làm hạn chế chuyển động của các mảnh. Ngay cả với tất cả các góc, khối hình vẫn có chuyển động mượt mà. Giải câu đố bằng cách sử dụng tốt các chuyển động dọc, ngang, chéo và xoay"
+content : "2 in x 1 1/4 in x 1 1/4 in / 5 cm x 3.2 cm x 3.2 cm"
+image : https://www.puzzlemaster.ca/browse/metalpuzzles/1116-cast-quartet
+category : "HamaLv10"
+
+product_id : "Hama04"
+title : "Cast Love"
+price : 400000
+description : "Gồm 2 mảnh phải được tháo rời và sau đó ghép lại với nhau. Mỗi mảnh có nhiều góc cạnh và lồi lõm làm hạn chế chuyển động của các mảnh. Ngay cả với tất cả các góc, khối hình vẫn có chuyển động mượt mà. Giải câu đố bằng cách sử dụng tốt các chuyển động dọc, ngang, chéo và xoay"
+content : "4.5 cm x 4 cm x 1.7 cm / 1.75 in x 1.5 in x 0.65 in"
+image : https://www.puzzlemaster.ca/browse/metalpuzzles/metal/14529-cast-love
+category : "HamaLv05"
+
+-------------------------
+Web Tham khảo sản phẩm (Ko cần để ý tui ghi để mốt lấy cho tiện)
+https://gamesuniverse.gr/en/brainteaser-puzzles/2705-quest-pyramid-0602728201631.html
+https://en.escapewelt.com/shop/quest-pyramide
+
+
+product_id : "Puzzle01"
+title : "QUEST PYRAMID"
+price : 1200000
+description : "Quest Pyramid là một dạng trò chơi logic trí tuệ mới được thiết kế để chơi câu chuyện và kịch bản của nhiệm vụ EscapeWelt. Vào ngăn bí mật với những người thân yêu của bạn mà không cần rời khỏi nhà! Thời hạn ly kỳ, những cạm bẫy khó khăn và những câu đố phức tạp của phòng nhiệm vụ đang chờ đón bạn. Quest Pyramid được thiết kế bởi các kỹ sư giàu kinh nghiệm, những người đã phát triển các câu đố độc đáo và các thử thách đa cấp"
+content : "19x19x10 cm"
+image : https://en.escapewelt.com/shop/quest-pyramide
+category : "QuestPuz01"
+
+product_id : "Puzzle02"
+title : "SPACE BOX"
+price : 1200000
+description : "Space Box là một dạng trò chơi logic trí tuệ mới được thiết kế để chơi câu chuyện và kịch bản của nhiệm vụ EscapeWelt. Vào ngăn bí mật với những người thân yêu của bạn mà không cần rời khỏi nhà! Thời hạn ly kỳ, những cạm bẫy khó khăn và những câu đố phức tạp của phòng nhiệm vụ đang chờ đón bạn. Space Box được thiết kế bởi các kỹ sư giàu kinh nghiệm, những người đã phát triển các câu đố độc đáo và các thử thách đa cấp."
+content : ""
+image : https://en.escapewelt.com/shop/space-box-escape-room-in-einer-box
+category : "QuestPuz01"
+
+product_id : "Puzzle03"
+title : "QUEST PUZZLE"
+price : 600000
+description : "Quest Puzzle là một thế hệ hoàn toàn mới của trò chơi bảng logic độc đáo của EscapeWelt.
+
+Thời thơ ấu ai lại không thích giải các câu đố ghép hình, ghép chúng lại với nhau? Nhưng thời thế đã thay đổi, và thế giới đã thay đổi từ những ngày của trò chơi ghép hình thông thường! Vì vậy, chúng tôi đã tạo ra một định dạng câu đố mới. Quest Puzzle là một thử thách logic hoàn hảo được làm hoàn toàn bằng gỗ tự nhiên. Mỗi bước đi là một thử thách và động não. Chọn sự kết hợp phù hợp của các ổ khóa để lắp ráp các câu đố và kết thúc trò chơi."
+content : "20x20x0,5 cm"
+image : https://en.escapewelt.com/shop/space-box-escape-room-in-einer-box
+category : "QuestPuz01"
+
+-------------------------
+product_id : "Smat01"
+title : "IQ Digits"
+price : 329000
+description : "Bảng trò chơi, các mảnh ghép số từ 0 - 9, sách hướng dẫn với 120 thử thách & đáp án"
+content : "7+"
+image : https://www.funnyland.vn/products/thu-thach-iq-digits
+category : "SmatPL01"
+
+product_id : "Smat02"
+title : "Dragon Inferno"
+price : 590000
+description : "Bảng trò chơi, 2 bộ 7 Viên Gạch Vương Quốc (2 người chơi), 5 viên gạch rồng, 8 quả trứng rồng và luật chơi."
+content : "7+"
+image : https://www.funnyland.vn/products/thu-thach-mo-rong-lanh-tho-vuong-quoc-rong
+category : "SmatPL02"

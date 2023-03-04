@@ -1,0 +1,96 @@
+.carousel-container {
+  padding: 20px 0 20px;
+  max-width: 100vw;
+  height: 500px;
+  background-color: #fcfcfe;
+  display: flex;
+  position: relative;
+  padding: 0;
+}
+
+.carousel {
+  display: flex;
+  height: 100%;
+  width: 100%;
+  overflow-x: scroll;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  background-color: #ffffff;
+}
+
+.carousel-item {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  flex: 1 0 100%;
+  scroll-snap-align: start;
+}
+
+.carousel-item a {
+  height: 100%;
+  width: 50%;
+  overflow: hidden;
+  margin: 0 auto;
+}
+.carousel-item img {
+  height: 100%;
+  width: 100%;
+}
+
+.carousel-item p {
+  position: absolute;
+  transition: all 0.5s ease-in-out;
+  bottom: 0;
+  inset: auto 0 0 0;
+
+  text-align: center;
+  color: white;
+  font-size: 2rem;
+}
+
+.carousel-btn {
+  height: 30px;
+  width: 30px;
+  position: absolute;
+  transform: rotate(45deg);
+  z-index: 2;
+  top: 50%;
+  cursor: pointer;
+  display: none;
+}
+
+@media (width > 600px) {
+  .carousel-btn {
+    display: inline-block;
+  }
+
+  .carousel-item.active p {
+    opacity: 1;
+    transform: scale(1.1) translateY(-40px);
+  }
+
+  .caruosel-item p {
+    opacity: 0;
+  }
+}
+@media (width < 600px) {
+  .carousel-container {
+    display: none;
+  }
+}
+.left-btn {
+  border-bottom: 4px solid rgb(78, 78, 78);
+  border-left: 4px solid rgb(78, 78, 78);
+  left: 20px;
+}
+
+.right-btn {
+  border-right: 4px solid rgb(78, 78, 78);
+  border-top: 4px solid rgb(78, 78, 78);
+  right: 20px;
+}
+
+::-webkit-scrollbar {
+  height: 0;
+  width: 0;
+}

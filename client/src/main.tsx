@@ -4,10 +4,45 @@ import App from './App';
 import './index.css';
 import { store } from './redux/store';
 import { Provider } from 'react-redux/es/exports';
+import { createBrowserRouter, RouterProvider } from 'react-router-dom';
+import NotFound from './utils/NotFount';
+import Upload from './components/upload/Upload';
+import Login from './sceens/Login';
+import Home from './sceens/Home';
+import DetailProduct from './sceens/DetailProduct';
+import Product from './sceens/Product';
+import Brand from './components/brand/Brand';
+const router = createBrowserRouter([
+  {
+    path: '/',
+    element: <App />,
+    errorElement: <NotFound />,
+    children: [
+      { index: true, element: <Home /> },
+      {
+        path: 'upload',
+        element: <Brand />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'detail/:id',
+        element: <DetailProduct />,
+      },
+      {
+        path: 'shop',
+        element: <Product />,
+      },
+    ],
+  },
+]);
+
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
     <Provider store={store}>
-      <App />
+      <RouterProvider router={router} />
     </Provider>
   </React.StrictMode>
 );

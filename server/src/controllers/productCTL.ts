@@ -6,7 +6,7 @@ const ProductController = {
   getProducts: async (req: Request, res: Response) => {
     try {
       const products = await Product.find();
-      return res.json(products);
+      return res.status(200).json(products);
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error
