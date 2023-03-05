@@ -2,16 +2,18 @@ import React, { useState } from 'react';
 import Menu from './icon/menu.svg';
 import Close from './icon/xmark.svg';
 import { NavLink, Link } from 'react-router-dom';
+import Badge from '@mui/material/Badge';
 import PetsIcon from '@mui/icons-material/Pets';
 import { BiSearchAlt } from 'react-icons/bi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { HiOutlineUser } from 'react-icons/hi';
 import { useAppSelector } from '../../hooks';
+import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './header.css';
 
 export default function Header() {
   const [menu, setMenu] = useState(false);
-  const { login } = useAppSelector((state) => state.User);
+  const { login, cart } = useAppSelector((state) => state.User);
   const [UserForm, setUserForm] = useState(false);
   let activeClassName = 'active';
 
@@ -81,7 +83,9 @@ export default function Header() {
           </li>
           <li className="user-icon" onClick={handleUser}>
             <div>
-              <HiOutlineUser size={25}></HiOutlineUser>
+              <Badge>
+                <HiOutlineUser size={25}></HiOutlineUser>
+              </Badge>
               {UserForm ? (
                 <ul className="user-form">
                   {login ? (
@@ -102,8 +106,12 @@ export default function Header() {
           <li>
             <div className="Cart-icon">
               {/* <span style={styleCart}>{cart.length}</span> */}
+
               <Link to="/cart" className="LogoText">
-                <AiOutlineShoppingCart size={25}></AiOutlineShoppingCart>
+                <Badge badgeContent={cart.length} color="primary">
+                  <AiOutlineShoppingCart size={25}></AiOutlineShoppingCart>
+                </Badge>
+
                 {/* <img src={Cart} alt="" width={30}></img> */}
               </Link>
             </div>

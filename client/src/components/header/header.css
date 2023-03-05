@@ -77,7 +77,7 @@ header a:hover:after {
   color: orange;
 }
 
-.Cart-icon span {
+/* .Cart-icon span {
   background: crimson;
   border-radius: 20px;
   color: white;
@@ -86,7 +86,7 @@ header a:hover:after {
   right: -10px;
   padding: 5px 7px;
   font-size: 10px;
-}
+} */
 
 #header-search-bar {
   position: relative;

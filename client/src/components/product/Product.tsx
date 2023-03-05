@@ -6,6 +6,8 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setSort } from '../../redux/slices/productSlice';
 import Pagination from '../../utils/pagination/Pagination';
 import SideBar from '../sidebar/SideBar';
+import Badge from '@mui/material/Badge';
+import { AiOutlineShoppingCart } from 'react-icons/ai';
 // import Pagination from '../utils/pagination/Pagination';
 
 export default function Products() {

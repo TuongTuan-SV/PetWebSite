@@ -1,12 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, current } from '@reduxjs/toolkit';
 
 export interface IUser {
   token: string;
   User: Object;
   login: boolean;
-  cart: Array<object>;
+  cart: Array<Object>;
 }
-const initialState: IUser = {
+const initialState: any = {
   token: '',
   User: {},
   login: false,
@@ -30,9 +30,82 @@ export const userSlice = createSlice({
       state.token = '';
       console.log(state.User);
     },
+    //Thêm sản phẩm vào giỏ hàng
+    addCart: (state, action) => {
+      //Kiểm tra sản phẩm có tồn tại không
+      const product = state.cart.find((item: any) => {
+        if (item.product.Name === action.payload.product.Name)
+          return {
+            item,
+          };
+      });
+      //Có thì thêm số lượng sản phẩm tương ứng trong giỏ hàng
+      //Không có thì thêm sản phẩm vào giở hàng
+      if (product) {
+        product.quantity += action.payload.quantity;
+        state.cart.forEach((item: any, index: any) => {
+          if (item.product.Name === product.product.Name)
+            state.cart[index] = product;
+        });
+      } else {
+        state.cart.push(action.payload);
+      }
+    },
+    //Giảm số lượng của một sản phẩm cụ thể trong giỏ hàng
+    decrement: (state, action) => {
+      const product = state.cart.find((item: any) => {
+        if (item.product.Name === action.payload)
+          return {
+            item,
+          };
+      });
+      //Có thì thêm số lượng sản phẩm tương ứng trong giỏ hàng
+      //Không có thì thêm sản phẩm vào giở hàng
+      if (product) {
+        if (product.quantity > 1) {
+          product.quantity -= 1;
+          state.cart.forEach((item: any, index: any) => {
+            if (item.product.Name === product.product.Name)
+              state.cart[index] = product;
+          });
+        }
+      }
+    },
+    //Tăng số lượng của một sản phẩm cụ thể trong giỏ hàng
+    increment: (state, action) => {
+      const product = state.cart.find((item: any) => {
+        if (item.product.Name === action.payload)
+          return {
+            item,
+          };
+      });
+      //Có thì thêm số lượng sản phẩm tương ứng trong giỏ hàng
+      //Không có thì thêm sản phẩm vào giở hàng
+      if (product) {
+        product.quantity += 1;
+        state.cart.forEach((item: any, index: any) => {
+          if (item.product.Name === product.product.Name)
+            state.cart[index] = product;
+        });
+      }
+    },
+    //upate quantity
+    //remove product form cart
+    removeItem: (state, action) => {
+      state.cart = state.cart.filter((item: any) => {
+        item.product.Name != action.payload;
+      });
+    },
   },
 });
 
-export const { setLogin, setLogout } = userSlice.actions;
+export const {
+  setLogin,
+  setLogout,
+  addCart,
+  decrement,
+  removeItem,
+  increment,
+} = userSlice.actions;
 
 export default userSlice.reducer;

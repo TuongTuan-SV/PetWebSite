@@ -12,6 +12,7 @@ import Home from './sceens/Home';
 import DetailProduct from './sceens/DetailProduct';
 import Product from './sceens/Product';
 import Brand from './components/brand/Brand';
+import Cart from './sceens/Cart';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -34,6 +35,10 @@ const router = createBrowserRouter([
       {
         path: 'shop',
         element: <Product />,
+      },
+      {
+        path: 'cart',
+        element: <Cart />,
       },
     ],
   },

@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
-
+import { useAppDispatch } from '../../hooks';
+import { addCart } from '../../redux/slices/userSlice';
+import { current } from '@reduxjs/toolkit';
 import './ProductItem.css';
 
 interface Props {
@@ -18,6 +20,7 @@ interface Props {
 }
 
 export const ProductItem: React.FC<Props> = ({ product }) => {
+  const dispatch = useAppDispatch();
   // console.log(product.image);
   return (
     <div className="Product_card">
@@ -36,7 +39,11 @@ export const ProductItem: React.FC<Props> = ({ product }) => {
       </div>
 
       <div className="row_btn">
-        <Link id="btn_buy" to="#!">
+        <Link
+          id="btn_buy"
+          to="#!"
+          onClick={() => dispatch(addCart({ product, quantity: 1 }))}
+        >
           Buy
         </Link>
         <Link id="btn_view" to={`/detail/${product._id}`}>
