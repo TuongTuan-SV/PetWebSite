@@ -13,11 +13,11 @@ const initialState = {
   url: '',
 };
 export default function Upload() {
-  const [image, setImage] = useState<image>(initialState);
+  // const [image, setImage] = useState<image>(initialState);
   const [images, setImages] = useState<image[]>([]);
 
   // controll img drap drop boss true if there is image
-  const [toggleUpload, setToggleUpload] = useState(false);
+  // const [toggleUpload, setToggleUpload] = useState(false);
   const [toggleUploadMulti, setToggleUploadMulti] = useState(false);
 
   const fileTypes = ['JPEG', 'PNG', 'GIF'];
@@ -75,22 +75,22 @@ export default function Upload() {
   //   }
   // };
 
-  const handleDestroyOne = async () => {
-    try {
-      await axios.post(`${API_URL}/api/destroy`, {
-        public_id: image?.public_id,
-      });
-      setToggleUpload(false);
-      setImage(initialState);
-      console.log(image);
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        console.log(err.response?.data.msg);
-      } else {
-        console.log('Unexpected error', err);
-      }
-    }
-  };
+  // const handleDestroyOne = async () => {
+  //   try {
+  //     await axios.post(`${API_URL}/api/destroy`, {
+  //       public_id: image?.public_id,
+  //     });
+  //     setToggleUpload(false);
+  //     setImage(initialState);
+  //     console.log(image);
+  //   } catch (err) {
+  //     if (err instanceof AxiosError) {
+  //       console.log(err.response?.data.msg);
+  //     } else {
+  //       console.log('Unexpected error', err);
+  //     }
+  //   }
+  // };
 
   const handleDestroyMulti = async (id: String) => {
     try {
@@ -117,40 +117,40 @@ export default function Upload() {
   };
   //upload image to cloudinary
 
-  const handleChangeOne = async (_file: any) => {
-    try {
-      //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
-      const file = _file;
-      console.log(file);
-      if (!file) return alert('File not exist.');
+  // const handleChangeOne = async (_file: any) => {
+  //   try {
+  //     //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
+  //     const file = _file;
+  //     console.log(file);
+  //     if (!file) return alert('File not exist.');
 
-      if (file.size > 1024 * 1024)
-        // 1mb
-        return alert('Size too large!');
+  //     if (file.size > 1024 * 1024)
+  //       // 1mb
+  //       return alert('Size too large!');
 
-      if (file.type !== 'image/jpeg' && file.type !== 'image/png')
-        // 1mb
-        return alert('File format is incorrect.');
+  //     if (file.type !== 'image/jpeg' && file.type !== 'image/png')
+  //       // 1mb
+  //       return alert('File format is incorrect.');
 
-      let formData = new FormData();
-      formData.append('file', file);
-      const brand = 'sdfsdf';
-      formData.append('brands', brand);
-      const res = await axios.post(`${API_URL}/api/upload`, formData, {
-        headers: {
-          'Content-Type': 'multipart/form-data',
-        },
-      });
-      setToggleUpload(true);
-      setImage(res.data);
-    } catch (err) {
-      if (err instanceof AxiosError) {
-        console.log(err.response?.data.msg);
-      } else {
-        console.log('Unexpected error', err);
-      }
-    }
-  };
+  //     let formData = new FormData();
+  //     formData.append('file', file);
+  //     const brand = 'sdfsdf';
+  //     formData.append('brands', brand);
+  //     const res = await axios.post(`${API_URL}/api/upload`, formData, {
+  //       headers: {
+  //         'Content-Type': 'multipart/form-data',
+  //       },
+  //     });
+  //     setToggleUpload(true);
+  //     setImage(res.data);
+  //   } catch (err) {
+  //     if (err instanceof AxiosError) {
+  //       console.log(err.response?.data.msg);
+  //     } else {
+  //       console.log('Unexpected error', err);
+  //     }
+  //   }
+  // };
 
   //upload Multi image to cloudinary
   const handleChangeMulti = async (_file: any) => {
@@ -197,13 +197,13 @@ export default function Upload() {
       {/* Nhập nhiều hình */}
       <div className="MultiUpload">
         {/* Upload One */}
-        <FileUploader
+        {/* <FileUploader
           disabled={toggleUpload}
           handleChange={handleChangeOne}
           name="file"
           types={fileTypes}
           className="uploadOne"
-        />
+        /> */}
         {/* Upload Multi */}
         <FileUploader
           disabled={toggleUploadMulti}
@@ -231,9 +231,9 @@ export default function Upload() {
           // ></img>
         ))}
       </div>
-      <button type="submit" onClick={handleDestroyOne}>
+      {/* <button type="submit" onClick={handleDestroyOne}>
         submit
-      </button>
+      </button> */}
     </div>
   );
 }

@@ -1,24 +1,42 @@
 import React, { useState } from 'react';
 import Menu from './icon/menu.svg';
 import Close from './icon/xmark.svg';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
 import PetsIcon from '@mui/icons-material/Pets';
 import { BiSearchAlt } from 'react-icons/bi';
 import { AiOutlineShoppingCart } from 'react-icons/ai';
 import { HiOutlineUser } from 'react-icons/hi';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import Login from '../login/Login';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './header.css';
+import { setLogout } from '../../redux/slices/userSlice';
+import axios from 'axios';
 
 export default function Header() {
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  console.log(location);
   const [menu, setMenu] = useState(false);
-  const { login, cart } = useAppSelector((state) => state.User);
+  const { login, User } = useAppSelector((state) => state.User);
+  const { cart } = User;
   const [UserForm, setUserForm] = useState(false);
+  const [active, setAcive] = useState(false);
   let activeClassName = 'active';
 
   const handleUser = () => {
     setUserForm(!UserForm);
+  };
+  const handleLogout = async (e: any) => {
+    dispatch(setLogout());
+    await axios.get('user/logout');
+    localStorage.clear();
+    window.location.href = '/';
+  };
+  const styleForm: any = {
+    opacity: UserForm ? '1' : '0',
+    visibility: UserForm ? 'visible' : 'visible',
   };
   return (
     <div>
@@ -34,7 +52,7 @@ export default function Header() {
             </NavLink>
           </h1>
         </div>
-        <ul>
+        <ul className="NavItem">
           <li>
             <NavLink
               to="/"
@@ -86,29 +104,40 @@ export default function Header() {
               <Badge>
                 <HiOutlineUser size={25}></HiOutlineUser>
               </Badge>
-              {UserForm ? (
-                <ul className="user-form">
-                  {login ? (
-                    <div>
-                      <li>profile</li>
-                      <li>dasboard</li>
-                    </div>
-                  ) : (
-                    <div>
-                      <li>Login</li>
-                      <li>Signup</li>
-                    </div>
-                  )}
-                </ul>
-              ) : null}
             </div>
+          </li>
+          <li>
+            <ul className="user-form" style={styleForm}>
+              {login ? (
+                <div>
+                  <ul className="user-tab">
+                    <li>
+                      <Link to="#">profile</Link>
+                    </li>
+                    <li>
+                      <Link to="#">history</Link>
+                    </li>
+                    {User.role == 0 ? null : (
+                      <li>
+                        <Link to="#">dashboard</Link>
+                      </li>
+                    )}
+                    <li className="logout">
+                      <button onClick={handleLogout}>Logout</button>
+                    </li>
+                  </ul>
+                </div>
+              ) : (
+                <Login />
+              )}
+            </ul>
           </li>
           <li>
             <div className="Cart-icon">
               {/* <span style={styleCart}>{cart.length}</span> */}
 
               <Link to="/cart" className="LogoText">
-                <Badge badgeContent={cart.length} color="primary">
+                <Badge badgeContent={cart ? cart.length : null} color="primary">
                   <AiOutlineShoppingCart size={25}></AiOutlineShoppingCart>
                 </Badge>
 

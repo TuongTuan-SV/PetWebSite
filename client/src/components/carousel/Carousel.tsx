@@ -4,7 +4,6 @@ import './carousel.css';
 interface Props {
   images: {
     src: string;
-    title: string;
     link: string;
   }[];
 }
@@ -46,18 +45,16 @@ export const Carousel: React.FC<Props> = ({ images }) => {
       />
       <div className="carousel" ref={carousel}>
         {images.map((img, idx) => {
-          console.log(img);
+          // console.log(img);
           return (
             <div
-              key={`${idx}-${img.title}`}
+              key={`${idx}`}
               className={
                 idx === count ? 'carousel-item active' : 'carousel-item'
               }
             >
               <Link to={`/detail/${img.link}`}>
                 <img src={img.src} alt="img of carousel" />
-
-                <p>{img.title}</p>
               </Link>
             </div>
           );

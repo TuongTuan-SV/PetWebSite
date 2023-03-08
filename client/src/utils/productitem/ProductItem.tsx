@@ -1,8 +1,9 @@
 import React, { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
-import { addCart } from '../../redux/slices/userSlice';
+
 import { current } from '@reduxjs/toolkit';
+import { setCart, updateCart } from '../../redux/slices/userSlice';
 import './ProductItem.css';
 
 interface Props {
@@ -12,7 +13,7 @@ interface Props {
     Description: string;
     Category: string;
     Brand: string;
-    Price: string;
+    Price: Number;
     image: string;
     images: object;
     category: string;
@@ -20,7 +21,12 @@ interface Props {
 }
 
 export const ProductItem: React.FC<Props> = ({ product }) => {
+  const price = product.Price;
   const dispatch = useAppDispatch();
+  const addtocart = (product: any) => {
+    dispatch(setCart(product));
+    dispatch(updateCart());
+  };
   // console.log(product.image);
   return (
     <div className="Product_card">
@@ -34,16 +40,17 @@ export const ProductItem: React.FC<Props> = ({ product }) => {
 
       <div className="product_box">
         <h2 title={product.Name}>{product.Name}</h2>
-        <span>{product.Price}</span>
+        <span>
+          {product.Price.toLocaleString('en-US', {
+            style: 'currency',
+            currency: 'USD',
+          })}
+        </span>
         <p>{product.category}</p>
       </div>
 
       <div className="row_btn">
-        <Link
-          id="btn_buy"
-          to="#!"
-          onClick={() => dispatch(addCart({ product, quantity: 1 }))}
-        >
+        <Link id="btn_buy" to="#!" onClick={() => addtocart(product)}>
           Buy
         </Link>
         <Link id="btn_view" to={`/detail/${product._id}`}>

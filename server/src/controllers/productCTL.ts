@@ -25,7 +25,6 @@ const ProductController = {
         Description: req.body.Description,
         Price: req.body.Price,
         Sock: req.body.Sock,
-        image: req.body.image,
         images: req.body.images,
         Brand: req.body.Brand,
         Category: req.body.Category,
@@ -75,7 +74,6 @@ const ProductController = {
       product.Description = req.body.Description;
       product.Category = req.body.Category;
       product.Brand = req.body.Brand;
-      product.image = req.body.image;
       product.images = req.body.images;
       product.Price = req.body.Price;
       product.Socks = req.body.Socks;

@@ -6,7 +6,7 @@ import bcrypt from 'bcrypt';
 
 const UserController = {
   //Đăng nhập
-  login: async (req: Request, res: Response) => {
+  login: async (req: any, res: Response) => {
     try {
       const { email, password } = req.body;
 
@@ -22,14 +22,33 @@ const UserController = {
       // console.log(Match, user.password, password);
       if (!Match)
         return res.status(400).json({ msg: 'Password not correct. ' });
-
       //tạo json web token
       const accesstoken = createAccessToken({ _id: user.id });
       const refreshtoken = createRefreshToken({ _id: user.id });
+      // console.log({ accesstoken, refreshtoken });
 
+      res.cookie('refreshtoken', refreshtoken, {
+        httpOnly: true,
+        expires: new Date(Date.now() + 900000000),
+      });
+      // console.log(accesstoken);
       //Xóa mật khẩu khi trả về front end ****(cần sửa lại sao cho xóa psw thay thì vì thay đổi giá trị)
       user.password = ' ';
       res.json({ user, accesstoken });
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: ' err.message' });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
+  //Đăng Xuất
+  logout: async (req: any, res: any) => {
+    try {
+      res.clearCookie('refreshtoken', { path: '/user/refresh_token' });
+      return res.json({ msg: 'Logged out' });
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error
@@ -39,7 +58,6 @@ const UserController = {
       }
     }
   },
-
   // Tạo tài khoản
   register: async (req: Request, res: Response) => {
     try {
@@ -69,6 +87,7 @@ const UserController = {
         email,
         avatar,
         password: pswHash,
+        role: 0,
       });
 
       // Lưu user lên db
@@ -121,16 +140,71 @@ const UserController = {
       }
     }
   },
-
-  //Xem thông tin cá nhân
-  info: async (req: Request, res: Response) => {
+  refreshToken: (req: any, res: any) => {
     try {
-      const user = await User.findById(req.params.id);
+      const rf_token = req.cookies['refreshtoken'];
+
+      if (!rf_token)
+        return res
+          .status(400)
+          .json({ msg: 'Please Login or Regist a new Account' });
+
+      jwt.verify(
+        rf_token,
+        process.env.REFRESH_TOKEN_SECRET!,
+        (err: any, user: any) => {
+          if (err)
+            return res
+              .status(400)
+              .json({ msg: 'Please Login or Regist a new Account' });
+
+          const accesstoken = createAccessToken({ _id: user._id });
+
+          res.json({ accesstoken });
+        }
+      );
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: 'helloword' });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
+  //Xem thông tin cá nhân
+  info: async (req: any, res: any) => {
+    try {
+      const user = await User.findById(req.user._id).select('-password');
 
       //Không có thì trả về status 400 và thông báo tài khoản không tồn tại
       if (!user) return res.status(400).json({ msg: 'User not exists. ' });
 
-      res.json(user);
+      return res.json(user);
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: err.message });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
+  //ADD PRODUCT TO CART
+  addCart: async (req: any, res: Response) => {
+    try {
+      const user = await User.findById(req.user._id);
+
+      if (!user) return res.status(400).json({ msg: 'User not exists' });
+
+      const UpdatedUser = await User.findOneAndUpdate(
+        { _id: req.user._id },
+        {
+          cart: req.body.cart,
+        }
+      );
+      console.log(req.body.cart);
+      return res.json({ msg: 'Add to cart' });
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error
@@ -142,11 +216,11 @@ const UserController = {
   },
 };
 
-const createAccessToken = (user: string | object) => {
+const createAccessToken = (user: any) => {
   return jwt.sign(user, process.env.ACCESS_TOKEN_SECRET!, { expiresIn: '2d' });
 };
 
-const createRefreshToken = (user: string | object) => {
+const createRefreshToken = (user: any) => {
   return jwt.sign(user, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: '7d' });
 };
 module.exports = UserController;

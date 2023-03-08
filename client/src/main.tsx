@@ -8,6 +8,7 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFound from './utils/NotFount';
 import Upload from './components/upload/Upload';
 import Login from './sceens/Login';
+import Signup from './sceens/Signup';
 import Home from './sceens/Home';
 import DetailProduct from './sceens/DetailProduct';
 import Product from './sceens/Product';
@@ -27,6 +28,10 @@ const router = createBrowserRouter([
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'signup',
+        element: <Signup />,
       },
       {
         path: 'detail/:id',

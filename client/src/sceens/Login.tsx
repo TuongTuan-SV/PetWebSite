@@ -2,7 +2,9 @@ import React, { useState } from 'react';
 import axios, { AxiosError } from 'axios';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { setLogin, setLogout } from '../redux/slices/userSlice';
-
+import { useLocation } from 'react-router-dom';
+import { API_URL } from '../api/config';
+import { getuser } from '../redux/slices/userSlice';
 type TUser = {
   email: string;
   password: string;
@@ -13,6 +15,7 @@ export default function Login() {
     email: '',
     password: '',
   });
+  const pathName = useLocation();
 
   const dispatch = useAppDispatch();
   const { User, login } = useAppSelector((state) => state.User);
@@ -22,13 +25,20 @@ export default function Login() {
     try {
       // console.log(user);
       //Send request cho phía api kiểm tra tài khoản có tồn tại không
-      const res = await axios.post('http://localhost:5000/user/login', {
-        ...userInput,
-      });
-
+      const res = await axios.post(`/user/login`, { ...userInput });
+      if (res.data.user.role === 0) {
+        localStorage.setItem('firstLogin', 'true');
+        window.location.href = '/';
+      } else {
+        localStorage.setItem('admin', 'true');
+        window.location.href = '/';
+        if (pathName.pathname.includes('/dashboard'))
+          window.location.href = '/dashboard';
+        else window.open('http://localhost:3000/dashboard', '_blank');
+        // window.location.href = "/dashboard"
+      }
       //Lưu thông tin người dùng và token về state
-      dispatch(setLogin(res.data));
-      // console.log(res);
+      console.log(res);
     } catch (err) {
       // Bắt lỗi khi nhận respone từ axios
       if (err instanceof AxiosError) {

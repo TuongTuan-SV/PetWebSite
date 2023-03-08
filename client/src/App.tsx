@@ -16,15 +16,32 @@ import {
 } from './redux/slices/productSlice';
 import { getBrand } from './redux/slices/brandSlice';
 import { getCategory } from './redux/slices/categorySilce';
+import { getuser, refreshToken, setLogin } from './redux/slices/userSlice';
+import axios from 'axios';
+
 function App() {
   const dispatch = useAppDispatch();
+  const { token } = useAppSelector((state) => state.User);
+
+  const login = localStorage.getItem('firstLogin');
+
   useEffect(() => {
     dispatch(getProducts());
     dispatch(getNewtProducts());
     dispatch(getHotProducts());
     dispatch(getBrand());
     dispatch(getCategory());
+    dispatch(refreshToken());
+    // console.log(token.accesstoken);
+    // dispatch(getuser('adasd'));
   }, [dispatch]);
+
+  useEffect(() => {
+    if (login) dispatch(setLogin());
+    setTimeout(() => {
+      dispatch(getuser());
+    }, 500);
+  }, [token]);
   return (
     <div className="App">
       <Header></Header>

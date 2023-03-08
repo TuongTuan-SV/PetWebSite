@@ -3,6 +3,7 @@ import { useParams, Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { ProductItem } from '../utils/productitem/ProductItem';
 import '../components/detailproduct/detailproduct.css';
+import { current } from '@reduxjs/toolkit';
 type product = {
   _id: string;
   Name: string;
@@ -19,7 +20,7 @@ export default function DetailProduct() {
   const parmas = useParams();
   const { products } = useAppSelector((state) => state.Products);
   const [detailProduct, setDetailProduct] = useState<any>([]);
-
+  const [CurrentImg, setCurrentImg] = useState<any>(0);
   useEffect(() => {
     if (parmas.id) {
       products.forEach((product: any) => {
@@ -29,11 +30,23 @@ export default function DetailProduct() {
   }, [parmas.id, products]);
 
   if (detailProduct.length === 0) return null;
-  console.log(detailProduct);
+  console.log(detailProduct.images);
   return (
     <>
       <div className="DetailProduct">
-        <img src={detailProduct.image} alt=" "></img>
+        <img src={detailProduct.images[CurrentImg]} alt=" "></img>
+        {detailProduct.images.map((image: any, index: any) => {
+          console.log(CurrentImg);
+          return (
+            <button
+              className="imgBtn"
+              key={index}
+              onClick={() => setCurrentImg(index)}
+            >
+              {index}
+            </button>
+          );
+        })}
         <div className="box_detail">
           <div className="row">
             <h2>{detailProduct.Name}</h2>

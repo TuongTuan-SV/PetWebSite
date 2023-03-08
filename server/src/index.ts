@@ -5,13 +5,16 @@ import mongoose from 'mongoose';
 import Deck from './models/Desk';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
+const cookieParser = require('cookie-parser');
 const PORT = 5000;
 
 const app = express();
 
 //Middleware
 app.use(express.json());
-app.use(cors());
+app.use(cookieParser());
+app.use(cors({ origin: ['http://127.0.0.1:5173'], credentials: true }));
+
 app.use(
   fileUpload({
     useTempFiles: true,

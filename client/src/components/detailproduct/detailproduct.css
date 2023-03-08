@@ -48,9 +48,10 @@
   width: 100%;
   margin: 20px;
   height: 450px;
-
+  transform-origin: 50%, 50%;
   display: block;
 }
+
 .detail_content {
   align-items: center;
   display: flex;

@@ -22,7 +22,7 @@ export const getBrand = createAsyncThunk(
   'Brand/getBrand',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`${API_URL}/api/brands`);
+      const response = await axios.get(`/api/brands`);
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
       // console.log(response.data.brands);
@@ -37,7 +37,7 @@ export const createBrand = createAsyncThunk(
   'Brand/postBrand',
   async (data: any, thunkAPI) => {
     try {
-      const response = await axios.post(`${API_URL}/api/brands`, data);
+      const response = await axios.post(`/api/brands`, data);
       // Inferred return type: Promise<MyData>
       return response.data;
     } catch (error: any) {

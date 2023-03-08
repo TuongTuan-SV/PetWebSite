@@ -24,7 +24,7 @@ export const getProducts = createAsyncThunk(
   'Product/getProducts',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`${API_URL}/api/products`);
+      const response = await axios.get(`/api/products`);
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
       // console.log(response.data);
@@ -39,7 +39,7 @@ export const getHotProducts = createAsyncThunk(
   'Product/getHotProducts',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`${API_URL}/api/products/?limit=9`);
+      const response = await axios.get(`/api/products/?limit=9`);
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
       return response.data.slice(0, 3);
@@ -53,7 +53,7 @@ export const getNewtProducts = createAsyncThunk(
   'Product/getNewProducts',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`${API_URL}/api/products/?limit=9`);
+      const response = await axios.get(`/api/products/?limit=9`);
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
 
