@@ -24,9 +24,9 @@ interface Iproduct {
   Socks: number;
   Brand: string;
   Category: string;
-  // image: Object;
   images?: Array<[object]>;
   reviews?: Array<[Ireview]>;
+  Sold: number;
 }
 
 const ProductSchema = new Schema<Iproduct>(
@@ -65,6 +65,7 @@ const ProductSchema = new Schema<Iproduct>(
       require: true,
     },
     reviews: [reviewSchema],
+    Sold: { type: Number, default: 0 },
   },
   {
     timestamps: true,

@@ -28,7 +28,7 @@ router.post('/upload', (req: Request, res: Response) => {
       return res.status(400).json({ msg: 'No files were uploaded.' });
 
     const file = req.files?.file as UploadedFile;
-    console.log(req.body);
+    // console.log(req.body);
     if (file.size > 1024 * 1024) {
       removeTmp(file.tempFilePath);
       return res.status(400).json({ msg: 'Size too large' });
@@ -41,7 +41,7 @@ router.post('/upload', (req: Request, res: Response) => {
 
     cloudinary.v2.uploader.upload(
       file.tempFilePath,
-      { folder: `brands/${req.body.brands}` },
+      { folder: `brands/${req.body.brand}/${req.body.productname}` },
       async (err: any, result: { public_id: any; secure_url: any }) => {
         if (err) throw err;
 

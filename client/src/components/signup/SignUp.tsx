@@ -2,6 +2,8 @@ import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios, { AxiosError } from 'axios';
 import './Signup.css';
+import { useAppDispatch } from '../../hooks';
+import { setCreateAccount } from '../../redux/slices/userSlice';
 
 export default function SignUp() {
   const [userInput, setUserInput] = useState<any>({
@@ -11,7 +13,7 @@ export default function SignUp() {
     password: '',
     role: 0,
   });
-
+  const dispatch = useAppDispatch();
   const handleInput = (e: any) => {
     const { name, value } = e.target;
     setUserInput({ ...userInput, [name]: value });
@@ -37,12 +39,6 @@ export default function SignUp() {
     <div className="account-dropdown active">
       <div className="account-wrap d-none">
         <div className="account-inner">
-          {/* <div className="login-form-head">
-            <span className="login-form-title"></span>
-            <span className="pull-right">
-              <Link to="/signup">Login</Link>
-            </span>
-          </div> */}
           <form className="ziggy-login-form-ajax" onSubmit={registerSubmit}>
             <div className="NameField">
               <p style={{ marginRight: '10px' }}>
@@ -99,11 +95,18 @@ export default function SignUp() {
               type="submit"
               className="btn btn-primary btn-block w-100 mt-1"
             >
-              Login
+              Create Account
             </button>
           </form>
           <div className="login-form-bottom ml-1">
-            <Link to="/"> Login</Link>
+            <Link
+              to="/"
+              onClick={() => {
+                dispatch(setCreateAccount());
+              }}
+            >
+              Login
+            </Link>
           </div>
         </div>
       </div>

@@ -3,9 +3,7 @@
   right: 0;
   top: 100%;
   position: absolute;
-  pointer-events: none;
   /* opacity: 0; */
-  z-index: 100;
   /* visibility: hidden; */
   margin-top: 15px;
   background-color: #fff;
@@ -27,7 +25,8 @@
   box-shadow: 0 0 30px 0 rgb(0 0 0 / 5%);
   border-width: 1px;
   border-style: solid;
-  border-color: var(--e-global-color-border);
+  border-color: #b6b3b3d0;
+  border-radius: 2px;
 }
 
 .account-wrap:after {
@@ -45,7 +44,6 @@
   padding: 20px;
   max-height: 500px;
   overflow: auto;
-  border: 1px solid #ffffffd0;
 }
 .login-form-head {
   display: flex !important;
@@ -58,6 +56,7 @@
   font-size: 18px;
   font-size: 1.125rem;
   color: #333;
+  pointer-events: none;
   margin-bottom: 0;
 }
 .pull-right {
@@ -113,7 +112,9 @@ input[type='password']:focus::-webkit-input-placeholder {
   color: #ffff;
 }
 .login-form-bottom {
-  margin-left: 10vw;
+  display: flex;
+  justify-content: flex-end;
+  /* margin-left: 10vw; */
 }
 .login-form-bottom a {
   color: var(--e-global-color-lighter);

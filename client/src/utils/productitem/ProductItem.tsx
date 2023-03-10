@@ -23,9 +23,12 @@ interface Props {
 export const ProductItem: React.FC<Props> = ({ product }) => {
   const price = product.Price;
   const dispatch = useAppDispatch();
+
   const addtocart = (product: any) => {
     dispatch(setCart(product));
-    dispatch(updateCart());
+    setTimeout(() => {
+      dispatch(updateCart());
+    }, 500);
   };
   // console.log(product.image);
   return (

@@ -31,6 +31,7 @@
   width: 50%;
   overflow: hidden;
   margin: 0 auto;
+  z-index: 0;
 }
 .carousel-item img {
   height: 100%;

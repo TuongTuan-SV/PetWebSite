@@ -197,13 +197,13 @@ const UserController = {
 
       if (!user) return res.status(400).json({ msg: 'User not exists' });
 
-      const UpdatedUser = await User.findOneAndUpdate(
+      await User.findOneAndUpdate(
         { _id: req.user._id },
         {
           cart: req.body.cart,
         }
       );
-      console.log(req.body.cart);
+      console.log(req.body);
       return res.json({ msg: 'Add to cart' });
     } catch (err) {
       if (err instanceof Error) {

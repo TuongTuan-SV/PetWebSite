@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { API_URL } from '../api/config';
 import { Carousel } from '../components/carousel/Carousel';
 import { useAppSelector, useAppDispatch } from '../hooks';
-import { setToken } from '../redux/slices/userSlice';
+
 import { ProductItem } from '../utils/productitem/ProductItem';
 type image = {
   src: string;
@@ -12,7 +12,7 @@ type image = {
 export default function Index() {
   const dispatch = useAppDispatch();
   const [images, setImages] = useState<image[]>([]);
-  const { products, Hotproducts, NewProducts } = useAppSelector(
+  const { products, Hotproducts, NewCreateProducts } = useAppSelector(
     (state) => state.Products
   );
 
@@ -35,7 +35,7 @@ export default function Index() {
       <Carousel images={images} />
       <h2 className="trending">New Product</h2>
       <div className="Products">
-        {NewProducts.map((product: any) => (
+        {NewCreateProducts.map((product: any) => (
           <ProductItem key={product._id} product={product} />
         ))}
       </div>

@@ -14,6 +14,8 @@ import DetailProduct from './sceens/DetailProduct';
 import Product from './sceens/Product';
 import Brand from './components/brand/Brand';
 import Cart from './sceens/Cart';
+import CreataProduct from './sceens/CreataProduct';
+import CheckOut from './components/CartCheckOut/CheckOut';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -21,6 +23,10 @@ const router = createBrowserRouter([
     errorElement: <NotFound />,
     children: [
       { index: true, element: <Home /> },
+      {
+        path: 'createproduct',
+        element: <CreataProduct />,
+      },
       {
         path: 'upload',
         element: <Brand />,
@@ -44,6 +50,10 @@ const router = createBrowserRouter([
       {
         path: 'cart',
         element: <Cart />,
+      },
+      {
+        path: 'checkout',
+        element: <CheckOut />,
       },
     ],
   },

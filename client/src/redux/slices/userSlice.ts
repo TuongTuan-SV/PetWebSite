@@ -1,53 +1,24 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_URL } from '../../api/config';
-import { RootState } from '../store';
+
 export interface IUser {
   token: string;
   User: Object;
   login: boolean;
-  cart: Array<Object>;
+
   role: Number;
+  createAccount: boolean;
 }
+
 const initialState: any = {
   token: '',
   User: {},
   login: false,
-  cart: [],
+
   role: 0,
+  createAccount: false,
 };
 //ACTION
-
-// //ADD ITTEM TO CART
-// export const addCart = createAsyncThunk(
-//   'User/addCart',
-//   async (data: any, thunkAPI) => {
-//     try {
-//       const state: any = thunkAPI.getState();
-//       const check = state.User.cart.every((item: any) => {
-//         return item.Name != data.Name;
-//       });
-//       const cart = [...state.User.cart, { ...data, quantity: 1 }];
-//       if (check) {
-//         const response = await axios.patch(
-//           `/user/addcart`,
-//           { cart: [...state.User.cart, { ...data, quantity: 1 }] },
-//           {
-//             headers: { Authorization: state.User.token },
-//           }
-//         );
-//         console.log(cart);
-//       } else {
-//         alert('This product has been add to cart');
-//       }
-//       // Inferred return type: Promise<MyData>
-//       // console.log(API_URL);
-//       // console.log(response.data);
-//     } catch (error: any) {
-//       return thunkAPI.rejectWithValue(error);
-//     }
-//   }
-// );
 
 //UPDATE CART
 export const updateCart = createAsyncThunk(
@@ -55,10 +26,10 @@ export const updateCart = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const state: any = thunkAPI.getState();
-      console.log(state);
+      console.log(state.User.User.cart);
       const response = await axios.patch(
         `/user/addcart`,
-        { cart: state.User.cart },
+        { cart: state.User.User.cart },
         {
           headers: { Authorization: state.User.token },
         }
@@ -114,22 +85,20 @@ export const userSlice = createSlice({
   name: 'User',
   initialState,
   reducers: {
-    //action == payload
-    // setToken: (state, action) => {
-    //   state.token = action.payload.accesstoken;
-    // },
     setLogin: (state) => {
       state.login = true;
+    },
+    setCreateAccount: (state) => {
+      state.createAccount = !state.createAccount;
     },
     setCart: (state, action) => {
       const check = state.User.cart.every((item: any) => {
         return item._id != action.payload._id;
       });
       if (check) {
-        state.User.cart = [
-          ...state.User.cart,
-          { ...action.payload, quantity: 1 },
-        ];
+        const cart = [...state.User.cart, { ...action.payload, quantity: 1 }];
+        state.User.cart = cart;
+        console.log(state.User.cart);
       } else {
         alert('This product has been add to cart');
       }
@@ -140,28 +109,6 @@ export const userSlice = createSlice({
       state.token = '';
       console.log(state.User);
     },
-    //Thêm sản phẩm vào giỏ hàng
-    // addCart: (state, action) => {
-    //   //Kiểm tra sản phẩm có tồn tại không
-    //   const product = state.cart.find((item: any) => {
-    //     if (item.product.Name === action.payload.product.Name)
-    //       return {
-    //         item,
-    //       };
-    //   });
-    //   //Có thì thêm số lượng sản phẩm tương ứng trong giỏ hàng
-    //   //Không có thì thêm sản phẩm vào giở hàng
-    //   if (product) {
-    //     product.quantity += action.payload.quantity;
-    //     state.cart.forEach((item: any, index: any) => {
-    //       if (item.product.Name === product.product.Name)
-    //         state.cart[index] = product;
-    //     });
-    //   } else {
-    //     state.cart.push(action.payload);
-    //   }
-    // },
-    // //Giảm số lượng của một sản phẩm cụ thể trong giỏ hàng
     decrement: (state, action) => {
       const product = state.User.cart.find((item: any) => {
         if (item._id === action.payload)
@@ -207,18 +154,6 @@ export const userSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    //GET ALL PRODUCT
-    // //ADD CART
-    // builder
-    //   .addCase(addCart.pending, (state, action) => {
-    //     state.loading = true;
-    //   })
-    //   .addCase(addCart.fulfilled, (state, action) => {
-    //     state.loading = false;
-    //   })
-    //   .addCase(addCart.rejected, (state, action) => {
-    //     state.loading = false;
-    //   });
     //UPDATE CART
     builder
       .addCase(updateCart.pending, (state, action) => {
@@ -265,6 +200,7 @@ export const {
   removeItem,
   increment,
   setCart,
+  setCreateAccount,
   // setToken,
 } = userSlice.actions;
 

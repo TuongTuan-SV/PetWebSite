@@ -11,22 +11,22 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import Login from '../login/Login';
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
 import './header.css';
-import { setLogout } from '../../redux/slices/userSlice';
+import { setCreateAccount, setLogout } from '../../redux/slices/userSlice';
 import axios from 'axios';
 
 export default function Header() {
   const dispatch = useAppDispatch();
   const location = useLocation();
-  console.log(location);
+  // console.log(location);
   const [menu, setMenu] = useState(false);
-  const { login, User } = useAppSelector((state) => state.User);
+  const { login, User, createAccount } = useAppSelector((state) => state.User);
   const { cart } = User;
-  const [UserForm, setUserForm] = useState(false);
   const [active, setAcive] = useState(false);
   let activeClassName = 'active';
 
-  const handleUser = () => {
-    setUserForm(!UserForm);
+  const handleUserTab = () => {
+    setAcive(!active);
+    if (createAccount) dispatch(setCreateAccount());
   };
   const handleLogout = async (e: any) => {
     dispatch(setLogout());
@@ -35,8 +35,7 @@ export default function Header() {
     window.location.href = '/';
   };
   const styleForm: any = {
-    opacity: UserForm ? '1' : '0',
-    visibility: UserForm ? 'visible' : 'visible',
+    display: active ? 'inline' : 'none',
   };
   return (
     <div>
@@ -77,7 +76,7 @@ export default function Header() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/login">Blog</NavLink>
+            <NavLink to="/createproduct">createa proudct</NavLink>
           </li>
           <li>
             <NavLink to="/contact">Contact</NavLink>
@@ -99,7 +98,7 @@ export default function Header() {
               </div>
             </form>
           </li>
-          <li className="user-icon" onClick={handleUser}>
+          <li className="user-icon" onClick={handleUserTab}>
             <div>
               <Badge>
                 <HiOutlineUser size={25}></HiOutlineUser>

@@ -1,24 +1,68 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_URL } from '../../api/config';
 
 export interface IProduct {
   products: Array<object>;
   Hotproducts: Array<object>;
-  NewProducts: Array<object>;
+  NewCreateProducts: Array<object>;
   loading: boolean;
   sort: string;
+  Newproduct: INewProduct;
 }
-
+export interface INewProduct {
+  Name: string;
+  Description: string;
+  Price: number;
+  Socks: number;
+  Brand: string;
+  Category: string;
+  images: object;
+  reviews: object;
+}
+const ProductinitialState: INewProduct = {
+  Name: '',
+  Description: '',
+  Price: 0,
+  Socks: 0,
+  Brand: '',
+  Category: '',
+  images: [],
+  reviews: [],
+};
 const initialState: IProduct = {
   products: [],
   Hotproducts: [],
-  NewProducts: [],
+  NewCreateProducts: [],
   loading: false,
   sort: '',
+  Newproduct: ProductinitialState,
 };
 
 //ACTION
+//Get all products
+export const createProduct = createAsyncThunk(
+  'Product/createProduct',
+  async (data: any, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+      const images = state.Upload.images;
+      console.log(data);
+      const response = await axios.post(
+        `/api/products`,
+        { ...data, images },
+        {
+          headers: { Authorization: state.User.token },
+        }
+      );
+      // Inferred return type: Promise<MyData>
+      // console.log(API_URL);
+      console.log(response.data);
+      return response.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 //Get all products
 export const getProducts = createAsyncThunk(
   'Product/getProducts',
@@ -75,6 +119,9 @@ export const productSlice = createSlice({
     setSort: (state, action) => {
       state.sort = action.payload;
     },
+    setNewProduct: (state, action) => {
+      state.Newproduct = action.payload;
+    },
   },
   extraReducers: (builder) => {
     //GET ALL PRODUCT
@@ -110,14 +157,25 @@ export const productSlice = createSlice({
       })
       .addCase(getNewtProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.NewProducts = action.payload;
+        state.NewCreateProducts = action.payload;
       })
       .addCase(getNewtProducts.rejected, (state, action) => {
+        state.loading = false;
+      });
+    //CREATE PRODUCT
+    builder
+      .addCase(createProduct.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(createProduct.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(createProduct.rejected, (state, action) => {
         state.loading = false;
       });
   },
 });
 
-export const { addProducts, setSort } = productSlice.actions;
+export const { addProducts, setSort, setNewProduct } = productSlice.actions;
 
 export default productSlice.reducer;

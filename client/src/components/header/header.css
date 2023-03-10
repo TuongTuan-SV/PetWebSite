@@ -160,7 +160,7 @@ header {
 .user-tab {
   width: 100px;
   background-color: #fff;
-  z-index: 100;
+  z-index: 99999;
   border-width: 1px;
   border-style: solid;
   border-radius: 3px;

@@ -1,0 +1,80 @@
+.Container {
+  max-height: 1000px;
+  margin: 20px 20px;
+  display: flex;
+  justify-content: space-between;
+}
+/* LEFT SIDE */
+.Left {
+  width: 50vw;
+}
+
+.BoxTitle {
+  margin: auto;
+  width: 100%;
+  background-color: rgb(223, 218, 218);
+  border: 1px solid #a8a4a4;
+  padding: 10px;
+  text-align: left;
+}
+
+.Left form {
+  width: 100%;
+  border: 1px solid #a8a4a4;
+  padding: 0px 20px;
+  padding-bottom: 10px;
+}
+
+form div {
+  display: flex;
+  flex-direction: column;
+  margin-top: 10px;
+}
+label {
+  text-align: left;
+}
+.inputContainer {
+  width: 100%;
+}
+.inputContainer input {
+  height: 30px;
+  border: none;
+  background-color: #efefef;
+  box-shadow: 0 0 0 1px rgb(151, 149, 149);
+  border-radius: 5px;
+}
+.Name-box {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.Name-box input {
+  width: 100%;
+}
+.FirstName-input {
+  margin-right: 20px;
+}
+
+/* RIGHT SIDE */
+.right {
+  width: 40vw;
+}
+.CartItem {
+  width: 100%;
+  text-align: left;
+}
+.CartItem tr td {
+  border: 1px solid #a8a4a4;
+  border-collapse: collapse;
+}
+
+.form-bottom {
+  width: 100%;
+  padding: 10px;
+  display: flex;
+  align-items: flex-end;
+}
+
+.form-bottom button:hover {
+  background-color: rgb(40, 130, 247);
+}

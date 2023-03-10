@@ -22,18 +22,21 @@ import axios from 'axios';
 function App() {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector((state) => state.User);
-
+  const { products } = useAppSelector((state) => state.Products);
   const login = localStorage.getItem('firstLogin');
 
   useEffect(() => {
-    dispatch(getProducts());
-    dispatch(getNewtProducts());
-    dispatch(getHotProducts());
     dispatch(getBrand());
     dispatch(getCategory());
     dispatch(refreshToken());
     // console.log(token.accesstoken);
     // dispatch(getuser('adasd'));
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(getProducts());
+    dispatch(getNewtProducts());
+    dispatch(getHotProducts());
   }, [dispatch]);
 
   useEffect(() => {

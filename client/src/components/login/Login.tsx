@@ -2,7 +2,7 @@ import axios, { AxiosError } from 'axios';
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setLogout } from '../../redux/slices/userSlice';
+import { setCreateAccount } from '../../redux/slices/userSlice';
 import SignUp from '../signup/SignUp';
 import './login.css';
 
@@ -16,8 +16,9 @@ export default function Login() {
     email: '',
     password: '',
   });
+  const dispatch = useAppDispatch();
   const pathName = useLocation();
-
+  const { createAccount } = useAppSelector((state) => state.User);
   //Thực hiện khi nhấn nút login
   const SubmitLogin = async (e: any) => {
     e.preventDefault();
@@ -55,7 +56,7 @@ export default function Login() {
   };
   return (
     <>
-      {pathName.pathname === '/signup' ? (
+      {createAccount ? (
         <SignUp />
       ) : (
         <div className="account-dropdown active">
@@ -64,7 +65,9 @@ export default function Login() {
               <div className="login-form-head">
                 <span className="login-form-title">Sign in</span>
                 <span className="pull-right">
-                  <Link to="/signup">Create an Account</Link>
+                  <Link to="/" onClick={() => dispatch(setCreateAccount())}>
+                    Create an Account
+                  </Link>
                 </span>
               </div>
               <form className="ziggy-login-form-ajax" onSubmit={SubmitLogin}>
@@ -94,7 +97,7 @@ export default function Login() {
                 </p>
                 <button
                   type="submit"
-                  className="btn btn-primary btn-block w-100 mt-1"
+                  className="btn btn-primary btn-block w-100 "
                 >
                   Login
                 </button>

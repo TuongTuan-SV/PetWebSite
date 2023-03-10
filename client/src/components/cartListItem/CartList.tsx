@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   decrement,
@@ -126,7 +127,10 @@ export default function CartList() {
             currency: 'USD',
           })}
         </h3>
-        <PayPalButton2 total={total} tranSuccess={tranSuccess} />
+        <button className="btn btn-primary">
+          <Link to="/checkout">Process to checkout</Link>
+        </button>
+        {/* <PayPalButton2 total={total} tranSuccess={tranSuccess} /> */}
       </div>
     </div>
   );

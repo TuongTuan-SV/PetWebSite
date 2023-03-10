@@ -20,6 +20,7 @@ const ProductController = {
   //Tạo sản phẩm
   addProduct: async (req: Request, res: Response) => {
     try {
+      console.log(req.body);
       const newProduct = new Product({
         Name: req.body.Name,
         Description: req.body.Description,
