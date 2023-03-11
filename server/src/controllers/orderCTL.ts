@@ -48,13 +48,16 @@ const OrderController = {
         LastName,
         Total,
       });
-      // console.log(req.body.order);
+      // console.log(Cart);
+      Cart.forEach((item: any) => {
+        return sold(item._id, item.quantity, item.Sold);
+      });
       // Cart.filter((item: any) => {
-      //   return sold(item._id, item.quantity, item.sold);
+      //   return sold(item._id, item.quantity, item.Sold);
       // });
 
-      await NewOrder.save();
-      res.json({ msg: 'Payment Success' });
+      // await NewOrder.save();
+      res.json({ msg: 'Order Created' });
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error
@@ -70,8 +73,9 @@ const sold = async (id: any, quantity: any, oldsold: any) => {
   await Product.findOneAndUpdate(
     { _id: id },
     {
-      sold: quantity + oldsold,
+      Sold: quantity + oldsold,
     }
   );
+  console.log('updated');
 };
 module.exports = OrderController;

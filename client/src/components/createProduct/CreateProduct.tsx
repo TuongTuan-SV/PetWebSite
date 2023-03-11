@@ -55,18 +55,30 @@ export default function CreateProduct() {
           ></input>
         </div>
 
-        <div className="row">
-          <label htmlFor="price">Price</label>
-          <input
-            type="text"
-            name="Price"
-            id="price"
-            required
-            value={Newproduct.Price}
-            onChange={handleChangeInput}
-          ></input>
+        <div className="row Price-Stock-row">
+          <div style={{ paddingRight: '10px' }}>
+            <label htmlFor="price">Price</label>
+            <input
+              type="number"
+              name="Price"
+              id="price"
+              required
+              value={Newproduct.Price}
+              onChange={handleChangeInput}
+            ></input>
+          </div>
+          <div>
+            <label htmlFor="Stocks">Stocks</label>
+            <input
+              type="number"
+              name="Stocks"
+              id="price"
+              required
+              value={Newproduct.Stocks}
+              onChange={handleChangeInput}
+            ></input>
+          </div>
         </div>
-
         <div className="row">
           <label htmlFor="description">Description</label>
           <textarea
@@ -75,6 +87,17 @@ export default function CreateProduct() {
             required
             value={Newproduct.Description}
             rows={5}
+            onChange={handleChangeInput}
+          ></textarea>
+        </div>
+        <div className="row">
+          <label htmlFor="short_description">Short Description</label>
+          <textarea
+            name="Short_Description"
+            id="Short_Description"
+            required
+            value={Newproduct.Short_Description}
+            rows={2}
             onChange={handleChangeInput}
           ></textarea>
         </div>

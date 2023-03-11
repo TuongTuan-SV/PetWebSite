@@ -115,3 +115,13 @@ textarea {
   border: solid;
   margin-top: 20px;
 }
+
+.Price-Stock-row {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.Price-Stock-row div {
+  width: 100%;
+}

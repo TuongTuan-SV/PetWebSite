@@ -24,8 +24,9 @@ const ProductController = {
       const newProduct = new Product({
         Name: req.body.Name,
         Description: req.body.Description,
+        Short_Description: req.body.Short_Description,
         Price: req.body.Price,
-        Sock: req.body.Sock,
+        Stocks: req.body.Stocks,
         images: req.body.images,
         Brand: req.body.Brand,
         Category: req.body.Category,
@@ -77,7 +78,7 @@ const ProductController = {
       product.Brand = req.body.Brand;
       product.images = req.body.images;
       product.Price = req.body.Price;
-      product.Socks = req.body.Socks;
+      product.Stocks = req.body.Socks;
 
       await product.save();
       res.status(200).json('Product Updated');

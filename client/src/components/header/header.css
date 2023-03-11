@@ -76,17 +76,6 @@ header a:hover:after {
   color: orange;
 }
 
-/* .Cart-icon span {
-  background: crimson;
-  border-radius: 20px;
-  color: white;
-  position: absolute;
-  top: -10px;
-  right: -10px;
-  padding: 5px 7px;
-  font-size: 10px;
-} */
-
 #header-search-bar {
   position: relative;
   margin-right: 10px;
@@ -158,15 +147,20 @@ header {
   margin: 40px; */
 }
 .user-tab {
+  position: absolute;
+  z-index: 999999;
+  right: 1vw;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  top: 20px;
   width: 100px;
   background-color: #fff;
-  z-index: 99999;
   border-width: 1px;
   border-style: solid;
   border-radius: 3px;
   border-color: var(--e-global-color-border);
-  display: flex;
-  flex-direction: column;
 }
 .user-tab:after {
   content: '';

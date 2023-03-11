@@ -50,3 +50,8 @@
   display: flex;
   flex-direction: row;
 }
+
+.signup-form-bottom {
+  display: flex;
+  flex-direction: row;
+}

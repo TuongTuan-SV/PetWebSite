@@ -1,13 +1,8 @@
 import { useState, useEffect } from 'react';
-import reactLogo from './assets/react.svg';
 import './App.css';
-import Login from './sceens/Login';
-import Product from './sceens/Product';
-import Upload from './components/upload/Upload';
-import Brand from './components/brand/Brand';
 import Header from './components/header/Header';
 import Footer from './components/footer/Footer';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useLocation } from 'react-router-dom';
 import { useAppSelector, useAppDispatch } from './hooks';
 import {
   getProducts,
@@ -16,34 +11,42 @@ import {
 } from './redux/slices/productSlice';
 import { getBrand } from './redux/slices/brandSlice';
 import { getCategory } from './redux/slices/categorySilce';
-import { getuser, refreshToken, setLogin } from './redux/slices/userSlice';
-import axios from 'axios';
+import {
+  getuser,
+  refreshToken,
+  setLogin,
+  getHistory,
+} from './redux/slices/userSlice';
 
 function App() {
   const dispatch = useAppDispatch();
   const { token } = useAppSelector((state) => state.User);
-  const { products } = useAppSelector((state) => state.Products);
   const login = localStorage.getItem('firstLogin');
-
+  const location = useLocation();
   useEffect(() => {
+    //GET BRAND
     dispatch(getBrand());
+    //GET CATEGORY
     dispatch(getCategory());
-    dispatch(refreshToken());
+
     // console.log(token.accesstoken);
     // dispatch(getuser('adasd'));
-  }, [dispatch]);
-
-  useEffect(() => {
+    //Get PRODUCT
     dispatch(getProducts());
     dispatch(getNewtProducts());
     dispatch(getHotProducts());
   }, [dispatch]);
 
   useEffect(() => {
-    if (login) dispatch(setLogin());
-    setTimeout(() => {
-      dispatch(getuser());
-    }, 500);
+    if (login) {
+      dispatch(setLogin());
+      setTimeout(() => {
+        dispatch(refreshToken()).then(() => {
+          dispatch(getuser());
+          dispatch(getHistory());
+        });
+      }, 500);
+    }
   }, [token]);
   return (
     <div className="App">
@@ -51,6 +54,21 @@ function App() {
       <Outlet />
       <Footer></Footer>
     </div>
+    // <>
+    //   {location.pathname === '/lostpassword' ? (
+    //     <div className="App">
+    //       <Header></Header>
+    //       <Outlet />
+    //       <Footer></Footer>
+    //     </div>
+    //   ) : (
+    //     <div className="App">
+    //       <Header></Header>
+    //       <Outlet />
+    //       <Footer></Footer>
+    //     </div>
+    //   )}
+    // </>
   );
 }
 

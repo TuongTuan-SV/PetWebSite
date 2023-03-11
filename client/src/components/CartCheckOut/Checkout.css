@@ -62,10 +62,12 @@ label {
 .CartItem {
   width: 100%;
   text-align: left;
+  border-spacing: 0 !important;
 }
 .CartItem tr td {
   border: 1px solid #a8a4a4;
   border-collapse: collapse;
+  padding: 10px;
 }
 
 .form-bottom {

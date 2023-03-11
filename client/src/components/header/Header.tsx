@@ -114,7 +114,7 @@ export default function Header() {
                       <Link to="#">profile</Link>
                     </li>
                     <li>
-                      <Link to="#">history</Link>
+                      <Link to="history">history</Link>
                     </li>
                     {User.role == 0 ? null : (
                       <li>

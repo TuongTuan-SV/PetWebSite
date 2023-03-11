@@ -16,6 +16,9 @@ import Brand from './components/brand/Brand';
 import Cart from './sceens/Cart';
 import CreataProduct from './sceens/CreataProduct';
 import CheckOut from './components/CartCheckOut/CheckOut';
+import History from './sceens/History';
+import OrderDetailSceen from './sceens/OrderDetailSceen';
+import LostPwdSceen from './sceens/LostPwdSceen';
 const router = createBrowserRouter([
   {
     path: '/',
@@ -27,13 +30,26 @@ const router = createBrowserRouter([
         path: 'createproduct',
         element: <CreataProduct />,
       },
+
       {
         path: 'upload',
-        element: <Brand />,
+        element: <Upload />,
+      },
+      {
+        path: 'history',
+        element: <History />,
+      },
+      {
+        path: 'history/:id',
+        element: <OrderDetailSceen />,
       },
       {
         path: 'login',
         element: <Login />,
+      },
+      {
+        path: 'lostpassword',
+        element: <LostPwdSceen />,
       },
       {
         path: 'signup',

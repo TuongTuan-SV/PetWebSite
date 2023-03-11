@@ -103,7 +103,13 @@ export default function Login() {
                 </button>
               </form>
               <div className="login-form-bottom">
-                <Link to="#">Lost your password?</Link>
+                <a
+                  onClick={() => {
+                    window.location.href = '/lostpassword';
+                  }}
+                >
+                  Lost your password?
+                </a>
               </div>
             </div>
           </div>

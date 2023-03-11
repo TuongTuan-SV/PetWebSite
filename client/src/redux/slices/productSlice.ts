@@ -9,21 +9,28 @@ export interface IProduct {
   sort: string;
   Newproduct: INewProduct;
 }
+
+interface Image {
+  public_id: string;
+  url: string;
+}
 export interface INewProduct {
   Name: string;
   Description: string;
+  Short_Description: string;
   Price: number;
-  Socks: number;
+  Stocks: number;
   Brand: string;
   Category: string;
-  images: object;
+  images: Array<Image>;
   reviews: object;
 }
 const ProductinitialState: INewProduct = {
   Name: '',
   Description: '',
+  Short_Description: '',
   Price: 0,
-  Socks: 0,
+  Stocks: 0,
   Brand: '',
   Category: '',
   images: [],

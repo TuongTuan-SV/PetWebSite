@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 
 import User from '../models/UserModel';
+import Order from '../models/OrderModel';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 
@@ -203,8 +204,60 @@ const UserController = {
           cart: req.body.cart,
         }
       );
-      console.log(req.body);
+      // console.log(req.body);
       return res.json({ msg: 'Add to cart' });
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: err.message });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
+  gethistory: async (req: any, res: any) => {
+    try {
+      const history = await Order.find({ user_id: req.user.id });
+
+      res.json(history);
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: err.message });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
+  checkUser: async (req: any, res: any) => {
+    try {
+      const { email } = req.body;
+      const user = await User.findOne({ email }).select('email');
+      if (!user) return res.json({ msg: 'Email not exist!' });
+
+      return res.json({ user: user });
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: err.message });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
+  changePassword: async (req: any, res: any) => {
+    try {
+      const { email, password } = req.body;
+      //Mã hóa mật khẩu
+      const pswHash = await bcrypt.hash(password, 10);
+      await User.findOneAndUpdate(
+        { email },
+        {
+          password: pswHash,
+        }
+      );
+
+      return res.json({ msg: 'Password have been change' });
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error

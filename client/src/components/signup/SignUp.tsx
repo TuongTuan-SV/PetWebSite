@@ -99,13 +99,14 @@ export default function SignUp() {
             </button>
           </form>
           <div className="login-form-bottom ml-1">
+            <p style={{ fontSize: '0.87rem' }}>Aleady have an Account? </p>
             <Link
               to="/"
               onClick={() => {
                 dispatch(setCreateAccount());
               }}
             >
-              Login
+              Login Now
             </Link>
           </div>
         </div>

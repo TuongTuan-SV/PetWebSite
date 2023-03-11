@@ -1,11 +1,11 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 export interface IUser {
   token: string;
   User: Object;
   login: boolean;
-
+  history: Array<Object>;
   role: Number;
   createAccount: boolean;
 }
@@ -14,13 +14,13 @@ const initialState: any = {
   token: '',
   User: {},
   login: false,
-
+  history: [],
   role: 0,
   createAccount: false,
 };
 //ACTION
 
-//UPDATE CART
+// UPDATE CART
 export const updateCart = createAsyncThunk(
   'User/updateCart',
   async (data, thunkAPI) => {
@@ -43,7 +43,7 @@ export const updateCart = createAsyncThunk(
     }
   }
 );
-//refreshToken
+// refreshToken
 export const refreshToken = createAsyncThunk(
   'User/refreshToken',
   async (data, thunkAPI) => {
@@ -60,7 +60,7 @@ export const refreshToken = createAsyncThunk(
   }
 );
 
-//GET USER INFO
+// GET USER INFO
 export const getuser = createAsyncThunk(
   'User/getuser',
   async (token, thunkAPI) => {
@@ -69,7 +69,7 @@ export const getuser = createAsyncThunk(
       const res = await axios.get(`/user/info`, {
         headers: { Authorization: state.User.token },
       });
-      console.log(res.data);
+      // console.log(res.data);
       // setIsLogged(true);
       // res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
 
@@ -81,6 +81,28 @@ export const getuser = createAsyncThunk(
     }
   }
 );
+
+// GET ORDER HISTORY
+export const getHistory = createAsyncThunk(
+  'User/getHistory',
+  async (data, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+      const res = await axios.get('/user/history', {
+        headers: { Authorization: state.User.token },
+      });
+      return res.data;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
+
+//SLICE
 export const userSlice = createSlice({
   name: 'User',
   initialState,
@@ -102,6 +124,9 @@ export const userSlice = createSlice({
       } else {
         alert('This product has been add to cart');
       }
+    },
+    clearCart: (state) => {
+      state.User.cart = [];
     },
     setLogout: (state) => {
       state.User = {};
@@ -190,6 +215,18 @@ export const userSlice = createSlice({
       .addCase(getuser.rejected, (state, action) => {
         state.loading = false;
       });
+    //GET HISTORY
+    builder
+      .addCase(getHistory.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(getHistory.fulfilled, (state, action) => {
+        state.loading = false;
+        state.history = action.payload;
+      })
+      .addCase(getHistory.rejected, (state, action) => {
+        state.loading = false;
+      });
   },
 });
 
@@ -201,7 +238,7 @@ export const {
   increment,
   setCart,
   setCreateAccount,
-  // setToken,
+  clearCart,
 } = userSlice.actions;
 
 export default userSlice.reducer;

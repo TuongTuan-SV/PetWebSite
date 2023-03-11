@@ -1,7 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import './Checkout.css';
-import { CreateOrder, setOrder } from '../../redux/slices/orderSlice';
+import {
+  CreateOrder,
+  setOrder,
+  setOrderCart,
+} from '../../redux/slices/orderSlice';
+import { setCart, updateCart, clearCart } from '../../redux/slices/userSlice';
 
 // const initialState = {
 //   FirstName: '',
@@ -24,13 +29,14 @@ export default function CheckOut() {
 
   useEffect(() => {
     const getTotal = () => {
-      const total = cart.reduce((pev: any, item: any) => {
+      const total: number = cart.reduce((pev: any, item: any) => {
         // console.log(item);
         return pev + item.Price * item.quantity;
       }, 0);
 
       setTotal(total);
       dispatch(setOrder({ ...order, Total: total }));
+      dispatch(setOrderCart(cart));
     };
 
     cart ? getTotal() : null;
@@ -43,7 +49,13 @@ export default function CheckOut() {
   };
   const handleCreateOrder = (e: any) => {
     e.preventDefault();
-    dispatch(CreateOrder());
+    dispatch(CreateOrder()).then((res) => {
+      console.log(res.payload.msg);
+      if (res.payload.msg === 'Order Created') {
+        dispatch(clearCart());
+        dispatch(updateCart());
+      }
+    });
   };
   return (
     <div className="Container">
@@ -60,6 +72,7 @@ export default function CheckOut() {
               <input
                 type="text"
                 name="FirstName"
+                required
                 value={order.FirstName}
                 onChange={handleChangeInput}
               ></input>
@@ -69,6 +82,7 @@ export default function CheckOut() {
               <input
                 type="text"
                 name="LastName"
+                required
                 value={order.LastName}
                 onChange={handleChangeInput}
               ></input>
@@ -79,6 +93,7 @@ export default function CheckOut() {
             <input
               type="text"
               name="Country"
+              required
               value={order.Country}
               onChange={handleChangeInput}
             ></input>
@@ -86,8 +101,9 @@ export default function CheckOut() {
           <div className="inputContainer PostalCode">
             <label>Postal Code</label>
             <input
-              type="text"
+              type="number"
               name="PostalCode"
+              required
               value={order.PostalCode}
               onChange={handleChangeInput}
             ></input>
@@ -97,6 +113,7 @@ export default function CheckOut() {
             <input
               type="text"
               name="Address"
+              required
               value={order.Address}
               onChange={handleChangeInput}
             ></input>

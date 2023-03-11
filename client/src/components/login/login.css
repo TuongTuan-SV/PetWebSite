@@ -113,7 +113,8 @@ input[type='password']:focus::-webkit-input-placeholder {
 }
 .login-form-bottom {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
+  align-items: center;
   /* margin-left: 10vw; */
 }
 .login-form-bottom a {
@@ -123,4 +124,9 @@ input[type='password']:focus::-webkit-input-placeholder {
   text-transform: none;
   pointer-events: stroke;
   text-decoration: dotted !important;
+}
+.login-form-bottom p {
+  font-style: oblique;
+  padding-right: 5px;
+  color: rgb(177, 173, 173);
 }

@@ -26,7 +26,7 @@ export default function Upload() {
   // const [toggleUpload, setToggleUpload] = useState(false);
   const [toggleUploadMulti, setToggleUploadMulti] = useState(false);
 
-  const fileTypes = ['JPEG', 'PNG', 'GIF'];
+  const fileTypes = ['JPEG', 'PNG', 'GIF', 'JPG'];
   const dispatch = useAppDispatch();
 
   const handleDestroyMulti = async (id: String) => {

@@ -20,8 +20,9 @@ const reviewSchema = new Schema<Ireview>(
 interface Iproduct {
   Name: string;
   Description: string;
+  Short_Description: string;
   Price: number;
-  Socks: number;
+  Stocks: number;
   Brand: string;
   Category: string;
   images?: Array<[object]>;
@@ -40,6 +41,12 @@ const ProductSchema = new Schema<Iproduct>(
       type: String,
       required: true,
       trim: true,
+    },
+    Short_Description: {
+      type: String,
+      required: true,
+      trim: true,
+      max: 200,
     },
     Category: {
       type: String,
@@ -60,7 +67,7 @@ const ProductSchema = new Schema<Iproduct>(
     images: {
       type: Array,
     },
-    Socks: {
+    Stocks: {
       type: Number,
       require: true,
     },
