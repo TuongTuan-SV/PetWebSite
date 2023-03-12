@@ -23,8 +23,8 @@ export default function Index() {
       setImages((images) => [
         ...images,
         {
-          src: product.images[0],
-          link: product._id,
+          src: product.images[0].url,
+          link: product.images[0].product_id,
         },
       ]);
     });

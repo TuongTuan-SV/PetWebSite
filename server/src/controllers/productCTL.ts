@@ -1,12 +1,79 @@
 import { Request, Response } from 'express';
 import Product from '../models/ProductModel';
 
+class APIfeatures {
+  query: any;
+  queryString: any;
+  constructor(query: any, queryString: any) {
+    this.query = query;
+    this.queryString = queryString;
+  }
+  filtering() {
+    const queryObj = { ...this.queryString }; // queryString = req.query
+    // console.log(queryObj)
+
+    const exculedFields = ['page', 'sort', 'limit'];
+
+    exculedFields.forEach((el) => delete queryObj[el]);
+
+    // console.log({after : queryObj})
+
+    let querySTR = JSON.stringify(queryObj);
+
+    // gte = greater than or equal
+    // gt = greater than
+    // lte = less than or equal
+    // lt = less than
+    querySTR = querySTR.replace(
+      /\b(gte|gt|lt|lte|regex)\b/g,
+      (match) => '$' + match
+    );
+
+    this.query.find(JSON.parse(querySTR));
+    // console.log({queryObj, querySTR})
+
+    return this;
+  }
+  sortting() {
+    if (this.queryString.sort) {
+      const sortBy = this.queryString.sort.split(',').join(' ');
+
+      // console.log(sortBy)
+
+      this.query = this.query.sort(sortBy);
+    } else {
+      this.query = this.query.sort('-createdAt');
+    }
+
+    return this;
+  }
+  // paginating() {
+  //   const page = this.queryString.page * 1 || 1;
+
+  //   // limit how many result show
+  //   const limit = this.queryString.limit * 1 || 9;
+  //   const skip = (page - 1) * limit;
+
+  //   this.query = this.query.skip(skip).limit(limit);
+
+  //   return this;
+  // }
+}
 const ProductController = {
   //Lấy danh sách sản phẩm
-  getProducts: async (req: Request, res: Response) => {
+  getProducts: async (req: any, res: Response) => {
     try {
-      const products = await Product.find();
-      return res.status(200).json(products);
+      const features = new APIfeatures(Product.find(), req.query)
+        .filtering()
+        .sortting();
+      const products = await features.query;
+      // const find = Product.find({Category:});
+      // console.log(req.query);
+      res.json({
+        status: 'success',
+        result: products.length,
+        products: products,
+      });
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error
@@ -82,6 +149,31 @@ const ProductController = {
 
       await product.save();
       res.status(200).json('Product Updated');
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: err.message });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
+
+  //Cập nhật review
+  addReview: async (req: any, res: any) => {
+    try {
+      const { reivew } = req.body;
+      const product = await Product.findById(req.params.id);
+      const user = product?.reviews?.find((item: any) => {
+        if (item.userid === reivew.userid) return item;
+      });
+      if (user) {
+        return res.json('User have commented');
+      } else {
+        product?.reviews?.push(reivew);
+        await product?.save();
+        return res.json({ msg: 'Review Added' });
+      }
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error

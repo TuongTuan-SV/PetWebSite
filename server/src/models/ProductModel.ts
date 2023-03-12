@@ -2,6 +2,7 @@ import mongoose, { Schema } from 'mongoose';
 
 interface Ireview {
   Username: string;
+  userid: string;
   comment: string;
   rating: number;
 }
@@ -9,6 +10,7 @@ interface Ireview {
 const reviewSchema = new Schema<Ireview>(
   {
     Username: { type: String, required: true },
+    userid: { type: String, required: true },
     comment: { type: String, required: true },
     rating: { type: Number, required: true },
   },

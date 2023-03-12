@@ -11,6 +11,7 @@ router
 router
   .route('/products/:id')
   .delete(productCTL.deleteProduct) // Xỏa sản phẩm trên db
-  .put(productCTL.updateProduct); // Cập nhật sản phẩm;
+  .put(productCTL.updateProduct) // Cập nhật sản phẩm;
+  .post(productCTL.addReview);
 
 module.exports = router;

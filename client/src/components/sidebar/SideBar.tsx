@@ -1,22 +1,22 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useAppSelector } from '../../hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks';
+import { setSearch } from '../../redux/slices/productSlice';
 import './SideBar.css';
 
 export default function SideBar() {
-  const { products } = useAppSelector((state) => state.Products);
+  const dispatch = useAppDispatch();
+  const { products, search } = useAppSelector((state) => state.Products);
   const { Brands } = useAppSelector((state) => state.Brands);
   const { Categories } = useAppSelector((state) => state.Categories);
-  console.log(Categories, Brands);
   const [price, setPrice] = useState<any>(0);
-  //   const state = useContext(GlobalState);
-  //   const [categories] = state.categoryAPI.categories;
-  //   const [brands] = state.brandAPI.brands;
-  //   const [products] = state.productAPI.products;
-  //   const [category, setCategory] = state.productAPI.category;
-  //   const [brand, setBrand] = state.productAPI.category;
 
   //   const [level, setLevel] = state.productAPI.level;
   const [sidebar, setSideBar] = useState(false);
+
+  const handleChangeInput = (e: any) => {
+    const { name, value } = e.target;
+    dispatch(setSearch({ ...search, [name]: value }));
+  };
   // const [max, setMax] = useState(0);
   let max = 100;
 
@@ -38,15 +38,15 @@ export default function SideBar() {
   //       setCategory((current) => [...current, e.target.value]);
   //     }
   //   };
-  //   const HandleBrand = (e) => {
-  //     if (brand.includes(e.target.value)) {
-  //       setBrand((current) =>
-  //         current.filter((brand) => brand !== e.target.value)
-  //       );
-  //     } else {
-  //       setBrand((current) => [...current, e.target.value]);
-  //     }
-  //   };
+  // const HandleBrand = (e) => {
+  //   if (brand.includes(e.target.value)) {
+  //     setBrand((current) =>
+  //       current.filter((brand) => brand !== e.target.value)
+  //     );
+  //   } else {
+  //     setBrand((current) => [...current, e.target.value]);
+  //   }
+  // };
   const getBackgroundSize = () => {
     return { backgroundSize: `${(price * 100) / max}% 100% ` };
   };
@@ -92,30 +92,33 @@ export default function SideBar() {
       <div className="line"></div>
       <div className="row">
         <h4>Category</h4>
-        {/* {Categories.map((category: any) => (
-          <label className="form-control CheckBox" key={category._id}>
-            <input
-              type="checkbox"
-              value={'category=' + category.name}
-              //   onChange={HandleCategory}
-            ></input>
-            {category.name}
-          </label>
-        ))} */}
+        {Categories.map((category: any) => {
+          return (
+            <label className="form-control CheckBox" key={category._id}>
+              <input
+                type="checkbox"
+                value={'category=' + category.Name}
+                //   onChange={HandleCategory}
+              ></input>
+              {category.name}
+            </label>
+          );
+        })}
       </div>
       <div className="line"></div>
       <div className="row">
         <h4>Brand </h4>
-        {/* {Brands.map((brand: any) => (
+        {Brands.map((brand: any) => (
           <label className="form-control CheckBox" key={brand._id}>
             <input
+              name="brand"
               type="checkbox"
-              value={'brand=' + brand.name}
-              //   onChange={HandleBrand}
+              value={brand.Name}
+              onChange={handleChangeInput}
             ></input>
-            {brand.name}
+            {brand.Name}
           </label>
-        ))} */}
+        ))}
       </div>
       <div className="line"></div>
     </div>

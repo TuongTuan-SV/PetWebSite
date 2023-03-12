@@ -4,15 +4,16 @@ import Close from './icon/xmark.svg';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import Badge from '@mui/material/Badge';
 import PetsIcon from '@mui/icons-material/Pets';
-import { BiSearchAlt } from 'react-icons/bi';
-import { AiOutlineShoppingCart } from 'react-icons/ai';
-import { HiOutlineUser } from 'react-icons/hi';
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined';
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined';
+import PersonOutlineOutlinedIcon from '@mui/icons-material/PersonOutlineOutlined';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import Login from '../login/Login';
-import ShoppingCartIcon from '@mui/icons-material/ShoppingCart';
+
 import './header.css';
 import { setCreateAccount, setLogout } from '../../redux/slices/userSlice';
 import axios from 'axios';
+import { setSearch, getProducts } from '../../redux/slices/productSlice';
 
 export default function Header() {
   const dispatch = useAppDispatch();
@@ -20,6 +21,7 @@ export default function Header() {
   // console.log(location);
   const [menu, setMenu] = useState(false);
   const { login, User, createAccount } = useAppSelector((state) => state.User);
+  const { search } = useAppSelector((state) => state.Products);
   const { cart } = User;
   const [active, setAcive] = useState(false);
   let activeClassName = 'active';
@@ -28,9 +30,14 @@ export default function Header() {
     setAcive(!active);
     if (createAccount) dispatch(setCreateAccount());
   };
+  const handleChangeInput = (e: any) => {
+    const { name, value } = e.target;
+    dispatch(setSearch({ ...search, [name]: value }));
+    dispatch(getProducts());
+  };
   const handleLogout = async (e: any) => {
     dispatch(setLogout());
-    await axios.get('user/logout');
+    await axios.get('/user/logout');
     localStorage.clear();
     window.location.href = '/';
   };
@@ -90,10 +97,10 @@ export default function Header() {
                   id="header-search-text"
                   placeholder="Search Here"
                   name="search"
-                  // onChange={(e) => setSearch(e.target.value)}
+                  onChange={handleChangeInput}
                 />
                 <button type="submit" id="Seachbtn">
-                  <BiSearchAlt id="header-search-icon" />
+                  <SearchOutlinedIcon id="header-search-icon" />
                 </button>
               </div>
             </form>
@@ -101,7 +108,7 @@ export default function Header() {
           <li className="user-icon" onClick={handleUserTab}>
             <div>
               <Badge>
-                <HiOutlineUser size={25}></HiOutlineUser>
+                <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
               </Badge>
             </div>
           </li>
@@ -137,7 +144,9 @@ export default function Header() {
 
               <Link to="/cart" className="LogoText">
                 <Badge badgeContent={cart ? cart.length : null} color="primary">
-                  <AiOutlineShoppingCart size={25}></AiOutlineShoppingCart>
+                  <ShoppingCartOutlinedIcon
+                    sx={{ fontSize: 30 }}
+                  ></ShoppingCartOutlinedIcon>
                 </Badge>
 
                 {/* <img src={Cart} alt="" width={30}></img> */}

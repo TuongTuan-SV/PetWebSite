@@ -3,6 +3,10 @@ import Tabs from '@mui/material/Tabs';
 import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
+import Review from '../detailproduct/Review';
+import ProductRating from '../rating/ProductRating';
+import { Paper } from '@mui/material';
+import { textAlign } from '@mui/system';
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -23,7 +27,7 @@ function TabPanel(props: TabPanelProps) {
     >
       {value === index && (
         <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
+          <>{children}</>
         </Box>
       )}
     </div>
@@ -54,19 +58,26 @@ export default function ProductTabs(props: any) {
         >
           <Tab label="Description" {...a11yProps(0)} />
           <Tab label="Reviews" {...a11yProps(1)} />
-          <Tab label="Related Product" {...a11yProps(2)} />
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
-        <div className="detail_description_content">
-          <pre>{detailproduct.Description}</pre>
+        {/* <p>asdasdasdasd</p> */}
+        <div>
+          <pre
+            style={{
+              whiteSpace: 'pre-wrap',
+              wordWrap: 'break-word',
+              textAlign: 'left',
+            }}
+          >
+            {detailproduct.Description}
+          </pre>
         </div>
       </TabPanel>
       <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
+        <div>
+          <Review product={detailproduct}></Review>
+        </div>
       </TabPanel>
     </Box>
   );

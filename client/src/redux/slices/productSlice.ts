@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import axios, { AxiosError } from 'axios';
 
 export interface IProduct {
   products: Array<object>;
@@ -8,8 +8,24 @@ export interface IProduct {
   loading: boolean;
   sort: string;
   Newproduct: INewProduct;
+  search: ISearch;
 }
-
+export interface ISearch {
+  category: Array<object>;
+  brand: Array<object>;
+  price: number;
+  loading: boolean;
+  sort: string;
+  search: string;
+}
+const SearchinitialState: ISearch = {
+  category: [],
+  brand: [],
+  price: 0,
+  loading: false,
+  sort: '',
+  search: '',
+};
 interface Image {
   public_id: string;
   url: string;
@@ -43,9 +59,36 @@ const initialState: IProduct = {
   loading: false,
   sort: '',
   Newproduct: ProductinitialState,
+  search: SearchinitialState,
 };
 
 //ACTION
+//Get all products
+export const addReview = createAsyncThunk(
+  'Product/addReview',
+  async (data: any, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+      const review = data.review;
+      review.Username = state.User.User.FirstName;
+      review.userid = state.User.User._id;
+      console.log(data);
+      const response = await axios.post(`/api/products/${data.id}`, {
+        reivew: review,
+      });
+
+      // console.log(response.data);
+      // return response.data;
+    } catch (err: any) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
+
 //Get all products
 export const createProduct = createAsyncThunk(
   'Product/createProduct',
@@ -65,19 +108,32 @@ export const createProduct = createAsyncThunk(
       // console.log(API_URL);
       console.log(response.data);
       return response.data;
-    } catch (error: any) {
-      return thunkAPI.rejectWithValue(error.message);
+    } catch (err: any) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
     }
   }
 );
+
 //Get all products
 export const getProducts = createAsyncThunk(
   'Product/getProducts',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`/api/products`);
-      // Inferred return type: Promise<MyData>
-      // console.log(API_URL);
+      const state: any = thunkAPI.getState();
+      const search = state.Products.search;
+
+      const response = await axios.get(
+        `/api/products/?${search.category.join('&')}${search.brand.join('&')}&${
+          search.price > 0 ? `Price[lte]=${search.price}` : ''
+        }&${search.sort}&Name[regex]=${search.search}`
+      );
+      console.log(response);
+      // // Inferred return type: Promise<MyData>
+      // // console.log(API_URL);
       // console.log(response.data);
       return response.data;
     } catch (error: any) {
@@ -91,9 +147,22 @@ export const getHotProducts = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const response = await axios.get(`/api/products/?limit=9`);
+      // console.log(
+      //   response.data.products.sort((a: any, b: any) =>
+      //     a.sold < b.sold ? 1 : -1
+      //   )
+      // );
+
+      // console.log(
+      //   response.data.products.sort((a: any, b: any) =>
+      //     a.sold < b.sold ? 1 : -1
+      //   )
+      // );
+      return response.data.products.sort((a: any, b: any) =>
+        a.sold < b.sold ? 1 : -1
+      );
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
-      return response.data.slice(0, 3);
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -107,8 +176,7 @@ export const getNewtProducts = createAsyncThunk(
       const response = await axios.get(`/api/products/?limit=9`);
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
-
-      return response.data.sort((a: any, b: any) => (a.sold < b.sold ? 1 : -1));
+      return response.data.products.slice(0, 3);
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -129,6 +197,9 @@ export const productSlice = createSlice({
     setNewProduct: (state, action) => {
       state.Newproduct = action.payload;
     },
+    setSearch: (state, action) => {
+      state.search = action.payload;
+    },
   },
   extraReducers: (builder) => {
     //GET ALL PRODUCT
@@ -138,7 +209,7 @@ export const productSlice = createSlice({
       })
       .addCase(getProducts.fulfilled, (state, action) => {
         state.loading = false;
-        state.products = action.payload;
+        state.products = action.payload.products;
       })
       .addCase(getProducts.rejected, (state, action) => {
         state.loading = false;
@@ -180,9 +251,20 @@ export const productSlice = createSlice({
       .addCase(createProduct.rejected, (state, action) => {
         state.loading = false;
       });
+    builder
+      .addCase(addReview.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(addReview.fulfilled, (state, action) => {
+        state.loading = false;
+      })
+      .addCase(addReview.rejected, (state, action) => {
+        state.loading = false;
+      });
   },
 });
 
-export const { addProducts, setSort, setNewProduct } = productSlice.actions;
+export const { addProducts, setSort, setNewProduct, setSearch } =
+  productSlice.actions;
 
 export default productSlice.reducer;
