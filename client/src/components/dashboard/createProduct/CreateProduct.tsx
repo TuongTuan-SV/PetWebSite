@@ -1,10 +1,14 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
-import Loading from '../../utils/loading/Loading';
-import { useAppDispatch, useAppSelector } from '../../hooks';
-import { createProduct, setNewProduct } from '../../redux/slices/productSlice';
-import Upload from '../upload/Upload';
+import Loading from '../../../utils/loading/Loading';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
+import {
+  createProduct,
+  setNewProduct,
+} from '../../../redux/slices/productSlice';
+import Upload from '../../upload/Upload';
 import './createproduct.css';
+
 // const initialState = {
 //   Name: '',
 //   Description: '',

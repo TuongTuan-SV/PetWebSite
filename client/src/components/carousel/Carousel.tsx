@@ -1,5 +1,6 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useAppSelector } from '../../hooks';
 import './carousel.css';
 interface Props {
   images: {
@@ -9,6 +10,7 @@ interface Props {
 }
 
 export const Carousel: React.FC<Props> = ({ images }) => {
+  const { image } = useAppSelector((state) => state.Carousel);
   // State for Active index
   const carousel = useRef<any>();
   const [count, setCount] = useState(0);
@@ -18,14 +20,14 @@ export const Carousel: React.FC<Props> = ({ images }) => {
 
     const width = carousel.current.offsetWidth;
 
-    if (count + delta > images.length - 1) {
+    if (count + delta > image.length - 1) {
       setCount(0);
       carousel.current.scrollTo(0, 0);
       return;
     } else if (count + delta < 0) {
-      setCount(images.length - 1);
+      setCount(image.length - 1);
       // console.log(width, carousel.current.scrollLeft);
-      carousel.current.scrollTo(width * images.length - 1, 0);
+      carousel.current.scrollTo(width * image.length - 1, 0);
       return;
     }
 
@@ -44,8 +46,8 @@ export const Carousel: React.FC<Props> = ({ images }) => {
         onClick={() => incrementCarousel(1)}
       />
       <div className="carousel" ref={carousel}>
-        {images.map((img, idx) => {
-          // console.log(img);
+        {image?.map((img: any, idx: any) => {
+          console.log(img.image[0]);
           return (
             <div
               key={`${idx}`}
@@ -53,12 +55,26 @@ export const Carousel: React.FC<Props> = ({ images }) => {
                 idx === count ? 'carousel-item active' : 'carousel-item'
               }
             >
-              <Link to={`/detail/${img.link}`}>
-                <img src={img.src} alt="img of carousel" />
+              <Link to="#">
+                <img src={img.image[0].url} alt="img of carousel" />
               </Link>
             </div>
           );
         })}
+        <div className="carouselindicator-container">
+          <ul className="carouselindicator-wrap">
+            {image?.map((img: any, idx: any) => {
+              return (
+                <li
+                  key={idx}
+                  onClick={() => {
+                    setCount(idx);
+                  }}
+                ></li>
+              );
+            })}
+          </ul>
+        </div>
       </div>
     </div>
   );

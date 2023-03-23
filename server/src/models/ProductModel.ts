@@ -21,6 +21,7 @@ const reviewSchema = new Schema<Ireview>(
 
 interface Iproduct {
   Name: string;
+  Name_Lower: string;
   Description: string;
   Short_Description: string;
   Price: number;
@@ -39,6 +40,7 @@ const ProductSchema = new Schema<Iproduct>(
       require: true,
       max: 100,
     },
+    Name_Lower: { type: String, require: true, max: 100, loadClass: true },
     Description: {
       type: String,
       required: true,

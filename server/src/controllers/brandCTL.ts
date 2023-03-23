@@ -46,6 +46,35 @@ const BrandController = {
       }
     }
   },
+  deleteBrand: async (req: any, res: any) => {
+    try {
+      await Brand.findByIdAndDelete(req.params.id);
+      res.json('Brand deleted');
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: err.message });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
+  updateBrand: async (req: any, res: any) => {
+    try {
+      const { Name } = req.body;
+
+      await Brand.findByIdAndUpdate({ _id: req.params.id }, { Name });
+
+      res.json({ msg: 'Brand Updated' });
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: err.message });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
 };
 
 module.exports = BrandController;

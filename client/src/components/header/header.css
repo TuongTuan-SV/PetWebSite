@@ -62,7 +62,9 @@ header a:hover:after {
 .Menu {
   display: none;
 }
-
+.menu {
+  display: none;
+}
 .Cart-icon {
   position: relative;
   margin-right: 20px;
@@ -187,4 +189,10 @@ header {
   display: inline-block;
   position: relative;
   font-size: 1rem;
+}
+
+@media (width < 700px) {
+  .Menu {
+    display: inline;
+  }
 }

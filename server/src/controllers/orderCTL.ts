@@ -7,6 +7,7 @@ const OrderController = {
   getOrder: async (req: Request, res: Response) => {
     try {
       const payments = await Order.find();
+      console.log(payments);
       res.json(payments);
     } catch (err) {
       if (err instanceof Error) {

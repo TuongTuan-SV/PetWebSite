@@ -33,9 +33,10 @@ export default function OrderHistory() {
         </thead>
         <tbody>
           {history.reverse().map((item: any) => {
+            console.log(item._id);
             return (
               <tr key={item._id}>
-                <td>{item.paymentID}</td>
+                <td>{item._id}</td>
                 <td>{new Date(item.createdAt).toLocaleDateString()}</td>
                 <td>
                   {item.Total.toLocaleString('en-US', {

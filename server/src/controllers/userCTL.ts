@@ -104,7 +104,6 @@ const UserController = {
       }
     }
   },
-
   // Xóa tài khoản
   delete: async (req: Request, res: Response) => {
     try {
@@ -120,7 +119,6 @@ const UserController = {
       }
     }
   },
-
   //Cập thông tin tài khoản
   update: async (req: Request, res: Response) => {
     try {
@@ -180,6 +178,20 @@ const UserController = {
 
       //Không có thì trả về status 400 và thông báo tài khoản không tồn tại
       if (!user) return res.status(400).json({ msg: 'User not exists. ' });
+
+      return res.json(user);
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: err.message });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
+  adminGetAllUser: async (req: any, res: any) => {
+    try {
+      const user = await User.find();
 
       return res.json(user);
     } catch (err) {

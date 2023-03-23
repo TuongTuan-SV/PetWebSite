@@ -26,6 +26,7 @@ app.use('/user', require('./routers/userRouter'));
 //Product
 app.use('/api', require('./routers/productRoutes'));
 app.use('/api', require('./routers/brandRouter'));
+app.use('/api', require('./routers/carouselRouter'));
 app.use('/api', require('./routers/upload'));
 app.use('/api', require('./routers/categoryRouter'));
 app.use('/api', require('./routers/OrderRouter'));

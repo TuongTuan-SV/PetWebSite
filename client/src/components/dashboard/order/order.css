@@ -1,0 +1,55 @@
+/* .dashboard{
+    display: flex ;
+    justify-content: space-between ;
+} */
+.dashboard_btn {
+    width: 250px;
+    display: flex;
+    justify-content: space-between;
+    text-transform: capitalize;
+    margin: 20px 0 10px;
+}
+
+.admin_order {
+    overflow: auto;
+    width: 100%;
+    padding: 20px 0;
+}
+
+.admin_order h2 h4 {
+    text-align: center;
+    margin: 20px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.admin_order table {
+    margin: auto;
+    width: 100%;
+}
+
+.admin_order table,
+th,
+tr,
+td {
+    border: 1px solid #ddd;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    text-align: center;
+    padding: 10px;
+    text-transform: capitalize;
+}
+
+table a {
+    color: rgb(9, 23, 83);
+}
+
+.admin_order img {
+    width: 70px;
+    height: 50px;
+    display: block;
+    object-fit: fill;
+}

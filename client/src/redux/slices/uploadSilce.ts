@@ -3,12 +3,14 @@ import axios, { AxiosError } from 'axios';
 
 export interface IUpload {
   images: Array<object>;
+  carouselImg: object;
   loading: boolean;
   err: String;
 }
 
 const initialState: IUpload = {
   images: [],
+  carouselImg: [],
   loading: false,
   err: 'String',
 };
@@ -87,6 +89,76 @@ export const DeleteImg = createAsyncThunk(
     }
   }
 );
+
+export const UploadCarouselImg = createAsyncThunk(
+  'Upload/UploadCarouselImg',
+  async (data: any, thunkAPI) => {
+    const state: any = thunkAPI.getState();
+    // console.log(data.File);
+    try {
+      //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
+      const file = data;
+      console.log(file);
+      if (!file) return alert('File not exist.');
+
+      if (file.size > 1024 * 1024)
+        // 1mb
+        return alert('Size too large!');
+
+      if (file.type !== 'image/jpeg' && file.type !== 'image/png')
+        // 1mb
+        return alert('File format is incorrect.');
+
+      let formData = new FormData();
+      formData.append('file', file);
+
+      const productName = state.Products.Newproduct.Name;
+      formData.append('productname', productName);
+      const res = await axios.post(`/api/uploadcarousel`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+      console.log(res.data);
+      return res.data;
+      // if (images.length == 3) setToggleUploadMulti(true);
+      // setImages((images) => [...images, res.data]);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
+//DELETE IMG FROM CLOUDINARY
+export const DeleteCarouselImg = createAsyncThunk(
+  'Upload/DeleteCarouselImg',
+  async (data: any, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+      console.log(data);
+      await axios.post(`/api/destroycarousel`, {
+        public_id: data,
+      });
+      // if (images.length <= 3) setToggleUploadMulti(false);
+
+      //Destroy click image
+      const image = state.Upload.images.filter((image: any) => {
+        console.log(image);
+        if (image.public_id != data) return image;
+      });
+      return image;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
 //SLICE
 export const uploadSlice = createSlice({
   name: 'Upload',
@@ -115,6 +187,30 @@ export const uploadSlice = createSlice({
         state.images = action.payload;
       })
       .addCase(DeleteImg.rejected, (state, action) => {
+        state.loading = true;
+      });
+    //Upload Carousel Image to Cloudinary
+    builder
+      .addCase(UploadCarouselImg.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(UploadCarouselImg.fulfilled, (state, action: any) => {
+        state.loading = true;
+        state.carouselImg = action.payload;
+      })
+      .addCase(UploadCarouselImg.rejected, (state, action) => {
+        state.loading = true;
+      });
+    //Delete Img
+    builder
+      .addCase(DeleteCarouselImg.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(DeleteCarouselImg.fulfilled, (state, action: any) => {
+        state.loading = true;
+        state.carouselImg = action.payload;
+      })
+      .addCase(DeleteCarouselImg.rejected, (state, action) => {
         state.loading = true;
       });
   },

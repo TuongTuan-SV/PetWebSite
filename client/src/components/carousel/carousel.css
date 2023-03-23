@@ -59,6 +59,24 @@
   cursor: pointer;
   display: none;
 }
+.carouselindicator-container {
+  z-index: 99999;
+  position: absolute;
+  bottom: 0;
+  left: 45%;
+}
+.carouselindicator-wrap {
+  display: flex;
+}
+
+.carouselindicator-wrap li {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  margin: 0 10px;
+  background-color: black;
+  cursor: pointer;
+}
 
 @media (width > 600px) {
   .carousel-btn {

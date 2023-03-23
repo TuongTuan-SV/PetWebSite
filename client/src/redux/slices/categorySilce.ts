@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_URL } from '../../api/config';
+
 export interface ICategory {
   Categories: [];
   SelectCategory: null | string;
@@ -21,7 +21,7 @@ export const getCategory = createAsyncThunk(
   'Category/getCategory',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`${API_URL}/api/category`);
+      const response = await axios.get(`/api/category`);
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
       return response.data.categories;
@@ -32,10 +32,10 @@ export const getCategory = createAsyncThunk(
 );
 //CREATE POST
 export const createCategory = createAsyncThunk(
-  'Category/postBrand',
+  'Category/postCategory',
   async (data: any, thunkAPI) => {
     try {
-      const response = await axios.post(`${API_URL}/api/category`, data);
+      const response = await axios.post(`/api/category`, { Name: data });
       // Inferred return type: Promise<MyData>
       return response.data;
     } catch (error: any) {
@@ -43,8 +43,9 @@ export const createCategory = createAsyncThunk(
     }
   }
 );
+
 //SLICE
-export const BrandSlice = createSlice({
+export const CategoriesSlice = createSlice({
   name: 'Category',
   initialState,
   reducers: {
@@ -70,7 +71,7 @@ export const BrandSlice = createSlice({
       .addCase(getCategory.rejected, (state, action) => {
         state.loading = false;
       });
-    //CREATE BRAND
+    //CREATE Category
     builder
       .addCase(createCategory.pending, (state, action) => {
         state.loading = true;
@@ -85,6 +86,6 @@ export const BrandSlice = createSlice({
   },
 });
 
-export const { addCategory, setCategory } = BrandSlice.actions;
+export const { addCategory, setCategory } = CategoriesSlice.actions;
 
-export default BrandSlice.reducer;
+export default CategoriesSlice.reducer;

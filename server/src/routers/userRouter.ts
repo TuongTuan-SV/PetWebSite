@@ -8,6 +8,7 @@ router.get('/logout', userCTL.logout);
 //Read
 router.get('/refresh_token', userCTL.refreshToken);
 router.get('/info', auth, userCTL.info);
+router.get('/alluser', userCTL.adminGetAllUser);
 router.get('/history', auth, userCTL.gethistory);
 router.post('/lostpassword', userCTL.checkUser);
 router.post('/changepassword', userCTL.changePassword);

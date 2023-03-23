@@ -1,5 +1,5 @@
 import React from 'react';
-import CreateProduct from '../components/createProduct/CreateProduct';
+import CreateProduct from '../components/dashboard/createProduct/CreateProduct';
 import Upload from '../components/upload/Upload';
 
 export default function CreataProduct() {

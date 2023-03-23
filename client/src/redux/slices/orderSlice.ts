@@ -15,6 +15,7 @@ export interface INewOrder {
 export interface IOrder {
   order: INewOrder;
   loading: boolean;
+  Orders: Array<object>;
   OrderStatus: boolean;
   msg: string;
 }
@@ -32,10 +33,12 @@ const OrderinitialState: INewOrder = {
 
 const initialState: IOrder = {
   order: OrderinitialState,
+  Orders: [],
   loading: false,
   msg: '',
   OrderStatus: false,
 };
+//CREATE ORDER
 export const CreateOrder = createAsyncThunk(
   'Order/CreateOrder',
   async (data, thunkAPI) => {
@@ -65,6 +68,28 @@ export const CreateOrder = createAsyncThunk(
   }
 );
 
+//GET ALL ORDER
+export const getAllOrder = createAsyncThunk(
+  'Order/getAllOrder',
+  async (data, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+
+      const response = await axios.get('/api/order');
+      console.log(response.data);
+      return response.data;
+
+      // // Inferred return type: Promise<MyData>
+      // // console.log(response.data);
+    } catch (err: any) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
 export const OrderSlice = createSlice({
   name: 'Order',
   initialState,
@@ -78,6 +103,7 @@ export const OrderSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
+    //CREATE ORDER
     builder.addCase(CreateOrder.pending, (state, action) => {
       state.loading = true;
       state.msg = '';
@@ -87,6 +113,19 @@ export const OrderSlice = createSlice({
       state.msg = action.payload.msg;
     });
     builder.addCase(CreateOrder.rejected, (state, action: any) => {
+      state.loading = false;
+      state.msg = action.payload.msg;
+    });
+    //GET ORDER
+    builder.addCase(getAllOrder.pending, (state, action) => {
+      state.loading = true;
+      state.msg = '';
+    });
+    builder.addCase(getAllOrder.fulfilled, (state, action) => {
+      state.loading = false;
+      state.Orders = action.payload;
+    });
+    builder.addCase(getAllOrder.rejected, (state, action: any) => {
       state.loading = false;
       state.msg = action.payload.msg;
     });

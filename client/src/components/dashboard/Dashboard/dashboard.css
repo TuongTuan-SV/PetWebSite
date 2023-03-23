@@ -1,0 +1,16 @@
+.admin_dashboard {
+  padding: 20px 0;
+}
+.Header_Dashboard {
+  width: 80vw;
+}
+.Header_Dashboard div {
+  border: 1px solid #5555;
+  border-radius: 20px;
+}
+.CardHolder {
+  width: 100%;
+  margin: 10px 0 10px;
+  justify-content: space-around;
+  display: flex;
+}

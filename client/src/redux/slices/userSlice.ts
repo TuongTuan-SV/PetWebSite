@@ -4,6 +4,7 @@ import axios, { AxiosError } from 'axios';
 export interface IUser {
   token: string;
   User: Object;
+  AdminUser: Object;
   login: boolean;
   history: Array<Object>;
   role: Number;
@@ -13,6 +14,7 @@ export interface IUser {
 const initialState: any = {
   token: '',
   User: {},
+  AdminUser: {},
   login: false,
   history: [],
   role: 0,
@@ -81,7 +83,25 @@ export const getuser = createAsyncThunk(
     }
   }
 );
+//GET ALL USERS
+export const getalluser = createAsyncThunk(
+  'User/getalluser',
+  async (token, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+      const res = await axios.get(`/user/alluser`);
+      // console.log(res.data);
+      // setIsLogged(true);
+      // res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
 
+      // setCart(res.data.cart);
+      // console.log(res.data);
+      return res.data;
+    } catch (error: any) {
+      return thunkAPI.rejectWithValue(error.message);
+    }
+  }
+);
 // GET ORDER HISTORY
 export const getHistory = createAsyncThunk(
   'User/getHistory',
@@ -213,6 +233,19 @@ export const userSlice = createSlice({
         // state.cart = action.payload.cart;
       })
       .addCase(getuser.rejected, (state, action) => {
+        state.loading = false;
+      });
+    //GET ALL USER
+    builder
+      .addCase(getalluser.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(getalluser.fulfilled, (state, action) => {
+        state.loading = false;
+        state.AdminUser = action.payload;
+        // state.cart = action.payload.cart;
+      })
+      .addCase(getalluser.rejected, (state, action) => {
         state.loading = false;
       });
     //GET HISTORY

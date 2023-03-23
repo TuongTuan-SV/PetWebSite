@@ -1,6 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import { API_URL } from '../../api/config';
 export interface IBrand {
   Brands: Array<object>;
   SelectBrand: null | string;
@@ -37,7 +36,7 @@ export const createBrand = createAsyncThunk(
   'Brand/postBrand',
   async (data: any, thunkAPI) => {
     try {
-      const response = await axios.post(`/api/brands`, data);
+      const response = await axios.post(`/api/brands`, { Name: data });
       // Inferred return type: Promise<MyData>
       return response.data;
     } catch (error: any) {

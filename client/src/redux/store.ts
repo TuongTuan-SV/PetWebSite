@@ -5,6 +5,7 @@ import brandSlice from './slices/brandSlice';
 import categorySilce from './slices/categorySilce';
 import uploadSilce from './slices/uploadSilce';
 import orderSlice from './slices/orderSlice';
+import carouselSlice from './slices/carouselSlice';
 export const store = configureStore({
   reducer: {
     User: userSlice,
@@ -13,6 +14,7 @@ export const store = configureStore({
     Categories: categorySilce,
     Upload: uploadSilce,
     Order: orderSlice,
+    Carousel: carouselSlice,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

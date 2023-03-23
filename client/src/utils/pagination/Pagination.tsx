@@ -1,6 +1,6 @@
 //src/Pagination.js
 import React, { useState, useEffect } from 'react';
-
+import './pagination.css';
 function Pagination(pages: any = 7) {
   //Set number of pages
   const numberOfPages: any = [];

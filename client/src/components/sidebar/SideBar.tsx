@@ -1,6 +1,12 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks';
-import { setSearch } from '../../redux/slices/productSlice';
+import {
+  getProducts,
+  setSearch,
+  setBrand,
+  setCategory,
+  setPrice,
+} from '../../redux/slices/productSlice';
 import './SideBar.css';
 
 export default function SideBar() {
@@ -8,7 +14,7 @@ export default function SideBar() {
   const { products, search } = useAppSelector((state) => state.Products);
   const { Brands } = useAppSelector((state) => state.Brands);
   const { Categories } = useAppSelector((state) => state.Categories);
-  const [price, setPrice] = useState<any>(0);
+  // const [price, setPrice] = useState<any>(0);
 
   //   const [level, setLevel] = state.productAPI.level;
   const [sidebar, setSideBar] = useState(false);
@@ -16,9 +22,10 @@ export default function SideBar() {
   const handleChangeInput = (e: any) => {
     const { name, value } = e.target;
     dispatch(setSearch({ ...search, [name]: value }));
+    dispatch(getProducts());
   };
   // const [max, setMax] = useState(0);
-  let max = 100;
+  let max = 1000;
 
   //   const HandleDiff = (e) => {
   //     if (level.includes(e.target.value)) {
@@ -29,26 +36,16 @@ export default function SideBar() {
   //       // console.log(diffFilter);
   //     }
   //   };
-  //   const HandleCategory = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //     if (Categories.includes(e.target.value)) {
-  //       setCategory((current) =>
-  //         current.filter((category) => category !== e.target.value)
-  //       );
-  //     } else {
-  //       setCategory((current) => [...current, e.target.value]);
-  //     }
-  //   };
-  // const HandleBrand = (e) => {
-  //   if (brand.includes(e.target.value)) {
-  //     setBrand((current) =>
-  //       current.filter((brand) => brand !== e.target.value)
-  //     );
-  //   } else {
-  //     setBrand((current) => [...current, e.target.value]);
-  //   }
-  // };
+  const HandleCategory = (e: any) => {
+    dispatch(setCategory(e.target.value));
+    dispatch(getProducts());
+  };
+  const HandleBrand = (e: any) => {
+    dispatch(setBrand(e.target.value));
+    dispatch(getProducts());
+  };
   const getBackgroundSize = () => {
-    return { backgroundSize: `${(price * 100) / max}% 100% ` };
+    return { backgroundSize: `${(search.price * 100) / max}% 100% ` };
   };
   const styleSideBar = {
     left: sidebar ? 0 : '-100%',
@@ -57,35 +54,22 @@ export default function SideBar() {
     <div className="Product_Page_SideBar">
       <h2>Products ({products.length})</h2>
       <div className="row">
-        <h4>Level</h4>
-        {[...Array(6)].map((e, i) => (
-          <label className="form-control CheckBox" key={i}>
-            <input
-              type="checkbox"
-              value={'level=' + (i + 5)}
-              //   onChange={HandleDiff}
-            ></input>
-            Level ({i + 5})
-          </label>
-        ))}
-      </div>
-      <div className="line"></div>
-      <div className="row">
         <h4>Price</h4>
         <div className="PriceSlider">
           <p>0</p>
           <input
             className="PriceRange"
+            name="price"
             type="range"
             min="0"
             max={max}
             step={10}
-            onChange={(e) => setPrice(e.target.value)}
+            onChange={handleChangeInput}
             // ${getBackgroundSize()} `
             style={getBackgroundSize()}
-            value={price}
+            value={search.price}
           ></input>
-          <span id="PriceFilterValue">{price}</span>
+          <span id="PriceFilterValue">{search.price}</span>
         </div>
       </div>
 
@@ -113,8 +97,8 @@ export default function SideBar() {
             <input
               name="brand"
               type="checkbox"
-              value={brand.Name}
-              onChange={handleChangeInput}
+              value={'Brand=' + brand.Name}
+              onChange={HandleBrand}
             ></input>
             {brand.Name}
           </label>

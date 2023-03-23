@@ -9,6 +9,7 @@ class APIfeatures {
     this.queryString = queryString;
   }
   filtering() {
+    console.log(this.queryString);
     const queryObj = { ...this.queryString }; // queryString = req.query
     // console.log(queryObj)
 
@@ -28,9 +29,9 @@ class APIfeatures {
       /\b(gte|gt|lt|lte|regex)\b/g,
       (match) => '$' + match
     );
-
+    // querySTR = querySTR.replace(/['"]+/g, '');
+    // console.log(querySTR);
     this.query.find(JSON.parse(querySTR));
-    // console.log({queryObj, querySTR})
 
     return this;
   }
@@ -90,6 +91,7 @@ const ProductController = {
       console.log(req.body);
       const newProduct = new Product({
         Name: req.body.Name,
+        Name_Lower: req.body.Name,
         Description: req.body.Description,
         Short_Description: req.body.Short_Description,
         Price: req.body.Price,
@@ -140,6 +142,7 @@ const ProductController = {
 
       // ***Kiểm tra hình ảnh có tồn tại không
       product.Name = req.body.Name;
+      product.Name_Lower = req.body.Name;
       product.Description = req.body.Description;
       product.Category = req.body.Category;
       product.Brand = req.body.Brand;
