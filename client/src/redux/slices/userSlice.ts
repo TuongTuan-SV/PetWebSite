@@ -5,20 +5,53 @@ export interface IUser {
   token: string;
   User: Object;
   AdminUser: Object;
+  NewUser: INewUser;
+  EditUser: INewUser;
   login: boolean;
   history: Array<Object>;
   role: Number;
   createAccount: boolean;
+  search: ISearch;
 }
-
+export interface ISearch {
+  search: string;
+  role: string;
+  sort: string;
+}
+export interface INewUser {
+  FirstName: string;
+  LastName?: string;
+  email: string;
+  avatar?: string;
+  password: string;
+  role: string;
+  cart?: Array<[object]>;
+}
+const UserinitialState: any = {
+  FirstName: '',
+  LastName: '',
+  email: '',
+  avatar: '',
+  password: '',
+  role: '',
+  cart: [],
+};
+const SearchinitialState: any = {
+  search: '',
+  role: '',
+  sort: '',
+};
 const initialState: any = {
   token: '',
   User: {},
   AdminUser: {},
+  NewUser: UserinitialState,
+  EditUser: UserinitialState,
   login: false,
   history: [],
   role: 0,
   createAccount: false,
+  search: SearchinitialState,
 };
 //ACTION
 
@@ -68,6 +101,7 @@ export const getuser = createAsyncThunk(
   async (token, thunkAPI) => {
     try {
       const state: any = thunkAPI.getState();
+
       const res = await axios.get(`/user/info`, {
         headers: { Authorization: state.User.token },
       });
@@ -89,7 +123,10 @@ export const getalluser = createAsyncThunk(
   async (token, thunkAPI) => {
     try {
       const state: any = thunkAPI.getState();
-      const res = await axios.get(`/user/alluser`);
+      const search = state.User.search;
+      const res = await axios.get(
+        `/user/alluser?limit=9&role[regex]=${search.role}&${search.sort}&FirstName[regex]=${search.search}`
+      );
       // console.log(res.data);
       // setIsLogged(true);
       // res.data.role === 1 ? setIsAdmin(true) : setIsAdmin(false);
@@ -127,6 +164,7 @@ export const userSlice = createSlice({
   name: 'User',
   initialState,
   reducers: {
+    //=============================CLIENT USER=====================================
     setLogin: (state) => {
       state.login = true;
     },
@@ -154,6 +192,14 @@ export const userSlice = createSlice({
       state.token = '';
       console.log(state.User);
     },
+    //=============================ADMIN USER=====================================
+    setUser: (state, action) => {
+      state.NewUser = action.payload;
+    },
+    setEditUser: (state, action) => {
+      state.EditUser = action.payload;
+    },
+    //=============================CART=====================================
     decrement: (state, action) => {
       const product = state.User.cart.find((item: any) => {
         if (item._id === action.payload)
@@ -196,6 +242,17 @@ export const userSlice = createSlice({
         if (item._id != action.payload) return item;
       });
       // console.log(product);
+    },
+
+    //============================Admin User======================================
+    setsearch: (state, action) => {
+      state.search.search = action.payload;
+    },
+    setsort: (state, action) => {
+      state.search.sort = action.payload;
+    },
+    setrole: (state, action) => {
+      state.search.role = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -242,7 +299,7 @@ export const userSlice = createSlice({
       })
       .addCase(getalluser.fulfilled, (state, action) => {
         state.loading = false;
-        state.AdminUser = action.payload;
+        state.AdminUser = action.payload.users;
         // state.cart = action.payload.cart;
       })
       .addCase(getalluser.rejected, (state, action) => {
@@ -272,6 +329,11 @@ export const {
   setCart,
   setCreateAccount,
   clearCart,
+  setsearch,
+  setsort,
+  setrole,
+  setUser,
+  setEditUser,
 } = userSlice.actions;
 
 export default userSlice.reducer;

@@ -67,7 +67,7 @@ export default function CheckOut() {
 
         <form onSubmit={handleCreateOrder}>
           <div className="Name-box">
-            <div className="inputContainer FirstName-input">
+            <div className="checkout-file inputContainer FirstName-input">
               <label>First Name</label>
               <input
                 type="text"
@@ -77,7 +77,7 @@ export default function CheckOut() {
                 onChange={handleChangeInput}
               ></input>
             </div>
-            <div className="inputContainer LastName-input">
+            <div className="checkout-file inputContainer LastName-input">
               <label>Last Name</label>
               <input
                 type="text"
@@ -88,7 +88,7 @@ export default function CheckOut() {
               ></input>
             </div>
           </div>
-          <div className="inputContainer Country">
+          <div className="checkout-file inputContainer Country">
             <label>Country</label>
             <input
               type="text"
@@ -98,7 +98,7 @@ export default function CheckOut() {
               onChange={handleChangeInput}
             ></input>
           </div>
-          <div className="inputContainer PostalCode">
+          <div className="checkout-file inputContainer PostalCode">
             <label>Postal Code</label>
             <input
               type="number"
@@ -108,7 +108,7 @@ export default function CheckOut() {
               onChange={handleChangeInput}
             ></input>
           </div>
-          <div className="inputContainer City">
+          <div className="checkout-file inputContainer City">
             <label>City</label>
             <input
               type="text"
@@ -118,7 +118,7 @@ export default function CheckOut() {
               onChange={handleChangeInput}
             ></input>
           </div>
-          <div className="form-bottom">
+          <div className="checkout-file form-bottom">
             <button className="btn btn-primary ">Place Order</button>
           </div>
         </form>

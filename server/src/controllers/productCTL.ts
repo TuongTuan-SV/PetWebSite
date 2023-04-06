@@ -26,7 +26,7 @@ class APIfeatures {
     // lte = less than or equal
     // lt = less than
     querySTR = querySTR.replace(
-      /\b(gte|gt|lt|lte|regex)\b/g,
+      /\b(gte|gt|lt|lte|regex|all)\b/g,
       (match) => '$' + match
     );
     // querySTR = querySTR.replace(/['"]+/g, '');
@@ -39,7 +39,7 @@ class APIfeatures {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(' ');
 
-      // console.log(sortBy)
+      console.log(sortBy);
 
       this.query = this.query.sort(sortBy);
     } else {
@@ -91,7 +91,7 @@ const ProductController = {
       console.log(req.body);
       const newProduct = new Product({
         Name: req.body.Name,
-        Name_Lower: req.body.Name,
+        Name_Lower: req.body.Name.tolowecase(),
         Description: req.body.Description,
         Short_Description: req.body.Short_Description,
         Price: req.body.Price,
@@ -149,7 +149,7 @@ const ProductController = {
       product.images = req.body.images;
       product.Price = req.body.Price;
       product.Stocks = req.body.Socks;
-
+      product.reviews = req.body.reviews;
       await product.save();
       res.status(200).json('Product Updated');
     } catch (err) {

@@ -9,6 +9,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined';
 import ProductTabs from '../components/productTabs/ProductTabs';
 import { increment, setCart, updateCart } from '../redux/slices/userSlice';
 import { Rating } from '@mui/material';
+import CategorySelect from '../components/dashboard/createProduct/brandSelect/CategorySelect';
 type product = {
   _id: string;
   Name: string;
@@ -113,8 +114,13 @@ export default function DetailProduct() {
           {/*============ Category ======================== */}
           {detailProduct.Category !== ' ' ? (
             <div className="detail-category">
-              <p>Categories :</p>
-              <p>{detailProduct.Category}</p>
+              <span>
+                Categories :{' '}
+                {detailProduct.Category.map((item: any) => {
+                  console.log(item);
+                  return <Link to="#">{item}</Link>;
+                }).reduce((prev: any, curr: any) => [prev, ', ', curr])}
+              </span>
             </div>
           ) : null}
 

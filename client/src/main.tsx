@@ -26,7 +26,12 @@ import OrderDetail from './components/dashboard/order/Orderdetail';
 import Category from './components/dashboard/category/Category';
 import Brand from './components/dashboard/brand/brand';
 import CarouselSceen from './sceens/CarouselSceen';
-import CreateCarousel from './components/dashboard/carousel/CreateCarousel';
+import CreateCarousel from './components/dashboard/carousel/createCarousel/CreateCarousel';
+import EditCarousel from './components/dashboard/carousel/editCarousel/EditCarousel';
+import EditProduct from './components/dashboard/editProduct/EditProduct';
+import Adminuser from './components/dashboard/user/AdminUser';
+import CreateUser from './components/dashboard/user/createUser/CreateUser';
+import UpdateUser from './components/dashboard/user/updateUser/UpdateUser';
 
 const router = createBrowserRouter([
   {
@@ -82,12 +87,28 @@ const router = createBrowserRouter([
         children: [
           { index: true, element: <Dashboard /> },
           {
+            path: 'user',
+            element: <Adminuser />,
+          },
+          {
+            path: 'user/createuser',
+            element: <CreateUser />,
+          },
+          {
+            path: 'user/updateuser/:id',
+            element: <UpdateUser />,
+          },
+          {
             path: 'product',
             element: <AdminProduct />,
           },
           {
             path: 'product/createproduct',
             element: <CreataProduct />,
+          },
+          {
+            path: 'product/editproduct/:id',
+            element: <EditProduct />,
           },
           {
             path: 'order',
@@ -109,9 +130,14 @@ const router = createBrowserRouter([
             path: 'carousel',
             element: <CarouselSceen />,
           },
+
           {
             path: 'carousel/createcarousel',
             element: <CreateCarousel />,
+          },
+          {
+            path: 'carousel/editcarousel/:id',
+            element: <EditCarousel />,
           },
         ],
       },

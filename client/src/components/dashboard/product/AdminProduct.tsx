@@ -4,8 +4,12 @@ import { BiEdit, BiTrash } from 'react-icons/bi';
 import axios from 'axios';
 import Filter from '../filter/Filter';
 import Pagination from '../../../utils/pagination/Pagination';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import './product.css';
+import {
+  getAdminProducts,
+  getProducts,
+} from '../../../redux/slices/productSlice';
 // import axios from 'axios'
 
 // const initialState = {
@@ -21,6 +25,7 @@ import './product.css';
 //     }
 
 export default function AdminProduct() {
+  const dispatch = useAppDispatch();
   // const state = useContext(GlobalState);
   // const [products, setProducts] = state.productAPI.products;
 
@@ -39,7 +44,7 @@ export default function AdminProduct() {
   const howManyPages = Math.ceil(adminproduct.length / productsPerPage);
   // const [loading, setloading]
 
-  // console.log(products)
+  console.log(adminproduct);
   const CheckAll = () => {
     adminproduct.forEach(async (product: any) => {
       if (CheckedProducts.includes(product)) {
@@ -79,13 +84,17 @@ export default function AdminProduct() {
   const deleteProduct = async (product: any) => {
     try {
       console.log(product._id);
-      const destroyImg = axios.post('/api/destroy', {
-        public_id: product.image.public_id,
+      const destroyImg = product.images.map((img: any) => {
+        axios.post('/api/destroy', {
+          public_id: img.public_id,
+        });
       });
       const deleteProduct = axios.delete(`/api/products/${product._id}`);
 
       await destroyImg;
       await deleteProduct;
+      dispatch(getProducts());
+      dispatch(getAdminProducts());
       // setCallback(!callback);
     } catch (err: any) {
       alert(err.reponse.data.msg);
@@ -133,10 +142,9 @@ export default function AdminProduct() {
             <th>Title</th>
             {/* <th>Description</th> */}
             <th>Brand</th>
-            <th>Category</th>
-            <th>Difficulty</th>
             <th>Sold</th>
             <th>Price</th>
+            <td>Create At</td>
             <th></th>
           </tr>
         </thead>
@@ -151,30 +159,27 @@ export default function AdminProduct() {
                 ></input>
               </td>
               <td>
-                <img src={item.images[0].url} alt=" " />
+                <img src={item.images[0]?.url} alt=" " />
               </td>
-              <td>{item.product_id}</td>
-              <td>{item.title}</td>
+              <td>{item._id}</td>
+              <td>{item.Name}</td>
               {/* <td style={{maxWidth : '70px', maxHeight : '100px', overflow : 'scroll',whiteSpace : 'nowrap'}}>{item.description}</td> */}
-              <td>{item.brand}</td>
-              <td>{item.category}</td>
-              <td>{item.level}</td>
-              <td>{item.sold}</td>
+              <td>{item.Brand}</td>
+              <td>{item.Sold}</td>
               <td>
                 {item.Price.toLocaleString('en-US', {
                   style: 'currency',
                   currency: 'USD',
                 })}
               </td>
+              <td>{new Date(item.createdAt).toLocaleDateString()}</td>
               <td>
                 <Link to={`/dashboard/product/editproduct/${item._id}`}>
                   <BiEdit size="20px" color="green" />
                 </Link>
                 <button
                   onClick={() =>
-                    window.confirm('Delete')
-                      ? deleteProduct(item)
-                      : alert('notdeleted')
+                    window.confirm('Delete') ? deleteProduct(item) : null
                   }
                 >
                   <BiTrash size="20px" color="red" />

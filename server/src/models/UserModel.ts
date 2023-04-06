@@ -6,7 +6,7 @@ export interface IUser {
   email: string;
   avatar?: string;
   password: string;
-  role: number;
+  role: string;
   cart?: Array<[object]>;
 }
 
@@ -41,8 +41,8 @@ const UserSchema = new Schema<IUser>(
       min: 6,
     },
     role: {
-      type: Number,
-      default: 0,
+      type: String,
+      default: '0',
     },
     cart: {
       type: Array,

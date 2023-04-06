@@ -4,7 +4,65 @@ import User from '../models/UserModel';
 import Order from '../models/OrderModel';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+class APIfeatures {
+  query: any;
+  queryString: any;
+  constructor(query: any, queryString: any) {
+    this.query = query;
+    this.queryString = queryString;
+  }
+  filtering() {
+    console.log(this.queryString);
+    const queryObj = { ...this.queryString }; // queryString = req.query
+    // console.log(queryObj)
 
+    const exculedFields = ['page', 'sort', 'limit'];
+
+    exculedFields.forEach((el) => delete queryObj[el]);
+
+    // console.log({after : queryObj})
+
+    let querySTR = JSON.stringify(queryObj);
+
+    // gte = greater than or equal
+    // gt = greater than
+    // lte = less than or equal
+    // lt = less than
+    querySTR = querySTR.replace(
+      /\b(gte|gt|lt|lte|regex|all)\b/g,
+      (match) => '$' + match
+    );
+    // querySTR = querySTR.replace(/['"]+/g, '');
+    // console.log(querySTR);
+    this.query.find(JSON.parse(querySTR));
+
+    return this;
+  }
+  sortting() {
+    if (this.queryString.sort) {
+      const sortBy = this.queryString.sort.split(',').join(' ');
+
+      console.log(sortBy);
+
+      this.query = this.query.sort(sortBy);
+    } else {
+      this.query = this.query.sort('-createdAt');
+    }
+
+    return this;
+  }
+  // paginating() {
+  //   const page = this.queryString.page * 1 || 1;
+
+  //   // limit how many result show
+  //   const limit = this.queryString.limit * 1 || 9;
+  //   const skip = (page - 1) * limit;
+
+  //   this.query = this.query.skip(skip).limit(limit);
+
+  //   return this;
+  // }
+}
 const UserController = {
   //Đăng nhập
   login: async (req: any, res: Response) => {
@@ -191,9 +249,18 @@ const UserController = {
   },
   adminGetAllUser: async (req: any, res: any) => {
     try {
-      const user = await User.find();
+      const features = new APIfeatures(User.find(), req.query)
+        .filtering()
+        .sortting();
 
-      return res.json(user);
+      const user = await features.query;
+      // const find = Product.find({Category:});
+      // console.log(req.query);
+      res.json({
+        status: 'success',
+        result: user.length,
+        users: user,
+      });
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error

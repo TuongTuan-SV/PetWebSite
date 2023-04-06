@@ -1,71 +1,81 @@
-import React, { useContext, useState } from 'react';
-import axios from 'axios';
+import React, { useContext, useEffect, useState } from 'react';
+import par from 'axios';
 import Loading from '../../../utils/loading/Loading';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
   createProduct,
+  editProduct,
   getAdminProducts,
   getProducts,
   setDiscount,
+  setEditproduct,
   setNewCategory,
   setNewProduct,
 } from '../../../redux/slices/productSlice';
 import Upload from '../../upload/Upload';
-import './createproduct.css';
-import CategorySelect from './brandSelect/CategorySelect';
-import { UploadImg, clearimg } from '../../../redux/slices/uploadSilce';
 
-const initialState = {
-  Name: '',
-  Description: '',
-  Short_Description: '',
-  Price: 0,
-  Stocks: 0,
-  Brand: '',
-  Category: [],
-  images: [],
-  reviews: [],
-  Discount: 0,
-};
+import CategorySelect from './editBrandSelect/CategorySelect';
+import { useParams } from 'react-router-dom';
+import EditUpload from '../../upload/Editupload';
+import {
+  DeleteImg,
+  EditDeleteImg,
+  EditUploadImg,
+  UploadImg,
+  clearEditimg,
+} from '../../../redux/slices/uploadSilce';
 
-export default function CreateProduct() {
+export default function EditProduct() {
   const { Newproduct } = useAppSelector((state) => state.Products);
-  const [loading, setLoading] = useState(false);
+  const { products, Editproduct } = useAppSelector((state) => state.Products);
   const { Brands } = useAppSelector((state) => state.Brands);
-  const { Categories } = useAppSelector((state) => state.Categories);
-  const { images } = useAppSelector((state) => state.Upload);
+  const { editImgs, tmp } = useAppSelector((state) => state.Upload);
+  const parmas = useParams();
   const dispatch = useAppDispatch();
   // const history = useNavigate()
-  // console.log(Newproduct);
+  // console.log(product);
+
+  useEffect(() => {
+    if (parmas.id) {
+      products.forEach((product: any) => {
+        if (product._id === parmas.id) dispatch(setEditproduct(product));
+      });
+    }
+  }, [parmas.id, products]);
 
   const handleCreateProduct = async (e: any) => {
     e.preventDefault();
-
-    const uploadImg = images.map(async (img: any) => {
-      await dispatch(UploadImg(img));
-      console.log(img);
-      return img;
+    const deletetmp = tmp.map(async (img: any) => {
+      await dispatch(EditDeleteImg(img.public_id));
+    });
+    const uploadNewimg = editImgs.map(async (img: any) => {
+      if (typeof img.public_id === 'object') {
+        console.log('addimg');
+        await dispatch(EditUploadImg(img.public_id));
+      }
     });
 
-    Promise.all(uploadImg).then(() => {
-      dispatch(createProduct(Newproduct))
-        .then(() => {
-          dispatch(getProducts());
-          dispatch(getAdminProducts());
-        })
-        .then(() => {
-          dispatch(setNewProduct(initialState));
-          dispatch(clearimg());
-          alert('Product Created!');
-        });
+    Promise.all(uploadNewimg).then(() => {
+      dispatch(createProduct(Newproduct)).then(() => {
+        dispatch(editProduct(Editproduct))
+          .then(() => {
+            dispatch(getProducts());
+            dispatch(getAdminProducts());
+          })
+          .then(() => {
+            alert('Product Updated!');
+          });
+      });
     });
+    deletetmp;
   };
 
   const handleChangeInput = (e: any) => {
     const { name, value } = e.target;
     if (name === 'Price' || name === 'Stocks') {
-      if (value >= 0) dispatch(setNewProduct({ ...Newproduct, [name]: value }));
-    } else dispatch(setNewProduct({ ...Newproduct, [name]: value }));
+      if (value >= 0)
+        dispatch(setEditproduct({ ...Editproduct, [name]: value }));
+    } else dispatch(setEditproduct({ ...Editproduct, [name]: value }));
   };
 
   const handleDiscount = (e: any) => {
@@ -87,7 +97,7 @@ export default function CreateProduct() {
             name="Name"
             id="product_id"
             required
-            value={Newproduct.Name}
+            value={Editproduct.Name}
             onChange={handleChangeInput}
           ></input>
         </div>
@@ -99,7 +109,7 @@ export default function CreateProduct() {
               name="Price"
               id="price"
               required
-              value={Newproduct.Price}
+              value={Editproduct.Price}
               onChange={handleChangeInput}
             ></input>
           </div>
@@ -109,8 +119,9 @@ export default function CreateProduct() {
               type="number"
               name="Stocks"
               id="price"
+              max="100"
               required
-              value={Newproduct.Stocks}
+              value={Editproduct.Stocks}
               onChange={handleChangeInput}
             ></input>
           </div>
@@ -122,7 +133,7 @@ export default function CreateProduct() {
               name="Discount"
               id="Discount"
               required
-              value={Newproduct.Discount}
+              value={Editproduct.Discount}
               onChange={handleDiscount}
             ></input>
           </div>
@@ -133,7 +144,7 @@ export default function CreateProduct() {
             name="Description"
             id="description"
             required
-            value={Newproduct.Description}
+            value={Editproduct.Description}
             rows={3}
             onChange={handleChangeInput}
           ></textarea>
@@ -144,7 +155,7 @@ export default function CreateProduct() {
             name="Short_Description"
             id="Short_Description"
             required
-            value={Newproduct.Short_Description}
+            value={Editproduct.Short_Description}
             rows={2}
             onChange={handleChangeInput}
           ></textarea>
@@ -153,7 +164,7 @@ export default function CreateProduct() {
           <label htmlFor="Brand">Brand</label>
           <select
             name="Brand"
-            value={Newproduct.Brand}
+            value={Editproduct.Brand}
             className="Select"
             onChange={handleChangeInput}
           >
@@ -169,7 +180,7 @@ export default function CreateProduct() {
           <label htmlFor="Category">Category</label>
           {/* <select
             name="Category"
-            value={Newproduct.Category}
+            value={product.Category}
             onChange={handleChangeInput}
             
             className="Select"
@@ -185,11 +196,11 @@ export default function CreateProduct() {
         </div>
 
         <button type="submit" style={{ marginTop: '10px' }}>
-          Create
+          Upadate
         </button>
       </form>
       <div className="upload">
-        <Upload />
+        <EditUpload />
       </div>
     </div>
   );

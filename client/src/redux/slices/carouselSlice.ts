@@ -2,14 +2,36 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
 export interface ICarousel {
-  image: Array<object>;
+  NewCarousel: INewCarousel;
+  EditCarousel: INewCarousel;
+  carousels: Array<object>;
+  title: string;
+  content: string;
+  special: string;
   loading: boolean;
   err: string;
   msg: string;
 }
+export interface INewCarousel {
+  title: string;
+  content: string;
+  special: string;
+  image: Array<object>;
+}
 
-const initialState: ICarousel = {
+const CarouselinitialState: INewCarousel = {
+  title: '',
+  content: '',
+  special: '',
   image: [],
+};
+const initialState: ICarousel = {
+  NewCarousel: CarouselinitialState,
+  EditCarousel: CarouselinitialState,
+  carousels: [],
+  title: '',
+  content: '',
+  special: '',
   loading: false,
   err: '',
   msg: '',
@@ -23,7 +45,7 @@ export const getCarousel = createAsyncThunk(
     try {
       const response = await axios.get(`/api/carousel`);
       // Inferred return type: Promise<MyData>
-      console.log(response.data.carousel.image);
+      // console.log(response.data.carousel.image);
       // console.log(response.data.brands);
       return response.data.carousel;
     } catch (err: any) {
@@ -40,7 +62,11 @@ export const createCarousel = createAsyncThunk(
   'Carousel/createCarousel',
   async (data: any, thunkAPI) => {
     try {
-      const response = await axios.post(`/api/carousel`, { image: data });
+      const state: any = thunkAPI.getState();
+      const response = await axios.post(`/api/carousel`, {
+        ...data,
+        image: state.Upload.carouselImg,
+      });
       // Inferred return type: Promise<MyData>
       return response.data;
     } catch (error: any) {
@@ -48,17 +74,40 @@ export const createCarousel = createAsyncThunk(
     }
   }
 );
+//UPDATE CAROUSEL
+export const editCarousel = createAsyncThunk(
+  'Product/editCarousel',
+  async (data: any, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+      const images = state.Upload.editcarousel;
+      console.log(data, images);
+      const response = await axios.put(`/api/carousel/${data._id}`, {
+        ...data,
+        images,
+      });
+      // Inferred return type: Promise<MyData>
+      // console.log(API_URL);
+      console.log(response.data);
+      return response.data;
+    } catch (err: any) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
 export const CarouselSlice = createSlice({
   name: 'Carousel',
   initialState,
   reducers: {
-    //Add brand to state
-    addBrands: (state, action) => {
-      state.image = action.payload.images;
+    setNewCarousel: (state, action) => {
+      state.NewCarousel = action.payload;
     },
-    //Add seleted brand to state
-    setCarousel: (state, action) => {
-      state.image = action.payload.brand;
+    setEditCarousel: (state, action) => {
+      state.EditCarousel = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -69,7 +118,7 @@ export const CarouselSlice = createSlice({
       })
       .addCase(getCarousel.fulfilled, (state, action) => {
         state.loading = false;
-        state.image = action.payload;
+        state.carousels = action.payload;
       })
       .addCase(getCarousel.rejected, (state, action) => {
         state.loading = false;
@@ -85,10 +134,11 @@ export const CarouselSlice = createSlice({
       })
       .addCase(createCarousel.rejected, (state, action) => {
         state.loading = false;
+        alert(action.payload);
       });
   },
 });
 
-export const { addBrands, setCarousel } = CarouselSlice.actions;
+export const { setNewCarousel, setEditCarousel } = CarouselSlice.actions;
 
 export default CarouselSlice.reducer;

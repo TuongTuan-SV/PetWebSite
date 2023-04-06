@@ -1,5 +1,5 @@
 import { width } from '@mui/system';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import axios, { AxiosError } from 'axios';
 import { API_URL } from '../../api/config';
@@ -7,9 +7,12 @@ import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   UploadImg,
   DeleteImg,
-  setImg,
-  deleteimg,
+  settmp,
+  setUploadEditImg,
+  addImg,
+  clearEditimg,
 } from '../../redux/slices/uploadSilce';
+import { setEditImg } from '../../redux/slices/productSlice';
 // type image = {
 //   public_id: String;
 //   url: String;
@@ -18,36 +21,41 @@ import {
 //   public_id: '',
 //   url: '',
 // };
-export default function Upload() {
+export default function EditUpload() {
   // const [image, setImage] = useState<image>(initialState);
   // const [images, setImages] = useState<image[]>([]);
-  const { images } = useAppSelector((state) => state.Upload);
-  const { Newproduct } = useAppSelector((state) => state.Products);
-  // images.map((image: any) => {
-  //   console.log(image?.public_id);
-  // });
+  const { editImgs } = useAppSelector((state) => state.Upload);
+  const { Editproduct } = useAppSelector((state) => state.Products);
+  const [img, setimg] = useState<any>([]);
 
-  // controll img drap drop boss true if there is image
-  // const [toggleUpload, setToggleUpload] = useState(false);
-  const [toggleUploadMulti, setToggleUploadMulti] = useState(false);
+  useEffect(() => {
+    dispatch(setUploadEditImg(Editproduct.images));
+  }, [Editproduct]);
 
   const fileTypes = ['JPEG', 'PNG', 'GIF', 'JPG'];
   const dispatch = useAppDispatch();
 
   const handleDestroyMulti = async (img: String) => {
-    dispatch(deleteimg(img));
+    dispatch(settmp(img));
+    // dispatch(setEditImg(img));
   };
+  var reader = new FileReader();
 
   //upload Multi image to cloudinary
   const handleChangeMulti = async (file: any) => {
-    dispatch(setImg(file));
+    Editproduct.Brand !== ''
+      ? Editproduct.Name !== ''
+        ? dispatch(addImg(file))
+        : alert('Enter Product Name First')
+      : alert('Please select Brand First');
+    //
   };
   return (
     <div>
       {/* Nhập nhiều hình */}
       <div className="MultiUpload">
         <FileUploader
-          disabled={images.length > 2 ? true : false}
+          disabled={editImgs?.length > 2 ? true : false}
           handleChange={handleChangeMulti}
           name="file"
           types={fileTypes}
@@ -58,16 +66,20 @@ export default function Upload() {
           className="ImgContainer"
           style={{ display: 'flex', flexDirection: 'column' }}
         >
-          {images.map((image: any, index) => (
-            <div
-              style={{ position: 'relative', width: '25vw', height: '17vh' }}
-            >
-              <div key={index} id="file_img">
-                <span onClick={() => handleDestroyMulti(image)}>X</span>
-                <img key={index} src={image?.url} alt=""></img>
+          {editImgs?.map((image: any, index) => {
+            // console.log(typeof image.public_id);
+            return (
+              <div
+                key={index}
+                style={{ position: 'relative', width: '25vw', height: '17vh' }}
+              >
+                <div id="file_img">
+                  <span onClick={() => handleDestroyMulti(image)}>X</span>
+                  <img key={index} src={image?.url} alt=""></img>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
       {/* <button type="submit" onClick={handleDestroyOne}>

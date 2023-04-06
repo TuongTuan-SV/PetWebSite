@@ -1,36 +1,46 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import axios, { AxiosError } from 'axios';
 
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
+  CarouseaddImg,
   DeleteCarouselImg,
   UploadCarouselImg,
   deleteCarouselimg,
+  setCarouselEditImg,
   setCarouselImg,
+  setCarousetmp,
 } from '../../redux/slices/uploadSilce';
+import { createCarousel, getCarousel } from '../../redux/slices/carouselSlice';
 import { Link } from 'react-router-dom';
 
-export default function UploadCarousel() {
-  const { carouselImg } = useAppSelector((state) => state.Upload);
-  const { NewCarousel } = useAppSelector((state) => state.Carousel);
+export default function EditCarouselupload() {
+  const { editcarousel } = useAppSelector((state) => state.Upload);
+  const { EditCarousel } = useAppSelector((state) => state.Carousel);
+
+  //Gán hình vào cào biến khi nhấn vào trang
+  useEffect(() => {
+    console.log(EditCarousel.image);
+    dispatch(setCarouselEditImg(EditCarousel.image));
+  }, [EditCarousel]);
 
   const fileTypes = ['JPEG', 'PNG', 'JPG'];
   const dispatch = useAppDispatch();
 
   const handleDestroyMulti = async (img: any) => {
-    dispatch(deleteCarouselimg(img));
+    dispatch(setCarousetmp(img));
   };
 
   const handleChangeMulti = async (file: any) => {
-    dispatch(setCarouselImg(file));
+    dispatch(CarouseaddImg(file));
   };
   return (
     <div>
       {/* Nhập nhiều hình */}
       <div className="MultiUpload">
         <FileUploader
-          disabled={carouselImg.length > 0 ? true : false}
+          disabled={editcarousel?.length > 0 ? true : false}
           handleChange={handleChangeMulti}
           name="file"
           types={fileTypes}
@@ -59,15 +69,15 @@ export default function UploadCarousel() {
               top: '20%',
             }}
           >
-            <span className="special">{NewCarousel.special}</span>
-            <h1 className="title">{NewCarousel.title}</h1>
-            <span className="content">{NewCarousel.content}</span>
+            <span className="special">{EditCarousel.special}</span>
+            <h1 className="title">{EditCarousel.title}</h1>
+            <span className="content">{EditCarousel.content}</span>
             <button className="toShop">
               <Link to="shop">Shop Now</Link>
             </button>
           </div>
           <div style={{ margin: 'auto', width: '60%' }}>
-            {carouselImg?.map((image: any, index) => (
+            {editcarousel?.map((image: any, index: any) => (
               <div key={index} id="file_img">
                 <span onClick={() => handleDestroyMulti(image)}>X</span>
                 <img key={index} src={image?.url} alt=""></img>

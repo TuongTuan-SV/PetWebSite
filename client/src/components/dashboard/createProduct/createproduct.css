@@ -39,17 +39,17 @@
 }
 
 #file_img {
-  width: 25vw;
-  height: 23vh;
+  width: 100%;
+  height: 100%;
   /* height: 100%; */
-  position: absolute;
-  background: white;
 }
 
 #file_img img {
   width: 100%;
   height: 100%;
   display: block;
+  position: absolute;
+  left: 0;
 }
 
 #file_img span {
@@ -63,6 +63,7 @@
   cursor: pointer;
   font-weight: 900;
   color: crimson;
+  z-index: 10;
 }
 
 .create_product form {
@@ -97,29 +98,41 @@ textarea {
 .Category,
 .brand,
 .level {
-  width: 300px !important;
   display: flex;
   justify-content: space-between;
 }
-.Select {
-  width: 200px;
+/* .Category {
+  height: 100px;
+} */
+.basic-multi-select {
+  height: 20px;
+  text-align: center;
+  margin-top: 0px !important;
 }
+/* .Select {
+  width: 200px;
+} */
 .upload {
   display: flex;
   flex-direction: column;
   margin-top: 20px;
 }
+.MultiUpload {
+  padding-top: 20px;
+}
 .ImgContainer {
-  width: 30vw;
+  width: 100%;
+  /* padding: 30px; */
+  border-color: #bbb8b8;
+  border-style: dashed;
   height: 60vh;
-  padding: 30px;
-  border: solid;
   margin-top: 20px;
+  position: relative;
 }
 
 .Price-Stock-row {
   display: flex;
-  flex-direction: row;
+  flex-direction: row !important;
   justify-content: space-between;
 }
 

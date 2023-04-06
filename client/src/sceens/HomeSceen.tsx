@@ -10,7 +10,7 @@ type image = {
   link: string;
 };
 export default function Index() {
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
   const [images, setImages] = useState<image[]>([]);
   const { products, Hotproducts, NewCreateProducts } = useAppSelector(
     (state) => state.Products
@@ -23,8 +23,8 @@ export default function Index() {
       setImages((images) => [
         ...images,
         {
-          src: product.images[0].url,
-          link: product.images[0].product_id,
+          src: product.images[0]?.url,
+          link: product.images[0]?.product_id,
         },
       ]);
     });

@@ -2,10 +2,15 @@ import React, { useContext } from 'react';
 import { useEffect } from 'react';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import {
+  getAdminProducts,
+  setAdminBrand,
   setAdminCategory,
   setAdminSearch,
+  setAdminSort,
 } from '../../../redux/slices/productSlice';
 import './filter.css';
+import { Select } from '@mui/material';
+import CategorySelect from './CategorySelect';
 export default function Filter() {
   // const state = useContext(GlobalState);
   // const [categories] = state.categoryAPI.categories;
@@ -21,20 +26,31 @@ export default function Filter() {
   // useEffect(() => {
   //   setCategory("");
   // }, [setCategory]);
-  const handleCategory = (e: any) => {
-    dispatch(setAdminCategory(e.target.value));
-    dispatch(setAdminSearch(''));
+
+  const handleBrand = (e: any) => {
+    dispatch(setAdminBrand(e.target.value));
+
+    dispatch(getAdminProducts());
+  };
+  const handleSort = (e: any) => {
+    dispatch(setAdminSort(e.target.value));
+
+    dispatch(getAdminProducts());
+  };
+  const handleSearch = (e: any) => {
+    dispatch(setAdminSearch(e.target.value.toLowerCase()));
+    dispatch(getAdminProducts());
   };
 
   return (
     <div className="filter_menu">
       <div className="row">
         <span>Filters: </span>
-        <select name="category">
+        <select name="Brand" onChange={handleBrand}>
           <option value="">All Products</option>
-          {Categories.map((category: any) => (
-            <option value={'category=' + category.Name} key={category.Name}>
-              {category.Name}
+          {Brands.map((brand: any) => (
+            <option value={'Brand[all]=' + brand.Name} key={brand.Name}>
+              {brand.Name}
             </option>
           ))}
         </select>
@@ -44,18 +60,32 @@ export default function Filter() {
         type="text"
         value={adminsearch.search}
         placeholder="Enter your search!"
-        onChange={(e) => dispatch(setAdminSearch(e.target.value.toLowerCase()))}
+        onChange={handleSearch}
       />
-
+      <div className="row">
+        <CategorySelect />
+        {/* {Categories.map((category: any) => {
+          return (
+            <label className="form-control " key={category._id}>
+              <input
+                type="checkbox"
+                value={'Category[all]=' + category.Name}
+                onChange={handleCategory}
+              ></input>
+              {category.Name}
+            </label>
+          );
+        })} */}
+      </div>
       <div className="row sort">
         <span>Sort By: </span>
-        {/* <select value={sort} onChange={(e) => setSort(e.target.value)}>
+        <select value={adminsearch.sort} onChange={handleSort}>
           <option value="">Newest</option>
           <option value="sort=oldest">Oldest</option>
           <option value="sort=-sold">Best sales</option>
-          <option value="sort=-price">Price: Hight-Low</option>
-          <option value="sort=price">Price: Low-Hight</option>
-        </select> */}
+          <option value="sort=-Price">Price: Hight-Low</option>
+          <option value="sort=Price">Price: Low-Hight</option>
+        </select>
       </div>
     </div>
   );

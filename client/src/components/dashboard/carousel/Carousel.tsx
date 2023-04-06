@@ -9,7 +9,8 @@ import {
 
 import UploadCarousel from '../../upload/UploadCarousel';
 import { Link } from 'react-router-dom';
-import { BiEdit } from 'react-icons/bi';
+import { BiEdit, BiTrash } from 'react-icons/bi';
+import { getCarousel } from '../../../redux/slices/carouselSlice';
 
 // const initialState = {
 //   Name: '',
@@ -23,9 +24,27 @@ import { BiEdit } from 'react-icons/bi';
 // };
 
 export default function CreateProduct() {
-  const { image } = useAppSelector((state) => state.Carousel);
+  const { carousels } = useAppSelector((state) => state.Carousel);
   const dispatch = useAppDispatch();
+  const deleteProduct = async (carousel: any) => {
+    try {
+      console.log(carousel);
+      const destroyImg = carousel.image.map((img: any) => {
+        axios.post('/api/destroy', {
+          public_id: img.public_id,
+        });
+      });
 
+      const deleteProduct = axios.delete(`/api/carousel/${carousel._id}`);
+
+      await destroyImg;
+      await deleteProduct;
+      dispatch(getCarousel());
+      alert('Carousel Deleted!');
+    } catch (err: any) {
+      alert(err.reponse.data.msg);
+    }
+  };
   // };
 
   return (
@@ -52,13 +71,13 @@ export default function CreateProduct() {
                 onChange={CheckAll}
               ></input> */}
             </th>
-            <th></th>
-
+            <th>Title</th>
+            <th>Create At</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {image?.map((item: any) => (
+          {carousels?.map((item: any) => (
             <tr key={item._id}>
               {/* <td>
                 <input
@@ -70,20 +89,19 @@ export default function CreateProduct() {
               <td>
                 <img src={item.image[0].url} alt=" " />
               </td>
-
+              <td>{item.title}</td>
+              <td>{new Date(item.createdAt).toLocaleDateString()}</td>
               <td>
-                <Link to={`/dashboard/product/editproduct/${item._id}`}>
+                <Link to={`/dashboard/carousel/editcarousel/${item._id}`}>
                   <BiEdit size="20px" color="green" />
                 </Link>
-                {/* <button
+                <button
                   onClick={() =>
-                    window.confirm('Delete')
-                      ? deleteProduct(item)
-                      : alert('notdeleted')
+                    window.confirm('Delete') ? deleteProduct(item) : null
                   }
                 >
                   <BiTrash size="20px" color="red" />
-                </button> */}
+                </button>
               </td>
             </tr>
           ))}

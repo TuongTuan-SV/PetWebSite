@@ -7,8 +7,9 @@ export interface IProduct {
   Hotproducts: Array<object>;
   NewCreateProducts: Array<object>;
   loading: boolean;
-  sort: string;
+
   Newproduct: INewProduct;
+  Editproduct: INewProduct;
   search: ISearch;
   adminsearch: ISearch;
 }
@@ -39,9 +40,10 @@ export interface INewProduct {
   Price: number;
   Stocks: number;
   Brand: string;
-  Category: string;
+  Category: Array<string>;
   images: Array<Image>;
   reviews: object;
+  Discount: number;
 }
 const ProductinitialState: INewProduct = {
   Name: '',
@@ -50,9 +52,10 @@ const ProductinitialState: INewProduct = {
   Price: 0,
   Stocks: 0,
   Brand: '',
-  Category: '',
+  Category: [],
   images: [],
   reviews: [],
+  Discount: 0,
 };
 const initialState: IProduct = {
   products: [],
@@ -60,8 +63,9 @@ const initialState: IProduct = {
   Hotproducts: [],
   NewCreateProducts: [],
   loading: false,
-  sort: '',
+
   Newproduct: ProductinitialState,
+  Editproduct: ProductinitialState,
   search: SearchinitialState,
   adminsearch: SearchinitialState,
 };
@@ -93,7 +97,7 @@ export const addReview = createAsyncThunk(
   }
 );
 
-//Get all products
+//CREATE NEW PRODUCT
 export const createProduct = createAsyncThunk(
   'Product/createProduct',
   async (data: any, thunkAPI) => {
@@ -122,7 +126,32 @@ export const createProduct = createAsyncThunk(
   }
 );
 
-//Get all products
+//UPDATE PRORUDCT
+export const editProduct = createAsyncThunk(
+  'Product/editProduct',
+  async (data: any, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+      const images = state.Upload.editImgs;
+      console.log(data, images);
+      const response = await axios.put(`/api/products/${data._id}`, {
+        ...data,
+        images,
+      });
+      // Inferred return type: Promise<MyData>
+      // console.log(API_URL);
+      console.log(response.data);
+      return response.data;
+    } catch (err: any) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
+//GET ALL PRODUCT
 export const getProducts = createAsyncThunk(
   'Product/getProducts',
   async (data, thunkAPI) => {
@@ -131,11 +160,13 @@ export const getProducts = createAsyncThunk(
       const search = state.Products.search;
 
       const response = await axios.get(
-        `/api/products/?${search.category.join('&')}${search.brand.join('&')}&${
-          search.price > 0 ? `Price[lte]=${search.price}` : ''
-        }&${search.sort}&&Name_Lower[regex]=${search.search}`
+        `/api/products/?${search.category.join('&')}&${search.brand.join(
+          '&'
+        )}&${search.price > 0 ? `Price[lte]=${search.price}` : ''}&${
+          search.sort
+        }&Name_Lower[regex]=${search.search}`
       );
-      console.log(response);
+      // console.log(response);
       // // Inferred return type: Promise<MyData>
       // // console.log(API_URL);
       // console.log(response.data);
@@ -154,11 +185,11 @@ export const getAdminProducts = createAsyncThunk(
       const search = state.Products.adminsearch;
 
       const response = await axios.get(
-        `/api/products/?${search.category.join('&')}${search.brand.join('&')}&${
+        `/api/products/?${search.category.join('&')}&${search.brand}&${
           search.price > 0 ? `Price[lte]=${search.price}` : ''
         }&${search.sort}&&Name_Lower[regex]=${search.search}`
       );
-      console.log(response);
+      // console.log(response);
       // // Inferred return type: Promise<MyData>
       // // console.log(API_URL);
       // console.log(response.data);
@@ -214,22 +245,61 @@ export const productSlice = createSlice({
   name: 'Product',
   initialState,
   reducers: {
-    //Add product to state
+    //================================ADMIN SECTION============================
+    //Creat product
     addProducts: (state, action) => {
       state.products = action.payload.products;
     },
-    setSort: (state, action) => {
-      state.sort = action.payload;
-    },
+    //Change Newproduct info when input
     setNewProduct: (state, action) => {
       state.Newproduct = action.payload;
     },
-    setSearch: (state, action) => {
-      state.search = action.payload;
+    //Set Newproduct Category
+    setNewCategory: (state, action) => {
+      state.Newproduct.Category = action.payload;
     },
+    setDiscount: (state, action) => {
+      console.log(action.payload);
+      if (action.payload >= 0 && action.payload <= 100) {
+        state.Newproduct.Discount = action.payload;
+      }
+    },
+    //Change Newproduct info when input
+    setEditproduct: (state, action) => {
+      state.Editproduct = action.payload;
+    },
+    //Set Editproduct category
+    setEditcategory: (state, action) => {
+      state.Editproduct.Category = action.payload;
+    },
+    //Set Editproduct img
+    setEditImg: (state, action) => {
+      const img = state.Editproduct.images.filter((image: any) => {
+        return image.public_id != action.payload.public_id;
+      });
+      state.Editproduct.images = img;
+    },
+    //Set searcn on admin
     setAdminSearch: (state, action) => {
-      state.adminsearch = action.payload;
+      state.adminsearch.search = action.payload;
     },
+    //Set Search category on admin
+    setAdminCategory: (state, action) => {
+      state.adminsearch.category = action.payload;
+    },
+    //Set Search brand on admin
+    setAdminBrand: (state, action) => {
+      state.adminsearch.brand = action.payload;
+    },
+    setAdminSort: (state, action) => {
+      state.adminsearch.sort = action.payload;
+    },
+    //Set search on client
+    setSearch: (state, action) => {
+      state.search.search = action.payload;
+    },
+
+    //==========================================================================
     setBrand: (state, action) => {
       const check = state.search.brand.includes(action.payload);
 
@@ -256,31 +326,8 @@ export const productSlice = createSlice({
         state.search.category.push(action.payload);
       }
     },
-    setAdminBrand: (state, action) => {
-      const check = state.adminsearch.brand.includes(action.payload);
-
-      if (check) {
-        const brand = state.adminsearch.brand.filter((item: any) => {
-          if (item != action.payload) return item;
-        });
-
-        state.adminsearch.brand = brand;
-      } else {
-        state.adminsearch.brand.push(action.payload);
-      }
-    },
-    setAdminCategory: (state, action) => {
-      const check = state.adminsearch.category.includes(action.payload);
-
-      if (check) {
-        const category = state.adminsearch.category.filter((item: any) => {
-          if (item != action.payload) return item;
-        });
-
-        state.adminsearch.category = category;
-      } else {
-        state.adminsearch.category.push(action.payload);
-      }
+    setSort: (state, action) => {
+      state.search.sort = action.payload;
     },
     setPrice: (state, action) => {
       state.search.price = action.payload;
@@ -370,6 +417,12 @@ export const {
   setAdminBrand,
   setAdminCategory,
   setAdminSearch,
+  setAdminSort,
+  setNewCategory,
+  setDiscount,
+  setEditproduct,
+  setEditcategory,
+  setEditImg,
 } = productSlice.actions;
 
 export default productSlice.reducer;

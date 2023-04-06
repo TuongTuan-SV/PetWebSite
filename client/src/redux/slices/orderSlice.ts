@@ -76,7 +76,7 @@ export const getAllOrder = createAsyncThunk(
       const state: any = thunkAPI.getState();
 
       const response = await axios.get('/api/order');
-      console.log(response.data);
+      // console.log(response.data);
       return response.data;
 
       // // Inferred return type: Promise<MyData>

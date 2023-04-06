@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const Carousel: React.FC<Props> = ({ images }) => {
-  const { image } = useAppSelector((state) => state.Carousel);
+  const { carousels } = useAppSelector((state) => state.Carousel);
   // State for Active index
   const carousel = useRef<any>();
   const [count, setCount] = useState(0);
@@ -20,14 +20,14 @@ export const Carousel: React.FC<Props> = ({ images }) => {
 
     const width = carousel.current.offsetWidth;
 
-    if (count + delta > image.length - 1) {
+    if (count + delta > carousels.length - 1) {
       setCount(0);
       carousel.current.scrollTo(0, 0);
       return;
     } else if (count + delta < 0) {
-      setCount(image.length - 1);
+      setCount(carousels.length - 1);
       // console.log(width, carousel.current.scrollLeft);
-      carousel.current.scrollTo(width * image.length - 1, 0);
+      carousel.current.scrollTo(width * carousels.length - 1, 0);
       return;
     }
 
@@ -46,8 +46,8 @@ export const Carousel: React.FC<Props> = ({ images }) => {
         onClick={() => incrementCarousel(1)}
       />
       <div className="carousel" ref={carousel}>
-        {image?.map((img: any, idx: any) => {
-          console.log(img.image[0]);
+        {carousels?.map((carousel: any, idx: any) => {
+          console.log(carousel.image[0]);
           return (
             <div
               key={`${idx}`}
@@ -55,13 +55,23 @@ export const Carousel: React.FC<Props> = ({ images }) => {
                 idx === count ? 'carousel-item active' : 'carousel-item'
               }
             >
-              <Link to="#">
-                <img src={img.image[0].url} alt="img of carousel" />
-              </Link>
+              <div className="carousel-left">
+                <span className="special">{carousel.special}</span>
+                <h1 className="title">{carousel.title}</h1>
+                <span className="content">{carousel.content}</span>
+                <button className="toShop">
+                  <Link to="shop">Shop Now</Link>
+                </button>
+              </div>
+              <div className="carousel-right">
+                <Link to="#">
+                  <img src={carousel.image[0].url} alt="img of carousel" />
+                </Link>
+              </div>
             </div>
           );
         })}
-        <div className="carouselindicator-container">
+        {/* <div className="carouselindicator-container">
           <ul className="carouselindicator-wrap">
             {image?.map((img: any, idx: any) => {
               return (
@@ -74,7 +84,7 @@ export const Carousel: React.FC<Props> = ({ images }) => {
               );
             })}
           </ul>
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -25,10 +25,9 @@
   padding-bottom: 10px;
 }
 
-form div {
+form .checkout-file {
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
 }
 label {
   text-align: left;

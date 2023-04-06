@@ -27,10 +27,11 @@ interface Iproduct {
   Price: number;
   Stocks: number;
   Brand: string;
-  Category: string;
+  Category?: Array<string>;
   images?: Array<[object]>;
   reviews?: Array<[Ireview]>;
   Sold: number;
+  Discount: number;
 }
 
 const ProductSchema = new Schema<Iproduct>(
@@ -53,8 +54,8 @@ const ProductSchema = new Schema<Iproduct>(
       max: 200,
     },
     Category: {
-      type: String,
-      require: true,
+      type: Array,
+      default: [],
     },
     Brand: {
       type: String,
@@ -77,6 +78,12 @@ const ProductSchema = new Schema<Iproduct>(
     },
     reviews: [reviewSchema],
     Sold: { type: Number, default: 0 },
+    Discount: {
+      type: Number,
+      default: 0,
+      min: 0,
+      max: 100,
+    },
   },
   {
     timestamps: true,

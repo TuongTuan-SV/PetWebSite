@@ -81,10 +81,10 @@ export default function SideBar() {
             <label className="form-control CheckBox" key={category._id}>
               <input
                 type="checkbox"
-                value={'category=' + category.Name}
-                //   onChange={HandleCategory}
+                value={'Category[all]=' + category.Name}
+                onChange={HandleCategory}
               ></input>
-              {category.name}
+              {category.Name}
             </label>
           );
         })}

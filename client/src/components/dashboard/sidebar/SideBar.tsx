@@ -8,6 +8,8 @@ import {
   RiMoneyDollarCircleLine,
 } from 'react-icons/ri';
 import { MdOutlineCategory } from 'react-icons/md';
+import { useAppDispatch } from '../../../hooks';
+import { getProducts } from '../../../redux/slices/productSlice';
 // import Login from "../../homepage/auth/Login";
 // import Header from "../header/Header";
 export default function SideBar() {

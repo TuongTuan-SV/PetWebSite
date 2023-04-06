@@ -60,21 +60,6 @@ function App() {
       <Outlet />
       {location.pathname.includes('dashboard') ? null : <Footer></Footer>}
     </div>
-    // <>
-    //   {location.pathname === '/lostpassword' ? (
-    //     <div className="App">
-    //       <Header></Header>
-    //       <Outlet />
-    //       <Footer></Footer>
-    //     </div>
-    //   ) : (
-    //     <div className="App">
-    //       <Header></Header>
-    //       <Outlet />
-    //       <Footer></Footer>
-    //     </div>
-    //   )}
-    // </>
   );
 }
 
