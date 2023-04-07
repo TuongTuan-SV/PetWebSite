@@ -36,12 +36,7 @@ export default function UploadCarousel() {
           types={fileTypes}
           className="uploadMulti"
         />
-        <input
-          type="file"
-          name="file"
-          id="file_up"
-          onChange={handleChangeMulti}
-        ></input>
+
         <div
           className="ImgContainer"
           // style={{ backgroundColor: `${NewCarousel.color}`, display: 'flex' }}

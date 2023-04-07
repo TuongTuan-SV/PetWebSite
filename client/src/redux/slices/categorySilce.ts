@@ -4,12 +4,22 @@ import axios from 'axios';
 export interface ICategory {
   Categories: [];
   SelectCategory: null | string;
+  Newcategory: INewCategory;
   loading: boolean;
   err: string;
   msg: string;
 }
+export interface INewCategory {
+  Name: string;
+  image: Array<object>;
+}
+const CategoryinitialState: INewCategory = {
+  Name: '',
+  image: [],
+};
 const initialState: ICategory = {
   Categories: [],
+  Newcategory: CategoryinitialState,
   SelectCategory: '',
   loading: false,
   err: '',
@@ -33,9 +43,17 @@ export const getCategory = createAsyncThunk(
 //CREATE POST
 export const createCategory = createAsyncThunk(
   'Category/postCategory',
-  async (data: any, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await axios.post(`/api/category`, { Name: data });
+      const state: any = thunkAPI.getState();
+
+      const Name = state.Categories.Newcategory.Name;
+      const img = state.Upload.categorylImg;
+
+      const response = await axios.post(`/api/category`, {
+        Name: Name,
+        image: img,
+      });
       // Inferred return type: Promise<MyData>
       return response.data;
     } catch (error: any) {
@@ -55,7 +73,7 @@ export const CategoriesSlice = createSlice({
     },
     //Add seleted brand to state
     setCategory: (state, action) => {
-      state.SelectCategory = action.payload;
+      state.Newcategory.Name = action.payload;
     },
   },
   extraReducers: (builder) => {

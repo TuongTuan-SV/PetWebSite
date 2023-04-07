@@ -15,7 +15,13 @@ export default function SideBar() {
   const { Brands } = useAppSelector((state) => state.Brands);
   const { Categories } = useAppSelector((state) => state.Categories);
   // const [price, setPrice] = useState<any>(0);
-
+  useEffect(() => {
+    dispatch(getProducts());
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    });
+  }, []);
   //   const [level, setLevel] = state.productAPI.level;
   const [sidebar, setSideBar] = useState(false);
 
@@ -83,6 +89,11 @@ export default function SideBar() {
                 type="checkbox"
                 value={'Category[all]=' + category.Name}
                 onChange={HandleCategory}
+                checked={
+                  search.category.includes('Category[all]=' + category.Name)
+                    ? true
+                    : false
+                }
               ></input>
               {category.Name}
             </label>

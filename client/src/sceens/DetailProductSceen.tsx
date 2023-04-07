@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import { useParams, Link, useActionData } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from '../hooks';
 import { ProductItem } from '../utils/productitem/ProductItem';
 import '../components/detailproduct/detailproduct.css';
@@ -29,11 +29,23 @@ export default function DetailProduct() {
   const { products } = useAppSelector((state) => state.Products);
   const [detailProduct, setDetailProduct] = useState<any>([]);
   const [CurrentImg, setCurrentImg] = useState<any>(0);
+  const [rating, setRating] = useState<any>();
 
   useEffect(() => {
     if (parmas.id) {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth',
+      });
       products.forEach((product: any) => {
-        if (product._id === parmas.id) setDetailProduct(product);
+        if (product._id === parmas.id) {
+          const ratings = Math.round(
+            product.reviews?.reduce((a: any, b: any) => (a = a + b.rating), 0) /
+              product.reviews.length
+          );
+          setDetailProduct(product);
+          setRating(rating);
+        }
       });
     }
   }, [parmas.id, products]);
@@ -51,11 +63,15 @@ export default function DetailProduct() {
     e.preventDefault();
     setQuantity(quantity - 1);
   };
-  const ratings = Math.round(
-    detailProduct.reviews?.reduce((a: any, b: any) => (a = a + b.rating), 0) /
-      detailProduct.reviews.length
-  );
-
+  const Categories = detailProduct.Category;
+  const relate = products.filter((product: any) => {
+    if (
+      Categories.some((item: any) => product.Category.includes(item)) &&
+      product._id !== detailProduct._id
+    )
+      return product;
+  });
+  console.log(relate);
   return (
     <>
       <div className="DetailProduct">
@@ -101,7 +117,7 @@ export default function DetailProduct() {
               })}
             </span>
             <div className="avage-rating">
-              <Rating defaultValue={ratings} precision={0.5} readOnly></Rating>
+              <Rating defaultValue={rating} precision={0.5} readOnly></Rating>
               <span className="Total-reviews">
                 ({detailProduct.reviews.length} Reviews)
               </span>
@@ -117,7 +133,6 @@ export default function DetailProduct() {
               <span>
                 Categories :{' '}
                 {detailProduct.Category.map((item: any) => {
-                  console.log(item);
                   return <Link to="#">{item}</Link>;
                 }).reduce((prev: any, curr: any) => [prev, ', ', curr])}
               </span>
@@ -174,12 +189,18 @@ export default function DetailProduct() {
       <div className="related_product">
         <h2>Related Product</h2>
         <div className="products">
-          {products.map((product: any) => {
-            return product.Category === detailProduct.Category &&
-              product._id !== detailProduct._id ? (
-              <ProductItem key={product._id} product={product} />
-            ) : null;
+          {relate.map((product: any) => {
+            return <ProductItem key={product._id} product={product} />;
           })}
+          {/* {products.map((product: any) => {
+            if (product._id !== detailProduct._id)
+              detailProduct.Category.map((item: any) => {
+                if (item.includes(product.Category))
+                  return <ProductItem key={product._id} product={product} />;
+              });
+
+            return null;
+          })} */}
         </div>
       </div>
     </>

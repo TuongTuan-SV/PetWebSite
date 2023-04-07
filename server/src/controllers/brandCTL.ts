@@ -29,6 +29,7 @@ const BrandController = {
     try {
       const NewBrand = new Brand({
         Name: req.body.Name,
+        image: req.body.image,
       });
       await cloudinary.v2.api.create_folder(`brands/${req.body.Name}`);
       // .then((result: any) => {
@@ -61,9 +62,8 @@ const BrandController = {
   },
   updateBrand: async (req: any, res: any) => {
     try {
-      const { Name } = req.body;
-
-      await Brand.findByIdAndUpdate({ _id: req.params.id }, { Name });
+      const { Name, image } = req.body;
+      await Brand.findByIdAndUpdate({ _id: req.params.id }, { Name, image });
 
       res.json({ msg: 'Brand Updated' });
     } catch (err) {

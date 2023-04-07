@@ -1,7 +1,8 @@
 import mongoose, { Schema } from 'mongoose';
 
 export interface ICategory {
-  Name: String;
+  Name: string;
+  image: object;
 }
 
 const CategorySchema = new Schema<ICategory>(
@@ -10,6 +11,10 @@ const CategorySchema = new Schema<ICategory>(
       type: String,
       required: true,
       trim: true,
+    },
+    image: {
+      type: [],
+      required: true,
     },
   },
   {

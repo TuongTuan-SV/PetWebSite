@@ -19,8 +19,10 @@ const CategoryController = {
   //Tạo brand mới
   createCategory: async (req: Request, res: Response) => {
     try {
+      console.log(req.body);
       const NewCategory = new Category({
         Name: req.body.Name,
+        image: req.body.image,
       });
 
       await NewCategory.save();
@@ -50,9 +52,10 @@ const CategoryController = {
   },
   updateCategory: async (req: any, res: any) => {
     try {
-      const { Name } = req.body;
       console.log(req.body);
-      await Category.findByIdAndUpdate({ _id: req.params.id }, { Name });
+      const { Name, image } = req.body;
+
+      await Category.findByIdAndUpdate({ _id: req.params.id }, { Name, image });
 
       res.json({ msg: 'Category Updated' });
     } catch (err) {

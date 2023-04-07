@@ -1,0 +1,10 @@
+.CategoryImgContainer {
+  width: 60%;
+  /* padding: 30px; */
+  border-color: #bbb8b8;
+  border-style: dashed;
+  height: 50vh;
+  margin-top: 20px;
+  position: relative;
+  border-radius: 50%;
+}

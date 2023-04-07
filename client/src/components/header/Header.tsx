@@ -93,32 +93,33 @@ export default function Header() {
                     <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
                   </Badge>
                 </div>
-              </li>
-              <li>
-                <ul className="user-form" style={styleForm}>
-                  {login ? (
-                    <div>
-                      <ul className="user-tab">
-                        <li>
-                          <Link to="#">profile</Link>
-                        </li>
-                        <li>
-                          <Link to="history">history</Link>
-                        </li>
-                        {User.role == 0 ? null : (
+                <div>
+                  {' '}
+                  <ul className="user-form" style={styleForm}>
+                    {login ? (
+                      <div>
+                        <ul className="user-tab">
                           <li>
-                            <Link to="dashboard">dashboard</Link>
+                            <Link to="#">profile</Link>
                           </li>
-                        )}
-                        <li className="logout">
-                          <button onClick={handleLogout}>Logout</button>
-                        </li>
-                      </ul>
-                    </div>
-                  ) : (
-                    <Login />
-                  )}
-                </ul>
+                          <li>
+                            <Link to="history">history</Link>
+                          </li>
+                          {User.role == 0 ? null : (
+                            <li>
+                              <Link to="dashboard">dashboard</Link>
+                            </li>
+                          )}
+                          <li className="logout">
+                            <button onClick={handleLogout}>Logout</button>
+                          </li>
+                        </ul>
+                      </div>
+                    ) : (
+                      <Login />
+                    )}
+                  </ul>
+                </div>
               </li>
             </ul>
           </header>
@@ -192,33 +193,34 @@ export default function Header() {
                     <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
                   </Badge>
                 </div>
-              </li>
-              <li>
-                <ul className="user-form" style={styleForm}>
-                  {login ? (
-                    <div>
-                      <ul className="user-tab">
-                        <li>
-                          <Link to="#">profile</Link>
-                        </li>
-                        <li>
-                          <Link to="history">history</Link>
-                        </li>
-                        {User.role == 0 ? null : (
+                <div>
+                  <ul className="user-form" style={styleForm}>
+                    {login ? (
+                      <div>
+                        <ul className="user-tab">
                           <li>
-                            <Link to="dashboard">dashboard</Link>
+                            <Link to="#">profile</Link>
                           </li>
-                        )}
-                        <li className="logout">
-                          <button onClick={handleLogout}>Logout</button>
-                        </li>
-                      </ul>
-                    </div>
-                  ) : (
-                    <Login />
-                  )}
-                </ul>
+                          <li>
+                            <Link to="history">history</Link>
+                          </li>
+                          {User.role == 0 ? null : (
+                            <li>
+                              <Link to="dashboard">dashboard</Link>
+                            </li>
+                          )}
+                          <li className="logout">
+                            <button onClick={handleLogout}>Logout</button>
+                          </li>
+                        </ul>
+                      </div>
+                    ) : (
+                      <Login />
+                    )}
+                  </ul>
+                </div>
               </li>
+
               <li>
                 <div className="Cart-icon">
                   {/* <span style={styleCart}>{cart.length}</span> */}

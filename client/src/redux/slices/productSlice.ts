@@ -103,8 +103,8 @@ export const createProduct = createAsyncThunk(
   async (data: any, thunkAPI) => {
     try {
       const state: any = thunkAPI.getState();
-      const images = state.Upload.images;
-      console.log(data);
+      const images = state.Upload.uploadedimage;
+      // console.log(images);
       const response = await axios.post(
         `/api/products`,
         { ...data, images },
@@ -132,7 +132,7 @@ export const editProduct = createAsyncThunk(
   async (data: any, thunkAPI) => {
     try {
       const state: any = thunkAPI.getState();
-      const images = state.Upload.editImgs;
+      const images = state.Upload.editUploadedimage;
       console.log(data, images);
       const response = await axios.put(`/api/products/${data._id}`, {
         ...data,

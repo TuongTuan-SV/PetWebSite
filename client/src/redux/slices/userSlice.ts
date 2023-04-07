@@ -85,7 +85,8 @@ export const refreshToken = createAsyncThunk(
     try {
       // console.log('asdasdsad');
       const fristLoign = localStorage.getItem('firstLogin');
-      if (fristLoign) {
+      const admin = localStorage.getItem('admin');
+      if (fristLoign || admin) {
         const res = await axios.get(`/user/refresh_token`);
         return res.data;
       }
@@ -274,6 +275,7 @@ export const userSlice = createSlice({
       })
       .addCase(refreshToken.fulfilled, (state, action) => {
         state.loading = false;
+
         state.token = action.payload.accesstoken;
       })
       .addCase(refreshToken.rejected, (state, action) => {

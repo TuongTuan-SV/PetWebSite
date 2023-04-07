@@ -23,13 +23,16 @@ import {
   EditUploadImg,
   UploadImg,
   clearEditimg,
+  subtractimg,
 } from '../../../redux/slices/uploadSilce';
 
 export default function EditProduct() {
   const { Newproduct } = useAppSelector((state) => state.Products);
   const { products, Editproduct } = useAppSelector((state) => state.Products);
   const { Brands } = useAppSelector((state) => state.Brands);
-  const { editImgs, tmp } = useAppSelector((state) => state.Upload);
+  const { editUploadedimage, editImgs, tmp } = useAppSelector(
+    (state) => state.Upload
+  );
   const parmas = useParams();
   const dispatch = useAppDispatch();
   // const history = useNavigate()
@@ -51,21 +54,21 @@ export default function EditProduct() {
     const uploadNewimg = editImgs.map(async (img: any) => {
       if (typeof img.public_id === 'object') {
         console.log('addimg');
-        await dispatch(EditUploadImg(img.public_id));
+        await dispatch(EditUploadImg(img.public_id)).then(() =>
+          dispatch(subtractimg())
+        );
       }
     });
 
     Promise.all(uploadNewimg).then(() => {
-      dispatch(createProduct(Newproduct)).then(() => {
-        dispatch(editProduct(Editproduct))
-          .then(() => {
-            dispatch(getProducts());
-            dispatch(getAdminProducts());
-          })
-          .then(() => {
-            alert('Product Updated!');
-          });
-      });
+      dispatch(editProduct(Editproduct))
+        .then(() => {
+          dispatch(getProducts());
+          dispatch(getAdminProducts());
+        })
+        .then(() => {
+          alert('Product Updated!');
+        });
     });
     deletetmp;
   };

@@ -32,6 +32,7 @@ import EditProduct from './components/dashboard/editProduct/EditProduct';
 import Adminuser from './components/dashboard/user/AdminUser';
 import CreateUser from './components/dashboard/user/createUser/CreateUser';
 import UpdateUser from './components/dashboard/user/updateUser/UpdateUser';
+import CreateCategory from './components/dashboard/category/createcategory/CreateCategory';
 
 const router = createBrowserRouter([
   {
@@ -120,6 +121,14 @@ const router = createBrowserRouter([
           },
           {
             path: 'category',
+            element: <Category />,
+          },
+          {
+            path: 'category/createcategory',
+            element: <CreateCategory />,
+          },
+          {
+            path: 'category/editcategory/:id',
             element: <Category />,
           },
           {

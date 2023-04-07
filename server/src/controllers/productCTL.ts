@@ -91,7 +91,7 @@ const ProductController = {
       console.log(req.body);
       const newProduct = new Product({
         Name: req.body.Name,
-        Name_Lower: req.body.Name.tolowecase(),
+        Name_Lower: req.body.Name.toLowerCase(),
         Description: req.body.Description,
         Short_Description: req.body.Short_Description,
         Price: req.body.Price,

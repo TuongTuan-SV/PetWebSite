@@ -24,7 +24,9 @@ import { setEditImg } from '../../redux/slices/productSlice';
 export default function EditUpload() {
   // const [image, setImage] = useState<image>(initialState);
   // const [images, setImages] = useState<image[]>([]);
-  const { editImgs } = useAppSelector((state) => state.Upload);
+  const { editUploadedimage, editImgs } = useAppSelector(
+    (state) => state.Upload
+  );
   const { Editproduct } = useAppSelector((state) => state.Products);
   const [img, setimg] = useState<any>([]);
 
@@ -55,7 +57,9 @@ export default function EditUpload() {
       {/* Nhập nhiều hình */}
       <div className="MultiUpload">
         <FileUploader
-          disabled={editImgs?.length > 2 ? true : false}
+          disabled={
+            editImgs?.length + editUploadedimage?.length > 2 ? true : false
+          }
           handleChange={handleChangeMulti}
           name="file"
           types={fileTypes}
@@ -66,6 +70,20 @@ export default function EditUpload() {
           className="ImgContainer"
           style={{ display: 'flex', flexDirection: 'column' }}
         >
+          {editUploadedimage?.map((image: any, index) => {
+            // console.log(typeof image.public_id);
+            return (
+              <div
+                key={index}
+                style={{ position: 'relative', width: '25vw', height: '17vh' }}
+              >
+                <div id="file_img">
+                  <span onClick={() => handleDestroyMulti(image)}>X</span>
+                  <img key={index} src={image?.url} alt=""></img>
+                </div>
+              </div>
+            );
+          })}
           {editImgs?.map((image: any, index) => {
             // console.log(typeof image.public_id);
             return (

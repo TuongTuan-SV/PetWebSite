@@ -1,88 +1,95 @@
 import React, { useContext, useState } from 'react';
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { createCategory } from '../../../redux/slices/categorySilce';
-import './category.css';
+import {
+  createCategory,
+  getCategory,
+} from '../../../redux/slices/categorySilce';
+
+import { Link } from 'react-router-dom';
+import { BiEdit, BiTrash } from 'react-icons/bi';
 export default function Category() {
-  const dispatch = useAppDispatch();
   const { Categories } = useAppSelector((state) => state.Categories);
   const [category, setCategory] = useState<any>('');
   const [onEdit, setOnedit] = useState(false);
   const [id, setId] = useState('');
-  const handlecreateCategory = async (e: any) => {
-    e.preventDefault();
-    try {
-      if (onEdit) {
-        const res = await axios.put(`/api/category/${id}`, { Name: category });
-        console.log(res);
-      } else {
-        // const res = await axios.post(
-        //   '/api/category',
-        //   { name: category },
-        //   {
-        //     headers: { Authorization: token },
-        //   }
-        // );
-        // console.log(res);
-        dispatch(createCategory(category));
-      }
-      setOnedit(false);
-      setCategory('');
-    } catch (err: any) {
-      console.log(err);
-      alert(err.response.data.msg);
-    }
-  };
-
-  const editCategory = async (id: any, name: any) => {
-    setId(id);
-    setCategory(name);
-    setOnedit(true);
-  };
+  const dispatch = useAppDispatch();
 
   const deleteCategory = async (id: any) => {
     try {
       const res = await axios.delete(`/api/category/${id}`);
-      console.log(res.data.msg);
+      dispatch(getCategory()).then(() => alert('Deleted!'));
     } catch (err: any) {
       alert(err.response.data.msg);
     }
   };
-  return (
-    <div className="categories">
-      <form onSubmit={handlecreateCategory}>
-        <label htmlFor="category">Category</label>
-        <input
-          type="text"
-          name="category"
-          value={category}
-          required
-          onChange={(e) => setCategory(e.target.value)}
-        ></input>
-        <button type="submit">{onEdit ? 'Update' : 'Save'}</button>
-      </form>
 
-      <div className="col">
-        {Categories.map((category: any) => (
-          <div className="row" key={category._id}>
-            <p>{category.Name}</p>
-            <div>
-              <button onClick={() => editCategory(category._id, category.Name)}>
-                Edit
-              </button>
-              <button
-                onClick={() =>
-                  window.confirm('Delete')
-                    ? deleteCategory(category._id)
-                    : alert('notdeleted')
-                }
-              >
-                Delete
-              </button>
-            </div>
-          </div>
-        ))}
+  return (
+    <div className="admin_product_page">
+      <div className="dashboard_btn">
+        <button>
+          <Link to="/dashboard/category/createcategory">
+            <h3>Add Category </h3>
+          </Link>
+        </button>
+
+        {/* <button onClick={handleMultiDelete}>
+          <h3>Delete Product </h3>
+        </button> */}
       </div>
+      {/* <Filter /> */}
+      <table>
+        <thead>
+          <tr>
+            <th>
+              {/* <input
+                type="checkbox"
+                className="checkall"
+                onChange={CheckAll}
+              ></input> */}
+            </th>
+            <th>Title</th>
+            <th>Create At</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          {Categories.map((category: any) => {
+            console.log(category.image[0]?.url);
+            return (
+              <tr key={category._id}>
+                {/* <td>
+                <input
+                  type="checkbox"
+                  checked={item.checked}
+                  onChange={() => ClickUdate(item)}
+                ></input>
+              </td> */}
+                <td>
+                  <img src={category?.image[0]?.url} alt=" " />
+                </td>
+                <td>{category.Name}</td>
+                <td>{new Date(category.createdAt).toLocaleDateString()}</td>
+                <td>
+                  <Link to={`/dashboard/brand/editbrand/${category._id}`}>
+                    <BiEdit size="20px" color="green" />
+                  </Link>
+                  <button
+                    onClick={() =>
+                      window.confirm('Delete')
+                        ? deleteCategory(category._id)
+                        : alert('notdeleted')
+                    }
+                  >
+                    <BiTrash size="20px" color="red" />
+                  </button>
+                </td>
+              </tr>
+            );
+          })}
+        </tbody>
+      </table>
+      {/* <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} /> */}
     </div>
   );
 }

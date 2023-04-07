@@ -1,0 +1,65 @@
+.media-scroller {
+  display: grid;
+  gap: 30px;
+  grid-auto-flow: column;
+  grid-auto-columns: 21%;
+  padding: 0 30px 30px;
+  overflow-x: auto;
+  overscroll-behavior-inline: contain;
+}
+
+.media-element {
+  display: grid;
+  grid-template-rows: min-content;
+  gap: var(--_spacer);
+  padding: var(--_spacer);
+  background: var(--surface-2);
+  border-radius: var(--radius-2);
+  box-shadow: var(--shadow-2);
+}
+.media-element a:hover {
+  color: orange;
+}
+.imgContainer {
+  position: relative;
+  border-radius: 50%;
+  border: 1px solid;
+  display: flex;
+  width: 150px;
+  height: 150px;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  margin: auto;
+}
+.media-element div > img {
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+.media-element > img {
+  inline-size: 100%;
+  aspect-ratio: 16 / 9;
+  object-fit: cover;
+}
+
+.snaps-inline {
+  scroll-snap-type: inline mandatory;
+  scroll-padding-inline: var(--_spacer, 1rem);
+}
+
+.snaps-inline > * {
+  scroll-snap-align: start;
+}
+
+/* general styling */
+
+.container {
+  inline-size: min(100% - 4rem, 70rem);
+  margin-inline: auto;
+}
+
+.flow {
+  display: grid;
+  gap: var(--size-3);
+}
