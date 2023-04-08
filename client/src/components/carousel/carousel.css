@@ -35,16 +35,40 @@
 }
 
 .toShop {
-  margin-top: 1rem;
-  background-color: #551a88;
+  position: relative;
+  font-size: 14px;
   font-size: 1.3rem;
-  padding: 10px;
-  border: 1px solid rgb(117, 115, 115);
-  border-radius: 10px;
+  font-weight: 700;
+  padding: 7px 12px;
+  text-align: left;
+  order: 3;
+  margin-left: auto;
+  border: none;
+  color: #fff;
+  border-radius: 22px;
+  text-transform: unset;
+  background-color: #6839cc;
+  width: 100px;
+  transition: all 0.3s ease;
 }
-.toShop a {
-  color: #ffff;
+.toShop::after {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  right: 3px;
+  font-size: 14px;
+  font-size: 0.875rem;
+  font-weight: 700;
+  color: #000;
+  background-color: #fff;
+  padding: 5px 10px;
+  border-radius: 50%;
 }
+.toShop:hover > .FilterBtn {
+  background-color: #ff782c;
+  color: #fff;
+}
+
 .special {
   text-transform: uppercase;
   color: #ff782c;
@@ -62,13 +86,13 @@
   overflow: hidden;
 }
 
-.carousel-item a {
+/* .carousel-item a {
   height: 100%;
   width: 50%;
   overflow: hidden;
   margin: 0 auto;
   z-index: 0;
-}
+} */
 .carousel-item img {
   height: 100%;
   width: 100%;
@@ -132,6 +156,14 @@
 @media (width < 600px) {
   .carousel-container {
     display: none;
+  }
+  .special {
+  }
+  .title {
+  }
+  .content {
+  }
+  .toShop {
   }
 }
 .left-btn {

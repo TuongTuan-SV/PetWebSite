@@ -16,7 +16,9 @@ export interface IProduct {
 export interface ISearch {
   category: Array<string>;
   brand: Array<string>;
-  price: number;
+  Maxprice: number;
+  Minprice: number;
+  price: Array<any>;
   loading: boolean;
   sort: string;
   search: string;
@@ -24,7 +26,9 @@ export interface ISearch {
 const SearchinitialState: ISearch = {
   category: [],
   brand: [],
-  price: 0,
+  Maxprice: 950,
+  Minprice: 0,
+  price: [0, 950],
   loading: false,
   sort: '',
   search: '',
@@ -51,7 +55,7 @@ const ProductinitialState: INewProduct = {
   Short_Description: '',
   Price: 0,
   Stocks: 0,
-  Brand: '',
+  Brand: 'nobrand',
   Category: [],
   images: [],
   reviews: [],
@@ -162,7 +166,7 @@ export const getProducts = createAsyncThunk(
       const response = await axios.get(
         `/api/products/?${search.category.join('&')}&${search.brand.join(
           '&'
-        )}&${search.price > 0 ? `Price[lte]=${search.price}` : ''}&${
+        )}&${`Price[lte]=${search.price[1]}`}&${`Price[gte]=${search.price[0]}`}&${
           search.sort
         }&Name_Lower[regex]=${search.search}`
       );
@@ -234,7 +238,7 @@ export const getNewtProducts = createAsyncThunk(
       const response = await axios.get(`/api/products/?limit=9`);
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
-      return response.data.products.slice(0, 3);
+      return response.data.products.slice(0, 9);
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -329,7 +333,13 @@ export const productSlice = createSlice({
     setSort: (state, action) => {
       state.search.sort = action.payload;
     },
-    setPrice: (state, action) => {
+    setMaxPrice: (state, action) => {
+      state.search.Maxprice = action.payload;
+    },
+    setMinPrice: (state, action) => {
+      state.search.Minprice = action.payload;
+    },
+    sePrice: (state, action) => {
       state.search.price = action.payload;
     },
   },
@@ -413,7 +423,9 @@ export const {
   setSearch,
   setBrand,
   setCategory,
-  setPrice,
+  setMaxPrice,
+  setMinPrice,
+  sePrice,
   setAdminBrand,
   setAdminCategory,
   setAdminSearch,

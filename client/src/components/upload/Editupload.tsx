@@ -68,14 +68,18 @@ export default function EditUpload() {
 
         <div
           className="ImgContainer"
-          style={{ display: 'flex', flexDirection: 'column' }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-evenly',
+          }}
         >
           {editUploadedimage?.map((image: any, index) => {
             // console.log(typeof image.public_id);
             return (
               <div
+                style={{ position: 'relative', width: '100%', height: '100%' }}
                 key={index}
-                style={{ position: 'relative', width: '25vw', height: '17vh' }}
               >
                 <div id="file_img">
                   <span onClick={() => handleDestroyMulti(image)}>X</span>

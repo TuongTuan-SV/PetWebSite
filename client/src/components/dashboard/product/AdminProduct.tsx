@@ -34,7 +34,8 @@ export default function AdminProduct() {
   const [CheckedProducts, setCheckProduct] = useState<Array<object>>([]);
   // const [callback, setCallback] = state.productAPI.callback;
   const { adminproduct } = useAppSelector((state) => state.Products);
-  const [currentPage, setCurrentPage] = useState<number>(1);
+
+  const [currentPage, setCurrentPage] = useState<any>(1);
   const [productsPerPage] = useState(5); //9 Per Page
 
   //Get current posts
@@ -138,11 +139,11 @@ export default function AdminProduct() {
               ></input>
             </th>
             <th></th>
-            <th>Product_id</th>
             <th>Title</th>
             {/* <th>Description</th> */}
             <th>Brand</th>
             <th>Sold</th>
+            <th>Stocks</th>
             <th>Price</th>
             <td>Create At</td>
             <th></th>
@@ -161,17 +162,19 @@ export default function AdminProduct() {
               <td>
                 <img src={item.images[0]?.url} alt=" " />
               </td>
-              <td>{item._id}</td>
+
               <td>{item.Name}</td>
               {/* <td style={{maxWidth : '70px', maxHeight : '100px', overflow : 'scroll',whiteSpace : 'nowrap'}}>{item.description}</td> */}
               <td>{item.Brand}</td>
               <td>{item.Sold}</td>
+              <th>{item.Stocks}</th>
               <td>
                 {item.Price.toLocaleString('en-US', {
                   style: 'currency',
                   currency: 'USD',
                 })}
               </td>
+
               <td>{new Date(item.createdAt).toLocaleDateString()}</td>
               <td>
                 <Link to={`/dashboard/product/editproduct/${item._id}`}>

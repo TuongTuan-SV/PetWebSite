@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAppSelector } from '../../hooks';
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import './carousel.css';
 interface Props {
   images: {
@@ -59,14 +60,16 @@ export const Carousel: React.FC<Props> = ({ images }) => {
                 <span className="special">{carousel.special}</span>
                 <h1 className="title">{carousel.title}</h1>
                 <span className="content">{carousel.content}</span>
-                <button className="toShop">
-                  <Link to="shop">Shop Now</Link>
-                </button>
+
+                <Link to="shop">
+                  <button type="submit" className="toShop">
+                    Shop
+                    <KeyboardArrowRightIcon className="FilterBtn" />
+                  </button>
+                </Link>
               </div>
               <div className="carousel-right">
-                <Link to="#">
-                  <img src={carousel.image[0].url} alt="img of carousel" />
-                </Link>
+                <img src={carousel.image[0].url} alt="img of carousel" />
               </div>
             </div>
           );

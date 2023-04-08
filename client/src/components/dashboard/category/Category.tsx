@@ -8,6 +8,7 @@ import {
 
 import { Link } from 'react-router-dom';
 import { BiEdit, BiTrash } from 'react-icons/bi';
+import Pagination from '../../../utils/pagination/Pagination';
 export default function Category() {
   const { Categories } = useAppSelector((state) => state.Categories);
   const [category, setCategory] = useState<any>('');
@@ -15,6 +16,13 @@ export default function Category() {
   const [id, setId] = useState('');
   const dispatch = useAppDispatch();
 
+  const [currentPage, setCurrentPage] = useState<any>(1);
+  const [productsPerPage] = useState(5); //9 Per Page
+
+  const indexOfLastPost = currentPage * productsPerPage;
+  const indexOfFirstPost = indexOfLastPost - productsPerPage;
+  const currentProducts = Categories.slice(indexOfFirstPost, indexOfLastPost);
+  const howManyPages = Math.ceil(Categories.length / productsPerPage);
   const deleteCategory = async (id: any) => {
     try {
       const res = await axios.delete(`/api/category/${id}`);
@@ -54,7 +62,7 @@ export default function Category() {
           </tr>
         </thead>
         <tbody>
-          {Categories.map((category: any) => {
+          {currentProducts.map((category: any) => {
             console.log(category.image[0]?.url);
             return (
               <tr key={category._id}>
@@ -89,7 +97,7 @@ export default function Category() {
           })}
         </tbody>
       </table>
-      {/* <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} /> */}
+      <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} />
     </div>
   );
 }

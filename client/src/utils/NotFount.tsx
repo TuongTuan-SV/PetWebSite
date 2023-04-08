@@ -5,7 +5,7 @@ export default function NotFound() {
   console.error(error);
 
   return (
-    <div id="error-page">
+    <div id="error-page" style={{ marginTop: '100px' }}>
       <h1>Oops!</h1>
       <p>Sorry, an unexpected error has occurred.</p>
       <p>

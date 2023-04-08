@@ -51,11 +51,15 @@ export default function Upload() {
 
         <div
           className="ImgContainer"
-          style={{ display: 'flex', flexDirection: 'column' }}
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'space-evenly',
+          }}
         >
           {images.map((image: any, index) => (
             <div
-              style={{ position: 'relative', width: '25vw', height: '17vh' }}
+              style={{ position: 'relative', width: '100%', height: '100%' }}
               key={index}
             >
               <div id="file_img">

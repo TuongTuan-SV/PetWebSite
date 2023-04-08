@@ -30,22 +30,29 @@ const initialState = {
 
 export default function CreateProduct() {
   const { Newproduct } = useAppSelector((state) => state.Products);
-  const [loading, setLoading] = useState(false);
+
   const { Brands } = useAppSelector((state) => state.Brands);
-  const { Categories } = useAppSelector((state) => state.Categories);
   const { images } = useAppSelector((state) => state.Upload);
+  const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
   // const history = useNavigate()
   // console.log(Newproduct);
 
   const handleCreateProduct = async (e: any) => {
     e.preventDefault();
+    setLoading(true);
+    if (Newproduct.Price <= 0 || Newproduct.Stocks <= 0) {
+      return alert('Price need to be more than 0!');
+    }
 
-    const uploadImg = images.map(async (img: any) => {
-      await dispatch(UploadImg(img));
-      console.log(img);
-      return img;
-    });
+    const uploadImg = images
+      .slice()
+      .reverse()
+      .map(async (img: any) => {
+        await dispatch(UploadImg(img));
+        console.log(img);
+        return img;
+      });
 
     Promise.all(uploadImg).then(() => {
       dispatch(createProduct(Newproduct))
@@ -56,6 +63,7 @@ export default function CreateProduct() {
         .then(() => {
           dispatch(setNewProduct(initialState));
           dispatch(clearimg());
+          setLoading(false);
           alert('Product Created!');
         });
     });
@@ -63,9 +71,8 @@ export default function CreateProduct() {
 
   const handleChangeInput = (e: any) => {
     const { name, value } = e.target;
-    if (name === 'Price' || name === 'Stocks') {
-      if (value >= 0) dispatch(setNewProduct({ ...Newproduct, [name]: value }));
-    } else dispatch(setNewProduct({ ...Newproduct, [name]: value }));
+
+    dispatch(setNewProduct({ ...Newproduct, [name]: value }));
   };
 
   const handleDiscount = (e: any) => {
@@ -157,7 +164,7 @@ export default function CreateProduct() {
             className="Select"
             onChange={handleChangeInput}
           >
-            <option value="">Select a Brand</option>
+            <option value="nobrand">Select a Brand</option>
             {Brands.map((brand: any, index: any) => (
               <option value={brand.Name} key={index}>
                 {brand.Name}
@@ -167,24 +174,11 @@ export default function CreateProduct() {
         </div>
         <div className="row Category checkout-file">
           <label htmlFor="Category">Category</label>
-          {/* <select
-            name="Category"
-            value={Newproduct.Category}
-            onChange={handleChangeInput}
-            
-            className="Select"
-          >
-            <option value="">Select a Category</option>
-            {Categories.map((category: any, index: any) => (
-              <option value={category.Name} key={index}>
-                {category.Name}
-              </option>
-            ))}
-          </select> */}
+
           <CategorySelect />
         </div>
 
-        <button type="submit" style={{ marginTop: '10px' }}>
+        <button type="submit" style={{ marginTop: '30px' }} disabled={loading}>
           Create
         </button>
       </form>

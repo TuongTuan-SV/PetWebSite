@@ -9,7 +9,29 @@
   justify-items: center;
   margin: 20px 0;
 }
-
+.ProductsnoGird {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  background: fixed;
+  justify-items: center;
+  margin: 20px 0;
+}
+@media (width < 600px) {
+  .Products {
+    display: grid;
+    gap: 55px;
+    grid-auto-flow: column;
+    grid-auto-columns: 200px;
+    padding: 0 30px 30px;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-behavior: smooth;
+  }
+  .Product_card_imgContainer img {
+    height: 100px;
+  }
+}
 /* .right_search{
     display: flex;
     flex-direction: row-reverse

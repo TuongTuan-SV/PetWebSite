@@ -43,25 +43,32 @@ export default function Order() {
       <table>
         <thead>
           <tr>
-            <th>User ID</th>
-            <th>Payment ID</th>
+            <th>User Name</th>
+            <th>Total</th>
             <th>Date of purchased</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {Orders?.reverse().map((item: any) => {
-            return (
-              <tr key={item._id}>
-                <td>{item.user_id}</td>
-                <td>{item.paymentID}</td>
-                <td>{new Date(item.createdAt).toLocaleDateString()}</td>
-                <td>
-                  <Link to={`/dashboard/order/${item._id}`}>View</Link>
-                </td>
-              </tr>
-            );
-          })}
+          {Orders?.slice()
+            .reverse()
+            .map((item: any) => {
+              return (
+                <tr key={item._id}>
+                  <td>{item.FirstName}</td>
+                  <td>
+                    {item.Total.toLocaleString('us-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}
+                  </td>
+                  <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    <Link to={`/dashboard/order/${item._id}`}>View</Link>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

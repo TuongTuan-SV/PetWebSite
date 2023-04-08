@@ -20,7 +20,6 @@ export default function Products() {
   const [currentPage, setCurrentPage] = useState<any>(1);
   const [productsPerPage] = useState<any>(9); //9 Per Page
 
-  //Get current posts
   const indexOfLastPost = currentPage * productsPerPage;
   const indexOfFirstPost = indexOfLastPost - productsPerPage;
 
@@ -39,6 +38,18 @@ export default function Products() {
     dispatch(setSort(e.target.value));
     dispatch(getProducts());
   };
+  const NotFount = () => {
+    return (
+      <div id="primary" className="content-area">
+        <main id="main" className="site-main">
+          <header className="woocommerce-products-header"></header>
+          <p className="woocommerce-info woocommerce-no-products-found">
+            No products were found matching your selection.
+          </p>
+        </main>
+      </div>
+    );
+  };
   return (
     <div>
       <div className="Product_Page">
@@ -54,12 +65,12 @@ export default function Products() {
               <option value="sort=Price">Price: Low-Hight</option>
             </select>
           </div>
-          <div className="Products">
+          <div className="ProductsnoGird">
             {currentProducts.map((product: any) => {
               return <ProductItem key={product._id} product={product} />;
             })}
           </div>
-          {products.length === 0 && <Loading />}
+          {products.length === 0 && <NotFount />}
         </div>
       </div>
       <Pagination pages={howManyPages} setCurrentPage={setCurrentPage} />

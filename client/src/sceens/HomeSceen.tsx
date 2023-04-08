@@ -7,6 +7,7 @@ import { useAppSelector, useAppDispatch } from '../hooks';
 import { ProductItem } from '../utils/productitem/ProductItem';
 import { CategoriesSlice } from '../redux/slices/categorySilce';
 import CategoryScroller from '../components/categoryScroller/CategoryScroller';
+import ElemontorShape from '../utils/elementor shape';
 type image = {
   src: string;
   link: string;
@@ -35,8 +36,7 @@ export default function Index() {
   return (
     <div className="home_page">
       <Carousel images={images} />
-
-      <div style={{ marginTop: '50px' }}>
+      <div style={{ padding: '50px 0', backgroundColor: '#f2eaea' }}>
         <h2
           className="trending"
           style={{ textAlign: 'left', marginLeft: '30px' }}

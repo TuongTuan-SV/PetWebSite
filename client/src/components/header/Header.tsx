@@ -187,11 +187,13 @@ export default function Header() {
                   </div>
                 </form>
               </li>
-              <li className="user-icon" onClick={handleUserTab}>
+              <li className="user-icon">
                 <div>
-                  <Badge>
-                    <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
-                  </Badge>
+                  <Link to="login">
+                    <Badge onClick={handleUserTab}>
+                      <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
+                    </Badge>
+                  </Link>
                 </div>
                 <div>
                   <ul className="user-form" style={styleForm}>

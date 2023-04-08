@@ -28,9 +28,11 @@ export default function CartList() {
     cart ? getTotal() : null;
   }, [User]);
 
-  const handleIncrement = (id: any) => {
-    dispatch(increment(id));
-    dispatch(updateCart());
+  const handleIncrement = (item: any) => {
+    if (item.quantity < item.Stocks) {
+      dispatch(increment(item._id));
+      dispatch(updateCart());
+    }
     // dispatch(getuser());
   };
 
@@ -84,18 +86,19 @@ export default function CartList() {
               return (
                 <tr key={item._id}>
                   <td>
-                    <img src={item.images[0]} />
+                    <img src={item.images[0].url} />
                   </td>
                   <td>{item.title}</td>
                   <td>
-                    <div className="quantity">
+                    <div
+                      className="quantity"
+                      style={{ justifyContent: 'center' }}
+                    >
                       <button onClick={() => handleDecrement(item._id)}>
                         -
                       </button>
-                      <span>{item.quantity}</span>
-                      <button onClick={() => handleIncrement(item._id)}>
-                        +
-                      </button>
+                      <span style={{ margin: 'auto 0' }}>{item.quantity}</span>
+                      <button onClick={() => handleIncrement(item)}>+</button>
                     </div>
                   </td>
                   <td>
@@ -127,9 +130,10 @@ export default function CartList() {
             currency: 'USD',
           })}
         </h3>
-        <button className="btn btn-primary">
-          <Link to="/checkout">Process to checkout</Link>
-        </button>
+        <Link to="/checkout">
+          <button className="btn btn-primary">Checkout</button>
+        </Link>
+
         {/* <PayPalButton2 total={total} tranSuccess={tranSuccess} /> */}
       </div>
     </div>

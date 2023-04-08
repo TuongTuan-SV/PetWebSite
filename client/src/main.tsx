@@ -7,7 +7,7 @@ import { Provider } from 'react-redux/es/exports';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import NotFound from './utils/NotFount';
 import Upload from './components/upload/Upload';
-import Login from './sceens/LoginSceen';
+import LoginSceen from './sceens/LoginSceen';
 import Signup from './sceens/SignupSceen';
 import Home from './sceens/HomeSceen';
 import DetailProduct from './sceens/DetailProductSceen';
@@ -56,7 +56,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'login',
-        element: <Login />,
+        element: <LoginSceen />,
       },
       {
         path: 'lostpassword',

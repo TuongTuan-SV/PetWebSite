@@ -87,12 +87,12 @@ header a:hover:after {
   border-radius: 20px;
   background-color: #f7f6f6cb;
   border: none;
-  height: 7vh;
+  height: 40px;
 }
 #header-search-icon {
-  width: 2.4vw;
-  height: 5vh;
-  /* padding: 0 10px; */
+  width: 30px;
+  height: 30px;
+  padding: 5px;
   /* margin-right: 10px; */
   position: absolute;
   background-color: #6839cc;
@@ -194,5 +194,10 @@ header {
 @media (width < 700px) {
   .Menu {
     display: inline;
+  }
+  .user-form {
+    position: relative;
+    top: -350px;
+    left: 30px;
   }
 }

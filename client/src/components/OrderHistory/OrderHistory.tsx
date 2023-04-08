@@ -27,29 +27,32 @@ export default function OrderHistory() {
           <tr>
             <th>Payment ID</th>
             <th>Date of purchased</th>
-            <th></th>
+            <th>Total</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {history.reverse().map((item: any) => {
-            console.log(item._id);
-            return (
-              <tr key={item._id}>
-                <td>{item._id}</td>
-                <td>{new Date(item.createdAt).toLocaleDateString()}</td>
-                <td>
-                  {item.Total.toLocaleString('en-US', {
-                    style: 'currency',
-                    currency: 'USD',
-                  })}
-                </td>
-                <td>
-                  <Link to={`/history/${item._id}`}>View</Link>
-                </td>
-              </tr>
-            );
-          })}
+          {history
+            .slice()
+            .reverse()
+            ?.map((item: any) => {
+              console.log(item._id);
+              return (
+                <tr key={item._id}>
+                  <td>{item._id}</td>
+                  <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                  <td>
+                    {item.Total.toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}
+                  </td>
+                  <td>
+                    <Link to={`/history/${item._id}`}>View</Link>
+                  </td>
+                </tr>
+              );
+            })}
         </tbody>
       </table>
     </div>

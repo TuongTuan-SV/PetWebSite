@@ -79,3 +79,21 @@ label {
 .form-bottom button:hover {
   background-color: rgb(40, 130, 247);
 }
+
+@media (width <700px) {
+  .Container {
+    display: flex;
+    flex-direction: column;
+    justify-self: center;
+    align-items: center;
+  }
+  .Left {
+    font-size: 0.875rem;
+    width: 80%;
+    margin-bottom: 10px;
+  }
+  .right {
+    font-size: 0.75rem;
+    width: 80%;
+  }
+}

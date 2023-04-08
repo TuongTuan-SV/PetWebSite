@@ -10,6 +10,7 @@ import ProductTabs from '../components/productTabs/ProductTabs';
 import { increment, setCart, updateCart } from '../redux/slices/userSlice';
 import { Rating } from '@mui/material';
 import CategorySelect from '../components/dashboard/createProduct/brandSelect/CategorySelect';
+import { setCategory } from '../redux/slices/productSlice';
 type product = {
   _id: string;
   Name: string;
@@ -63,6 +64,10 @@ export default function DetailProduct() {
     e.preventDefault();
     setQuantity(quantity - 1);
   };
+
+  const handleLinkClick = (event: any, message: any) => {
+    dispatch(setCategory(message));
+  };
   const Categories = detailProduct.Category;
   const relate = products.filter((product: any) => {
     if (
@@ -77,6 +82,14 @@ export default function DetailProduct() {
       <div className="DetailProduct">
         <div className="Img-Container">
           <div className="Current-image">
+            <div className="Card_Discount" id={detailProduct.Name}>
+              <span className="Card_Discount_Discount">
+                {detailProduct.Discount > 0
+                  ? `-${detailProduct.Discount}%`
+                  : ''}
+              </span>
+              {/* <span className="Card_level_number">{product.Discount}</span> */}
+            </div>
             <img src={detailProduct.images[CurrentImg].url} alt=" "></img>
           </div>
           {detailProduct.images.length > 1 ? (
@@ -111,10 +124,30 @@ export default function DetailProduct() {
               <span>{detailProduct.Name}</span>
             </div>
             <span className="detail-price">
-              {detailProduct.Price.toLocaleString('en-US', {
-                style: 'currency',
-                currency: 'USD',
-              })}
+              {detailProduct.Discount > 0 ? (
+                <div className="priceDiscount">
+                  <span className="discountPrice">
+                    {(
+                      detailProduct.Price -
+                      detailProduct.Price * (detailProduct.Discount / 100)
+                    ).toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}
+                  </span>
+                  <span className="del">
+                    {detailProduct.Price.toLocaleString('en-US', {
+                      style: 'currency',
+                      currency: 'USD',
+                    })}
+                  </span>
+                </div>
+              ) : (
+                detailProduct.Price.toLocaleString('en-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })
+              )}
             </span>
             <div className="avage-rating">
               <Rating defaultValue={rating} precision={0.5} readOnly></Rating>
@@ -133,7 +166,16 @@ export default function DetailProduct() {
               <span>
                 Categories :{' '}
                 {detailProduct.Category.map((item: any) => {
-                  return <Link to="#">{item}</Link>;
+                  return (
+                    <Link
+                      onClick={(event: any) =>
+                        handleLinkClick(event, `Category[all]=${item}`)
+                      }
+                      to="http://127.0.0.1:5173/shop"
+                    >
+                      {item}
+                    </Link>
+                  );
                 }).reduce((prev: any, curr: any) => [prev, ', ', curr])}
               </span>
             </div>

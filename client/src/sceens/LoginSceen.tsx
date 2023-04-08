@@ -5,12 +5,14 @@ import { setLogin, setLogout } from '../redux/slices/userSlice';
 import { useLocation } from 'react-router-dom';
 import { API_URL } from '../api/config';
 import { getuser } from '../redux/slices/userSlice';
+import Login from '../components/login/Login';
+
 type TUser = {
   email: string;
   password: string;
 };
 
-export default function Login() {
+export default function LoginSceen() {
   const [userInput, setUserInput] = useState<TUser>({
     email: '',
     password: '',
@@ -69,33 +71,7 @@ export default function Login() {
 
   return (
     <div>
-      {login ? (
-        <div>
-          <p>Login success</p>
-        </div>
-      ) : (
-        <div>
-          <form onSubmit={SubmitLogin}>
-            <h2>login</h2>
-            <input
-              type="email"
-              name="email"
-              value={userInput.email}
-              onChange={handleInput}
-            ></input>
-            <input
-              type="password"
-              name="password"
-              value={userInput.password}
-              onChange={handleInput}
-            ></input>
-            <div>
-              <button type="submit">Login</button>
-            </div>
-          </form>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      )}
+      <Login />
     </div>
   );
 }

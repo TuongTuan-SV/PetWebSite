@@ -30,7 +30,7 @@ const OrderController = {
         Country,
         Cart,
         Address,
-        Fristname,
+        FristName,
         LastName,
         Total,
       } = req.body.order;
@@ -45,7 +45,7 @@ const OrderController = {
         Country,
         Cart,
         Address,
-        Fristname,
+        FristName,
         LastName,
         Total,
       });
@@ -57,7 +57,7 @@ const OrderController = {
       //   return sold(item._id, item.quantity, item.Sold);
       // });
 
-      // await NewOrder.save();
+      await NewOrder.save();
       res.json({ msg: 'Order Created' });
     } catch (err) {
       if (err instanceof Error) {

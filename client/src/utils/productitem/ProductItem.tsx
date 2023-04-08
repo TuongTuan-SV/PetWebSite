@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAppDispatch } from '../../hooks';
 
 import { current } from '@reduxjs/toolkit';
-import { setCart, updateCart } from '../../redux/slices/userSlice';
+import { getuser, setCart, updateCart } from '../../redux/slices/userSlice';
 import ShoppingBagOutlinedIcon from '@mui/icons-material/ShoppingBagOutlined';
 import ZoomInOutlinedIcon from '@mui/icons-material/ZoomInOutlined';
 import { Rating } from '@mui/material';
@@ -35,8 +35,12 @@ export const ProductItem = (Props: any) => {
   const product = Props.product;
   // console.log(product.images[0]?.url);
   const addtocart = (product: any) => {
-    dispatch(setCart(product));
-    dispatch(updateCart());
+    if (product.Stocks > 0) {
+      dispatch(setCart(product));
+      dispatch(updateCart()).then(() => {
+        dispatch(getuser());
+      });
+    } else alert('There are no available product.');
   };
   const ratings = Math.round(
     product.reviews?.reduce((a: any, b: any) => (a = a + b.rating), 0) /
@@ -52,7 +56,9 @@ export const ProductItem = (Props: any) => {
           </span>
           {/* <span className="Card_level_number">{product.Discount}</span> */}
         </div>
-        <img src={product.images[0]?.url} alt="" />
+        <Link to={`/detail/${product._id}`}>
+          <img src={product.images[0]?.url} alt="" />
+        </Link>
 
         <div className="Product_card_view tooltip">
           <span className="tooltiptext">View Product</span>

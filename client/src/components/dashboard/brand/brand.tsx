@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
-import { createBrand } from '../../../redux/slices/brandSlice';
+import { createBrand, getBrand } from '../../../redux/slices/brandSlice';
 import './brand.css';
 export default function Brand() {
   const dispatch = useAppDispatch();
@@ -10,6 +10,7 @@ export default function Brand() {
   const [brand, setBrand] = useState<any>('');
   const [onEdit, setOnedit] = useState(false);
   const [id, setId] = useState('');
+
   const handlecreateBrand = async (e: any) => {
     e.preventDefault();
     try {
@@ -25,7 +26,7 @@ export default function Brand() {
         //   }
         // );
         // console.log(res);
-        dispatch(createBrand(brand));
+        dispatch(createBrand(brand)).then(() => dispatch(getBrand()));
       }
       setOnedit(false);
       setBrand('');
@@ -45,10 +46,12 @@ export default function Brand() {
     try {
       const res = await axios.delete(`/api/brands/${id}`);
       console.log(res.data.msg);
+      dispatch(getBrand());
     } catch (err: any) {
       alert(err.response.data.msg);
     }
   };
+
   return (
     <div className="categories">
       <form onSubmit={handlecreateBrand}>

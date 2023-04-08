@@ -12,7 +12,17 @@ export default function ProductRating(props: any) {
         return (
           <div className="Reviews-wrap" key={review._id}>
             <div className="Reviews-user">
-              <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
+              <PersonOutlineOutlinedIcon
+                sx={{ fontSize: 30 }}
+                style={{
+                  backgroundColor: '#ddd',
+                  margin: '10px',
+                  height: '40px',
+                  width: '40px',
+                  padding: '5px',
+                  borderRadius: ' 50%',
+                }}
+              />
             </div>
 
             <div className="Reviews-content">

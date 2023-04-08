@@ -1,10 +1,10 @@
 //src/Pagination.js
 import React, { useState, useEffect } from 'react';
 import './pagination.css';
-function Pagination(pages: any = 7) {
+function Pagination(props: any) {
   //Set number of pages
   const numberOfPages: any = [];
-  for (let i = 1; i <= pages; i++) {
+  for (let i = 1; i <= props.pages; i++) {
     numberOfPages.push(i);
   }
 
@@ -51,7 +51,7 @@ function Pagination(pages: any = 7) {
     }
 
     setArrOfCurrButtons(tempNumberOfPages);
-    // setCurrentPage(currentButton);
+    props.setCurrentPage(currentButton);
   }, [currentButton]);
 
   return (

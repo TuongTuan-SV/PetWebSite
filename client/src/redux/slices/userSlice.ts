@@ -61,7 +61,7 @@ export const updateCart = createAsyncThunk(
   async (data, thunkAPI) => {
     try {
       const state: any = thunkAPI.getState();
-      console.log(state.User.User.cart);
+      // console.log(state.User.User.cart);
       const response = await axios.patch(
         `/user/addcart`,
         { cart: state.User.User.cart },
@@ -192,15 +192,7 @@ export const userSlice = createSlice({
       state.login = false;
       state.token = '';
       console.log(state.User);
-    },
-    //=============================ADMIN USER=====================================
-    setUser: (state, action) => {
-      state.NewUser = action.payload;
-    },
-    setEditUser: (state, action) => {
-      state.EditUser = action.payload;
-    },
-    //=============================CART=====================================
+    }, //=============================CART=====================================
     decrement: (state, action) => {
       const product = state.User.cart.find((item: any) => {
         if (item._id === action.payload)
@@ -208,13 +200,14 @@ export const userSlice = createSlice({
             item,
           };
       });
+      console.log(current(product));
       //Có thì thêm số lượng sản phẩm tương ứng trong giỏ hàng
       //Không có thì thêm sản phẩm vào giở hàng
       if (product) {
         if (product.quantity > 1) {
           product.quantity -= 1;
           state.User.cart.forEach((item: any, index: any) => {
-            if (item._id === product._id) state.cart[index] = product;
+            if (item._id === product._id) state.User.cart[index] = product;
           });
         }
       }
@@ -232,7 +225,7 @@ export const userSlice = createSlice({
       if (product) {
         product.quantity += 1;
         state.User.cart.forEach((item: any, index: any) => {
-          if (item._id === product._id) state.cart[index] = product;
+          if (item._id === product._id) state.User.cart[index] = product;
         });
       }
     },
@@ -243,6 +236,13 @@ export const userSlice = createSlice({
         if (item._id != action.payload) return item;
       });
       // console.log(product);
+    },
+    //=============================ADMIN USER=====================================
+    setUser: (state, action) => {
+      state.NewUser = action.payload;
+    },
+    setEditUser: (state, action) => {
+      state.EditUser = action.payload;
     },
 
     //============================Admin User======================================

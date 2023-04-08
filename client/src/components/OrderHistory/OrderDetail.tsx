@@ -20,7 +20,7 @@ export default function OrderDetail() {
         <thead>
           <tr>
             <th></th>
-            <th>Product</th>
+            <th>Product Name</th>
             <th>Quantity</th>
             <th>Price</th>
           </tr>
@@ -28,7 +28,7 @@ export default function OrderDetail() {
         <tbody>
           {SelectHistory?.Cart.map((item: any) => (
             <tr key={item._id}>
-              <td>{<img src={item.images[0]} alt=" " />}</td>
+              <td>{<img src={item.images[0].url} alt=" " />}</td>
               <td>{item.Name}</td>
               <td>{item.quantity}</td>
               <td>

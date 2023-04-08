@@ -99,6 +99,7 @@ const ProductController = {
         images: req.body.images,
         Brand: req.body.Brand,
         Category: req.body.Category,
+        Discount: req.body.Discount,
       });
 
       await newProduct.save();
@@ -148,7 +149,7 @@ const ProductController = {
       product.Brand = req.body.Brand;
       product.images = req.body.images;
       product.Price = req.body.Price;
-      product.Stocks = req.body.Socks;
+      product.Stocks = req.body.Stocks;
       product.reviews = req.body.reviews;
       await product.save();
       res.status(200).json('Product Updated');

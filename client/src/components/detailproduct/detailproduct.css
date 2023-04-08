@@ -45,6 +45,8 @@
   width: 54%;
   display: flex;
   flex-direction: column;
+  position: relative;
+  margin-left: 20px;
 }
 
 .Current-image {

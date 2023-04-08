@@ -48,6 +48,9 @@ export default function Filter() {
         <span>Filters: </span>
         <select name="Brand" onChange={handleBrand}>
           <option value="">All Products</option>
+          <option value={'Brand[all]=no brand'} key="no brand">
+            No Brand
+          </option>
           {Brands.map((brand: any) => (
             <option value={'Brand[all]=' + brand.Name} key={brand.Name}>
               {brand.Name}
