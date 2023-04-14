@@ -1,8 +1,8 @@
 .Container {
-  max-height: 1000px;
-  margin: 20px 20px;
+  width: 50%;
+  margin: 20px auto;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
 }
 /* LEFT SIDE */
 .Left {
@@ -12,20 +12,19 @@
 .BoxTitle {
   margin: auto;
   width: 100%;
-  background-color: rgb(223, 218, 218);
-  border: 1px solid #a8a4a4;
+
+  border-bottom: 1px solid #a8a4a4;
   padding: 10px;
   text-align: left;
 }
 
-.Left form {
+.Container form {
   width: 100%;
-  border: 1px solid #a8a4a4;
-  padding: 0px 20px;
   padding-bottom: 10px;
 }
 
 form .checkout-file {
+  padding: 5px;
   display: flex;
   flex-direction: column;
 }
@@ -38,9 +37,9 @@ label {
 .inputContainer input {
   height: 30px;
   border: none;
-  background-color: #efefef;
+  background-color: #fff;
   box-shadow: 0 0 0 1px rgb(151, 149, 149);
-  border-radius: 5px;
+  border-radius: 3px;
 }
 .Name-box {
   display: flex;
@@ -53,9 +52,12 @@ label {
 .FirstName-input {
   margin-right: 20px;
 }
+.require {
+  color: rgb(235, 8, 8);
+}
 
 /* RIGHT SIDE */
-.right {
+/* .right {
   width: 40vw;
 }
 .CartItem {
@@ -78,8 +80,12 @@ label {
 
 .form-bottom button:hover {
   background-color: rgb(40, 130, 247);
+} */
+input[type='number']::-webkit-inner-spin-button,
+input[type='number']::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
-
 @media (width <700px) {
   .Container {
     display: flex;

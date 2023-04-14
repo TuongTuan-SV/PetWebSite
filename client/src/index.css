@@ -3,7 +3,7 @@
   padding: 0;
   box-sizing: border-box;
   margin: 0;
-  font-family: 'Prompt', sans-serif;
+  font-family: 'Prompt', sans-serif !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -20,7 +20,9 @@ button {
   background: transparent;
   cursor: pointer;
 }
-
+textarea {
+  resize: none;
+}
 @media (max-width: 820px) {
   header .logo {
     min-width: 115px;

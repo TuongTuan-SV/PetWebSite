@@ -7,7 +7,6 @@ export interface IProduct {
   Hotproducts: Array<object>;
   NewCreateProducts: Array<object>;
   loading: boolean;
-
   Newproduct: INewProduct;
   Editproduct: INewProduct;
   search: ISearch;
@@ -38,6 +37,7 @@ interface Image {
   url: string;
 }
 export interface INewProduct {
+  _id: string;
   Name: string;
   Description: string;
   Short_Description: string;
@@ -50,6 +50,7 @@ export interface INewProduct {
   Discount: number;
 }
 const ProductinitialState: INewProduct = {
+  _id: '',
   Name: '',
   Description: '',
   Short_Description: '',
@@ -208,7 +209,7 @@ export const getHotProducts = createAsyncThunk(
   'Product/getHotProducts',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`/api/products/?limit=9`);
+      const response = await axios.get(`/api/products/?limit=8`);
       // console.log(
       //   response.data.products.sort((a: any, b: any) =>
       //     a.sold < b.sold ? 1 : -1
@@ -221,7 +222,7 @@ export const getHotProducts = createAsyncThunk(
       //   )
       // );
       return response.data.products.sort((a: any, b: any) =>
-        a.sold < b.sold ? 1 : -1
+        a.Sold < b.Sold ? 1 : -1
       );
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
@@ -235,7 +236,7 @@ export const getNewtProducts = createAsyncThunk(
   'Product/getNewProducts',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`/api/products/?limit=9`);
+      const response = await axios.get(`/api/products/?limit=8`);
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
       return response.data.products.slice(0, 9);

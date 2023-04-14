@@ -123,16 +123,22 @@ export default function CartList() {
       ) : null}
 
       <div className="total">
-        <h3>
-          Total :
-          {total.toLocaleString('en-US', {
-            style: 'currency',
-            currency: 'USD',
-          })}
-        </h3>
-        <Link to="/checkout">
-          <button className="btn btn-primary">Checkout</button>
-        </Link>
+        <h3>Cart Total :</h3>
+        <div className="total_wrap">
+          <div className="total_wrap_span">
+            <span>Total:</span>
+            <span>
+              {total.toLocaleString('en-US', {
+                style: 'currency',
+                currency: 'USD',
+              })}
+            </span>
+          </div>
+
+          <Link to="/shippingadress" className="Checkout">
+            Checkout
+          </Link>
+        </div>
 
         {/* <PayPalButton2 total={total} tranSuccess={tranSuccess} /> */}
       </div>

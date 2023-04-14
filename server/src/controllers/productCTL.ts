@@ -9,7 +9,7 @@ class APIfeatures {
     this.queryString = queryString;
   }
   filtering() {
-    console.log(this.queryString);
+    // console.log(this.queryString);
     const queryObj = { ...this.queryString }; // queryString = req.query
     // console.log(queryObj)
 
@@ -39,7 +39,7 @@ class APIfeatures {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(' ');
 
-      console.log(sortBy);
+      // console.log(sortBy);
 
       this.query = this.query.sort(sortBy);
     } else {
@@ -143,7 +143,7 @@ const ProductController = {
 
       // ***Kiểm tra hình ảnh có tồn tại không
       product.Name = req.body.Name;
-      product.Name_Lower = req.body.Name;
+      product.Name_Lower = req.body.Name.toLowerCase();
       product.Description = req.body.Description;
       product.Category = req.body.Category;
       product.Brand = req.body.Brand;

@@ -4,10 +4,7 @@ import Tab from '@mui/material/Tab';
 import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import Review from '../detailproduct/Review';
-import ProductRating from '../rating/ProductRating';
-import { Paper } from '@mui/material';
-import { textAlign } from '@mui/system';
-
+import './ProductTab.css';
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number;

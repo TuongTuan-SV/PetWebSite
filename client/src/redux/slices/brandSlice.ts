@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
+
 export interface IBrand {
   Brands: Array<object>;
   SelectBrand: null | string;

@@ -1,0 +1,22 @@
+.Order_Container {
+  display: flex;
+  margin: auto;
+  width: 50%;
+}
+.Order_Wrap {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.Order_detail {
+  padding: 0 10%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid #ddd;
+}
+.Order_detail span {
+  text-align: left;
+}

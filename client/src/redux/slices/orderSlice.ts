@@ -5,10 +5,12 @@ export interface INewOrder {
   FirstName: string;
   LastName: string;
   Address: string;
-  Country: string;
-  City: string;
-  PostalCode: string;
+  Provice: string;
+  District: string;
+  Ward: string;
   Cart: Array<[object]>;
+  OrderNote: string;
+  Status: string;
   PaymentMethod: number;
   Total: number;
 }
@@ -23,11 +25,13 @@ const OrderinitialState: INewOrder = {
   FirstName: '',
   LastName: '',
   Address: '',
-  Country: '',
-  City: '',
-  PostalCode: '',
+  Provice: '',
+  District: '',
+  Ward: '',
   Cart: [],
+  OrderNote: '',
   PaymentMethod: 0,
+  Status: 'Pending',
   Total: 0,
 };
 
@@ -67,7 +71,31 @@ export const CreateOrder = createAsyncThunk(
     }
   }
 );
+export const UpdataStatus = createAsyncThunk(
+  'Order/UpdataStatus',
+  async (data: any, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+      const response = await axios.put(
+        `/api/order/${data.id}`,
+        { status: data.status },
+        {
+          headers: { Authorization: state.User.token },
+        }
+      );
+      return response.data;
 
+      // // Inferred return type: Promise<MyData>
+      // // console.log(response.data);
+    } catch (err: any) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
 //GET ALL ORDER
 export const getAllOrder = createAsyncThunk(
   'Order/getAllOrder',
@@ -101,6 +129,21 @@ export const OrderSlice = createSlice({
       const cart = [...action.payload];
       state.order.Cart = cart;
     },
+    setProvice: (state, action) => {
+      state.order.Provice = action.payload;
+    },
+    setDistrict: (state, action) => {
+      state.order.District = action.payload;
+    },
+    setWard: (state, action) => {
+      state.order.Ward = action.payload;
+    },
+    clearOrder: (state) => {
+      state.order = OrderinitialState;
+    },
+    setTotal: (state, action) => {
+      state.order.Total = action.payload;
+    },
   },
   extraReducers: (builder) => {
     //CREATE ORDER
@@ -129,9 +172,29 @@ export const OrderSlice = createSlice({
       state.loading = false;
       state.msg = action.payload.msg;
     });
+    //Update status
+    builder.addCase(UpdataStatus.pending, (state, action) => {
+      state.loading = true;
+      state.msg = '';
+    });
+    builder.addCase(UpdataStatus.fulfilled, (state, action) => {
+      state.loading = false;
+    });
+    builder.addCase(UpdataStatus.rejected, (state, action: any) => {
+      state.loading = false;
+      state.msg = action.payload.msg;
+    });
   },
 });
 
-export const { setOrder, setOrderCart } = OrderSlice.actions;
+export const {
+  setOrder,
+  setOrderCart,
+  setDistrict,
+  setProvice,
+  setWard,
+  clearOrder,
+  setTotal,
+} = OrderSlice.actions;
 
 export default OrderSlice.reducer;

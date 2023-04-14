@@ -1,0 +1,132 @@
+.Adminlogin {
+  text-align: left;
+  left: 50%;
+  position: absolute;
+  /* opacity: 0; */
+  /* visibility: hidden; */
+  margin-top: 15px;
+  background-color: #fff;
+}
+
+.Adminlogin input {
+  line-height: normal !important;
+  border-width: 1px;
+  padding: 10px;
+  width: 100%;
+  cursor: pointer;
+  pointer-events: fill;
+  border-radius: 5px;
+}
+.Adminlogin .account-wrap {
+  display: block !important;
+  position: relative;
+  left: -50%;
+  background-color: var(--background);
+  box-shadow: 0 0 30px 0 rgb(0 0 0 / 5%);
+  border-width: 1px;
+  border-style: solid;
+  border-color: #b6b3b3d0;
+  border-radius: 2px;
+}
+
+.account-wrap:after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  transform: scaleX(1);
+  height: 3px;
+  bottom: 0;
+  top: 0;
+  background-color: #ff782c;
+}
+.account-inner {
+  width: 320px;
+  padding: 20px;
+  max-height: 500px;
+  overflow: auto;
+}
+.login-form-head {
+  display: flex !important;
+  justify-content: space-between !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  margin-bottom: 10px;
+}
+.login-form.title {
+  font-size: 18px;
+  font-size: 1.125rem;
+  color: #333;
+  pointer-events: none;
+  margin-bottom: 0;
+}
+.pull-right {
+  float: right;
+}
+.pull-right a {
+  color: var(--e-global-color-lighter);
+  font-size: 14px;
+  font-size: 0.875rem;
+  text-transform: none;
+  pointer-events: visible;
+}
+.ziggy-login-form-ajax {
+  margin-bottom: 5px;
+}
+.ziggy-login-form-ajax p {
+  margin-bottom: 10px;
+}
+input[type='text']::-webkit-input-placeholder {
+  -webkit-transition: opacity 0.4s linear;
+  color: gray;
+}
+
+input[type='text']:focus::-webkit-input-placeholder {
+  opacity: 0;
+}
+
+input[type='password']::-webkit-input-placeholder {
+  -webkit-transition: opacity 0.4s linear;
+  color: gray;
+}
+
+input[type='password']:focus::-webkit-input-placeholder {
+  opacity: 0;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mt-1 {
+  margin-top: 1rem;
+}
+.btn {
+  text-transform: uppercase;
+  padding: 10px;
+  border-radius: 20px;
+  pointer-events: stroke;
+  cursor: pointer;
+}
+.btn-primary {
+  background-color: #ff782c;
+  color: #ffff;
+}
+.login-form-bottom {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* margin-left: 10vw; */
+}
+.login-form-bottom a {
+  color: var(--e-global-color-lighter);
+  font-size: 14px;
+  font-size: 0.875rem;
+  text-transform: none;
+  pointer-events: stroke;
+  text-decoration: dotted !important;
+}
+.login-form-bottom p {
+  font-style: oblique;
+  padding-right: 5px;
+  color: rgb(177, 173, 173);
+}

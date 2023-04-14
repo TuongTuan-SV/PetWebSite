@@ -45,6 +45,12 @@ export default function Header() {
     localStorage.clear();
     window.location.href = '/';
   };
+  const handleAdminLogout = async (e: any) => {
+    dispatch(setLogout());
+    await axios.get('/user/logout');
+    localStorage.clear();
+    window.location.href = '/dashboard';
+  };
   const styleForm: any = {
     display: active ? 'inline' : 'none',
   };
@@ -102,16 +108,14 @@ export default function Header() {
                           <li>
                             <Link to="#">profile</Link>
                           </li>
-                          <li>
+                          {/* <li>
                             <Link to="history">history</Link>
+                          </li> */}
+                          <li>
+                            <Link to="dashboard">dashboard</Link>
                           </li>
-                          {User.role == 0 ? null : (
-                            <li>
-                              <Link to="dashboard">dashboard</Link>
-                            </li>
-                          )}
                           <li className="logout">
-                            <button onClick={handleLogout}>Logout</button>
+                            <button onClick={handleAdminLogout}>Logout</button>
                           </li>
                         </ul>
                       </div>
@@ -157,14 +161,7 @@ export default function Header() {
                 <NavLink to="/shop">Shop</NavLink>
               </li>
               <li>
-                <NavLink
-                  to="/upload"
-                  className={({ isActive }) =>
-                    isActive ? activeClassName : undefined
-                  }
-                >
-                  Page
-                </NavLink>
+                <NavLink to="/blog">Blog</NavLink>
               </li>
 
               <li>
@@ -189,11 +186,9 @@ export default function Header() {
               </li>
               <li className="user-icon">
                 <div>
-                  <Link to="login">
-                    <Badge onClick={handleUserTab}>
-                      <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
-                    </Badge>
-                  </Link>
+                  <Badge onClick={handleUserTab}>
+                    <PersonOutlineOutlinedIcon sx={{ fontSize: 30 }} />
+                  </Badge>
                 </div>
                 <div>
                   <ul className="user-form" style={styleForm}>
@@ -201,7 +196,7 @@ export default function Header() {
                       <div>
                         <ul className="user-tab">
                           <li>
-                            <Link to="#">profile</Link>
+                            <Link to="profile">profile</Link>
                           </li>
                           <li>
                             <Link to="history">history</Link>

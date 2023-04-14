@@ -14,7 +14,7 @@ import DetailProduct from './sceens/DetailProductSceen';
 import Product from './sceens/ProductSceen';
 import Cart from './sceens/CartSceen';
 import CreataProduct from './sceens/CreataProductSceen';
-import CheckOut from './components/CartCheckOut/CheckOut';
+import ShippingAdress from './components/ShippingAdress/ShippingAdress';
 import History from './sceens/HistorySceen';
 import OrderDetailSceen from './sceens/OrderDetailSceen';
 import LostPwdSceen from './sceens/LostPwdSceen';
@@ -33,6 +33,15 @@ import Adminuser from './components/dashboard/user/AdminUser';
 import CreateUser from './components/dashboard/user/createUser/CreateUser';
 import UpdateUser from './components/dashboard/user/updateUser/UpdateUser';
 import CreateCategory from './components/dashboard/category/createcategory/CreateCategory';
+import EditCategory from './components/dashboard/category/editCategory/EditCategory';
+import ProfileSceen from './sceens/ProfileSceen';
+import ChangePwd from './components/changePsw/Changepsw';
+import Checkout from './components/Checkout/Checkout';
+import Blog from './components/dashboard/blog/Blog';
+import CreateBlog from './components/dashboard/blog/CreateBlog/CreateBlog';
+import EditBlog from './components/dashboard/blog/EditBlot/EditBlog';
+import BlogSceen from './sceens/BlogSceen';
+import BlogDetail from './components/blog/blogDetail/BlogDetail';
 
 const router = createBrowserRouter([
   {
@@ -59,6 +68,14 @@ const router = createBrowserRouter([
         element: <LoginSceen />,
       },
       {
+        path: 'profile',
+        element: <ProfileSceen />,
+      },
+      {
+        path: 'profile/changepsw',
+        element: <ChangePwd />,
+      },
+      {
         path: 'lostpassword',
         element: <LostPwdSceen />,
       },
@@ -79,8 +96,20 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
+        path: 'shippingadress',
+        element: <ShippingAdress />,
+      },
+      {
         path: 'checkout',
-        element: <CheckOut />,
+        element: <Checkout />,
+      },
+      {
+        path: 'blog',
+        element: <BlogSceen />,
+      },
+      {
+        path: 'blog/:id',
+        element: <BlogDetail />,
       },
       {
         path: 'dashboard',
@@ -120,6 +149,18 @@ const router = createBrowserRouter([
             element: <OrderDetail />,
           },
           {
+            path: 'blog',
+            element: <Blog />,
+          },
+          {
+            path: 'blog/createblog',
+            element: <CreateBlog />,
+          },
+          {
+            path: 'blog/editblog/:id',
+            element: <EditBlog />,
+          },
+          {
             path: 'category',
             element: <Category />,
           },
@@ -129,7 +170,7 @@ const router = createBrowserRouter([
           },
           {
             path: 'category/editcategory/:id',
-            element: <Category />,
+            element: <EditCategory />,
           },
           {
             path: 'brand',

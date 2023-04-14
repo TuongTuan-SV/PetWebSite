@@ -3,7 +3,7 @@ import axios from 'axios';
 
 import FormData from 'form-data';
 import { useAppDispatch, useAppSelector } from '../../../../hooks';
-import { setUser } from '../../../../redux/slices/userSlice';
+import { setNewUser } from '../../../../redux/slices/userSlice';
 import './createuser.css';
 const initialState = {
   firstName: '',
@@ -25,7 +25,7 @@ export default function CreateUser() {
       console.log(NewUser);
       await axios.post('/user/signup', { ...NewUser });
 
-      dispatch(setUser(initialState));
+      dispatch(setNewUser(initialState));
     } catch (err: any) {
       alert(err.response.data.msg);
     }
@@ -33,7 +33,7 @@ export default function CreateUser() {
 
   const handleChangeInput = (e: any) => {
     const { name, value } = e.target;
-    dispatch(setUser({ ...NewUser, [name]: value }));
+    dispatch(setNewUser({ ...NewUser, [name]: value }));
   };
 
   // const styleUpload = {

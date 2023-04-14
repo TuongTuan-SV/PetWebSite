@@ -12,7 +12,7 @@ class APIfeatures {
     this.queryString = queryString;
   }
   filtering() {
-    console.log(this.queryString);
+    // console.log(this.queryString);
     const queryObj = { ...this.queryString }; // queryString = req.query
     // console.log(queryObj)
 
@@ -42,7 +42,7 @@ class APIfeatures {
     if (this.queryString.sort) {
       const sortBy = this.queryString.sort.split(',').join(' ');
 
-      console.log(sortBy);
+      // console.log(sortBy);
 
       this.query = this.query.sort(sortBy);
     } else {

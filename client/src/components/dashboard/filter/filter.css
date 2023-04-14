@@ -1,4 +1,14 @@
-.filter_menu{
-    display: flex ;
-    align-items: center ;
+.filter_menu {
+  display: flex;
+  align-items: center;
+}
+.productselect__control {
+  min-width: 200px;
+  font-size: 0.875rem !important;
+  position: relative;
+  top: -10px;
+}
+
+.select__input-container {
+  height: 20px;
 }

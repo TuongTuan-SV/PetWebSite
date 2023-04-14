@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
+import CreateBlog from '../../components/dashboard/blog/CreateBlog/CreateBlog';
 
 export interface IUpload {
   images: Array<object>;
@@ -13,6 +14,18 @@ export interface IUpload {
   categorylImg: Array<object>;
   editcategory: Array<object>;
   tmpcategory: Array<object>;
+  blog: {
+    public_id?: string;
+    url?: string;
+  };
+  editblog: {
+    public_id?: string;
+    url?: string;
+  };
+  tmpBlog: {
+    public_id?: string;
+    url?: string;
+  };
   loading: boolean;
   err: string;
 }
@@ -29,6 +42,9 @@ const initialState: IUpload = {
   categorylImg: [],
   editcategory: [],
   tmpcategory: [],
+  blog: {},
+  editblog: {},
+  tmpBlog: {},
   loading: false,
   err: '',
 };
@@ -44,15 +60,15 @@ export const UploadImg = createAsyncThunk(
       //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
       const file = data.public_id;
       console.log(file);
-      if (!file) return alert('File not exist.');
+      if (!file) return thunkAPI.rejectWithValue('File not exist.');
 
       if (file.size > 1024 * 1024)
         // 1mb
-        return alert('Size too large!');
+        return thunkAPI.rejectWithValue('Size too large!');
 
       if (file.type !== 'image/jpeg' && file.type !== 'image/png')
         // 1mb
-        return alert('File format is incorrect.');
+        return thunkAPI.rejectWithValue('File format is incorrect.');
 
       let formData = new FormData();
       formData.append('file', file);
@@ -123,15 +139,15 @@ export const EditUploadImg = createAsyncThunk(
       //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
       const file = data;
       console.log(file);
-      if (!file) return alert('File not exist.');
+      if (!file) return thunkAPI.rejectWithValue('File not exist.');
 
       if (file.size > 1024 * 1024)
         // 1mb
-        return alert('Size too large!');
+        return thunkAPI.rejectWithValue('Size too large!');
 
       if (file.type !== 'image/jpeg' && file.type !== 'image/png')
         // 1mb
-        return alert('File format is incorrect.');
+        return thunkAPI.rejectWithValue('File format is incorrect.');
 
       let formData = new FormData();
       formData.append('file', file);
@@ -202,12 +218,12 @@ export const UploadCarouselImg = createAsyncThunk(
       //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
       const file = carouselimg;
       console.log(file);
-      if (!file) return alert('File not exist.');
+      if (!file) return thunkAPI.rejectWithValue('File not exist.');
 
       if (file.size > 1024 * 1024)
         // 1mb
         return thunkAPI.rejectWithValue('Size too large!');
-      // return alert('Size too large!');
+      // return thunkAPI.rejectWithValue('Size too large!');
 
       if (
         file.type !== 'image/jpeg' &&
@@ -216,7 +232,7 @@ export const UploadCarouselImg = createAsyncThunk(
       )
         // 1mb
         return thunkAPI.rejectWithValue('File format is incorrect.');
-      // return alert('File format is incorrect.');
+      // return thunkAPI.rejectWithValue('File format is incorrect.');
 
       let formData = new FormData();
       formData.append('file', file);
@@ -281,15 +297,15 @@ export const EditCarouselUploadImg = createAsyncThunk(
       //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
       const file = data;
       console.log(file);
-      if (!file) return alert('File not exist.');
+      if (!file) return thunkAPI.rejectWithValue('File not exist.');
 
       if (file.size > 1024 * 1024)
         // 1mb
-        return alert('Size too large!');
+        return thunkAPI.rejectWithValue('Size too large!');
 
       if (file.type !== 'image/jpeg' && file.type !== 'image/png')
         // 1mb
-        return alert('File format is incorrect.');
+        return thunkAPI.rejectWithValue('File format is incorrect.');
 
       let formData = new FormData();
       formData.append('file', file);
@@ -356,7 +372,7 @@ export const UploadCategoryImg = createAsyncThunk(
       //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
       const file = categoryimg;
       console.log(file);
-      if (!file) return alert('File not exist.');
+      if (!file) return thunkAPI.rejectWithValue('File not exist.');
 
       if (file.size > 1024 * 1024)
         // 1mb
@@ -382,11 +398,8 @@ export const UploadCategoryImg = createAsyncThunk(
           'Content-Type': 'multipart/form-data',
         },
       });
-      const img = state.Upload.carouselImg.filter((item: any) => {
-        if (typeof item.public_id !== 'object') return item;
-      });
-      console.log(res.data);
-      return { data: res.data, img: img };
+
+      return { data: res.data };
       // if (images.length == 3) setToggleUploadMulti(true);
       // setImages((images) => [...images, res.data]);
     } catch (err) {
@@ -426,6 +439,201 @@ export const DeleteCategoryImg = createAsyncThunk(
   }
 );
 //=================================================EDIT CATEGORY IMG==================================
+export const EditCategoryUploadImg = createAsyncThunk(
+  'Upload/EditCategoryUploadImg',
+  async (data, thunkAPI) => {
+    const state: any = thunkAPI.getState();
+    const categoryimg = state.Upload.editcategory[0].public_id;
+    // console.log(data.File);
+    try {
+      //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
+      const file = categoryimg;
+      console.log(file);
+      if (!file) return thunkAPI.rejectWithValue('File not exist.');
+
+      if (file.size > 1024 * 1024)
+        // 1mb
+        return thunkAPI.rejectWithValue('Size too large!');
+      // return alert('Size too large!');
+
+      if (
+        file.type !== 'image/jpeg' &&
+        file.type !== 'image/png' &&
+        file.type !== 'image/jpg'
+      )
+        // 1mb
+        return thunkAPI.rejectWithValue('File format is incorrect.');
+      // return alert('File format is incorrect.');
+
+      let formData = new FormData();
+      formData.append('file', file);
+
+      const CategoryName = state.Categories.Newcategory.Name;
+      formData.append('CategoryName', CategoryName);
+      const res = await axios.post(`/api/uploadcategory`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      return { data: res.data };
+      // if (images.length == 3) setToggleUploadMulti(true);
+      // setImages((images) => [...images, res.data]);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
+//DELETE EDIT IMG FROM CLOUDINARY
+export const EditCategoryDeleteImg = createAsyncThunk(
+  'Upload/EditCategoryDeleteImg',
+  async (data: any, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+
+      await axios.post(`/api/destroycarousel`, {
+        public_id: data,
+      });
+      // if (images.length <= 3) setToggleUploadMulti(false);
+
+      //Destroy click image
+      const image = state.Upload.tmp.filter((image: any) => {
+        if (image.public_id != data) return image;
+      });
+      return image;
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
+//=================================================CREATE Blog IMG==================================
+//UPLOAD CATEGORY IMG
+export const UploadBlogImg = createAsyncThunk(
+  'Upload/UploadBlogImg',
+  async (data, thunkAPI) => {
+    const state: any = thunkAPI.getState();
+    const blogImg = state.Upload.blog.public_id;
+    // console.log(data.File);
+    try {
+      //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
+      const file = blogImg;
+      console.log(file);
+      if (!file) return thunkAPI.rejectWithValue('File not exist.');
+
+      if (file.size > 1024 * 1024)
+        // 1mb
+        return thunkAPI.rejectWithValue('Size too large!');
+      // return alert('Size too large!');
+
+      if (
+        file.type !== 'image/jpeg' &&
+        file.type !== 'image/png' &&
+        file.type !== 'image/jpg'
+      )
+        // 1mb
+        return thunkAPI.rejectWithValue('File format is incorrect.');
+      // return alert('File format is incorrect.');
+
+      let formData = new FormData();
+      formData.append('file', file);
+
+      const BlogTitle = state.Blog.NewBlog.Title;
+      formData.append('BlogTitle', BlogTitle);
+      const res = await axios.post(`/api/uploadblog`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      return { data: res.data };
+      // if (images.length == 3) setToggleUploadMulti(true);
+      // setImages((images) => [...images, res.data]);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
+//=================================================Edit Blog IMG==================================
+//UPLOAD CATEGORY IMG
+export const EditBlogImg = createAsyncThunk(
+  'Upload/EditBlogImg',
+  async (data, thunkAPI) => {
+    const state: any = thunkAPI.getState();
+    const blogImg = state.Upload.editblog.public_id;
+    // console.log(data.File);
+    try {
+      //thêm thông báo nếu chưa chọn hoặc brand phải chọn mới dc chọn hình
+      const file = blogImg;
+      console.log(file);
+      if (!file) return thunkAPI.rejectWithValue('File not exist.');
+
+      if (file.size > 1024 * 1024)
+        // 1mb
+        return thunkAPI.rejectWithValue('Size too large!');
+      // return alert('Size too large!');
+
+      if (
+        file.type !== 'image/jpeg' &&
+        file.type !== 'image/png' &&
+        file.type !== 'image/jpg'
+      )
+        // 1mb
+        return thunkAPI.rejectWithValue('File format is incorrect.');
+      // return alert('File format is incorrect.');
+
+      let formData = new FormData();
+      formData.append('file', file);
+
+      const BlogTitle = state.Blog.EditBlog.Title;
+      formData.append('BlogTitle', BlogTitle);
+      const res = await axios.post(`/api/uploadblog`, formData, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+        },
+      });
+
+      return { data: res.data };
+      // if (images.length == 3) setToggleUploadMulti(true);
+      // setImages((images) => [...images, res.data]);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
+export const DeleteEditBlogImg = createAsyncThunk(
+  'Upload/DeleteEditBlogImg',
+  async (data, thunkAPI) => {
+    try {
+      const state: any = thunkAPI.getState();
+      await axios.post(`/api/destroyblog`, {
+        public_id: state.Upload.tmpBlog.public_id,
+      });
+      // if (images.length <= 3) setToggleUploadMulti(false);
+    } catch (err) {
+      if (err instanceof AxiosError) {
+        console.log(err.response?.data.msg);
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  }
+);
 //SLICE
 export const uploadSlice = createSlice({
   name: 'Upload',
@@ -553,7 +761,65 @@ export const uploadSlice = createSlice({
       state.categorylImg = img;
     },
     //=================================================================
-    //=================Action for Create Category=======================
+    //=================Action for Edit Carousel=======================
+    setCategoryEditImg: (state, action) => {
+      console.log(action.payload);
+      state.editcategory = action.payload;
+    },
+    CategoryaddImg: (state, action) => {
+      console.log(action.payload);
+      var url = URL.createObjectURL(action.payload);
+
+      state.editcategory.push({
+        public_id: action.payload,
+        url: url,
+      });
+      console.log(typeof action.payload);
+    },
+    setCategorytmp: (state, action) => {
+      state.tmpcategory.push(action.payload);
+      const img = state.editcategory.filter((item: any) => {
+        // console.log(current(item));
+        return item.public_id !== action.payload.public_id;
+      });
+      state.editcategory = img;
+    },
+    clearCategoryimg: (state) => {
+      state.tmpcategory = [];
+      state.editcategory = [];
+    },
+    //=================Action for Create Blog=======================
+    setBlogImg: (state, action) => {
+      console.log(action.payload);
+      var url = URL.createObjectURL(action.payload);
+
+      state.blog = {
+        public_id: action.payload,
+        url: url,
+      };
+    },
+    clearBloglimg: (state) => {
+      state.blog = {};
+    },
+    //=================Action for Edit Blog=======================
+    setEditBlogimg: (state, action) => {
+      state.editblog = action.payload;
+    },
+    addEditBlogimg: (state, action) => {
+      var url = URL.createObjectURL(action.payload);
+
+      state.editblog = {
+        public_id: action.payload,
+        url: url,
+      };
+    },
+    settmpblogimg: (state, action) => {
+      state.tmpBlog = action.payload;
+      state.editblog = {};
+    },
+    clearEditBlogimg: (state) => {
+      state.tmpBlog = {};
+    },
   },
   extraReducers: (builder) => {
     //====================================CREATE PRODUCT=======================================
@@ -568,7 +834,8 @@ export const uploadSlice = createSlice({
 
         state.uploadedimage.push(action.payload.data);
       })
-      .addCase(UploadImg.rejected, (state, action) => {
+      .addCase(UploadImg.rejected, (state, action: any) => {
+        state.err = action.payload;
         state.loading = false;
       });
     //Delete Img
@@ -580,7 +847,8 @@ export const uploadSlice = createSlice({
         state.loading = false;
         state.images = action.payload;
       })
-      .addCase(DeleteImg.rejected, (state, action) => {
+      .addCase(DeleteImg.rejected, (state, action: any) => {
+        state.err = action.payload;
         state.loading = false;
       });
     //====================================CREATE CAROUSEL=======================================
@@ -607,7 +875,8 @@ export const uploadSlice = createSlice({
         state.loading = false;
         state.carouselImg = action.payload;
       })
-      .addCase(DeleteCarouselImg.rejected, (state, action) => {
+      .addCase(DeleteCarouselImg.rejected, (state, action: any) => {
+        state.err = action.payload;
         state.loading = false;
       });
     //====================================EDIT PRODUCT=======================================
@@ -622,8 +891,9 @@ export const uploadSlice = createSlice({
         // state.editImgs = state.editImgs.slice(1);
         state.editUploadedimage.push(action.payload.data);
       })
-      .addCase(EditUploadImg.rejected, (state, action) => {
+      .addCase(EditUploadImg.rejected, (state, action: any) => {
         state.loading = false;
+        state.err = action.payload;
       });
     //Delete EditImg
     builder
@@ -634,8 +904,9 @@ export const uploadSlice = createSlice({
         state.loading = false;
         state.tmp = action.payload;
       })
-      .addCase(EditDeleteImg.rejected, (state, action) => {
+      .addCase(EditDeleteImg.rejected, (state, action: any) => {
         state.loading = false;
+        state.err = action.payload;
       });
     //====================================EDIT CAROUSEL=======================================
     //Upload Edit Carousel Image to Cloudinary
@@ -649,8 +920,9 @@ export const uploadSlice = createSlice({
         state.editcarousel = action.payload.img;
         state.editcarousel.push(action.payload.data);
       })
-      .addCase(EditCarouselUploadImg.rejected, (state, action) => {
+      .addCase(EditCarouselUploadImg.rejected, (state, action: any) => {
         state.loading = false;
+        state.err = action.payload;
       });
     //Delete EditCarouselImg
     builder
@@ -661,8 +933,9 @@ export const uploadSlice = createSlice({
         state.loading = false;
         state.tmpcarousel = action.payload;
       })
-      .addCase(EditCarouselDeleteImg.rejected, (state, action) => {
+      .addCase(EditCarouselDeleteImg.rejected, (state, action: any) => {
         state.loading = false;
+        state.err = action.payload;
       });
     //====================================CREATE CATEGORY=======================================
     builder
@@ -671,8 +944,8 @@ export const uploadSlice = createSlice({
       })
       .addCase(UploadCategoryImg.fulfilled, (state, action: any) => {
         state.loading = false;
-        state.categorylImg = action.payload.img;
-        state.categorylImg.push(action.payload.data);
+        state.categorylImg = [];
+        state.categorylImg = action.payload.data;
       })
       .addCase(UploadCategoryImg.rejected, (state, action: any) => {
         state.err = action.payload;
@@ -689,6 +962,65 @@ export const uploadSlice = createSlice({
       })
       .addCase(DeleteCategoryImg.rejected, (state, action) => {
         state.loading = false;
+      });
+    //====================================CREATE CATEGORY=======================================
+    //Upload Edit Carousel Image to Cloudinary
+    builder
+      .addCase(EditCategoryUploadImg.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(EditCategoryUploadImg.fulfilled, (state, action: any) => {
+        state.loading = false;
+        console.log(action.payload);
+        state.editcategory = [];
+        state.editcategory.push(action.payload.data);
+      })
+      .addCase(EditCategoryUploadImg.rejected, (state, action: any) => {
+        state.loading = false;
+        state.err = action.payload;
+      });
+    //Delete EditCarouselImg
+    builder
+      .addCase(EditCategoryDeleteImg.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(EditCategoryDeleteImg.fulfilled, (state, action: any) => {
+        state.loading = false;
+        state.tmpcategory = action.payload;
+      })
+      .addCase(EditCategoryDeleteImg.rejected, (state, action: any) => {
+        state.loading = false;
+        state.err = action.payload;
+      });
+    //====================================CREATE Blog=======================================
+    builder
+      .addCase(UploadBlogImg.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(UploadBlogImg.fulfilled, (state, action: any) => {
+        state.loading = false;
+        state.blog = action.payload.data;
+      });
+    //====================================EDit Blog=======================================
+    builder
+      .addCase(EditBlogImg.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(EditBlogImg.fulfilled, (state, action: any) => {
+        state.loading = false;
+        state.editblog = action.payload.data;
+      })
+      .addCase(EditBlogImg.rejected, (state, action: any) => {
+        state.loading = false;
+        alert(action.payload);
+      });
+    builder
+      .addCase(DeleteEditBlogImg.pending, (state, action) => {
+        state.loading = true;
+      })
+      .addCase(DeleteEditBlogImg.fulfilled, (state, action: any) => {
+        state.loading = false;
+        state.tmpBlog = {};
       });
   },
 });
@@ -712,6 +1044,16 @@ export const {
   setCategorylImg,
   deleteCategorylimg,
   clearCategorylimg,
+  setCategoryEditImg,
+  setCategorytmp,
+  clearCategoryimg,
+  CategoryaddImg,
+  setBlogImg,
+  clearBloglimg,
+  settmpblogimg,
+  clearEditBlogimg,
+  setEditBlogimg,
+  addEditBlogimg,
 } = uploadSlice.actions;
 
 export default uploadSlice.reducer;

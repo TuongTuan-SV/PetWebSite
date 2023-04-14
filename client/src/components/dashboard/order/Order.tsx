@@ -1,74 +1,84 @@
 import React, { useContext, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { useAppSelector } from '../../../hooks';
+import { useAppDispatch, useAppSelector } from '../../../hooks';
 import './order.css';
+import { UpdataStatus, getAllOrder } from '../../../redux/slices/orderSlice';
 export default function Order() {
   // const state = useContext(GlobalState);
   // const [history, setHistory] = state.userAPI.history;
   // const [IsAdmin] = state.userAPI.IsAdmin;
   // const [token] = state.token;
-
+  const dispatch = useAppDispatch();
   const { Orders } = useAppSelector((state) => state.Order);
-  // useEffect(() => {
+  // useEffect(() => {;
+  const status: any = ['Shipping', 'Cancel', 'Pending', 'Complete'];
 
-  //     const getHistory = async () => {
-  //       try {
-  //         if (IsAdmin) {
-  //           const res = await axios.get("/api/ỏ", {
-  //             headers: { Authorization: token },
-  //           });
-  //           setHistory(res.data);
-  //         } else {
-  //           const res = await axios.get("/user/history", {
-  //             headers: { Authorization: token },
-  //           });
-  //           setHistory(res.data);
-  //         }
-
-  //         // console.log(res,history)
-  //       } catch (err) {
-  //         alert(err.response.data.msg);
-  //       }
-
-  //     getHistory();
-  //   }
-  // }, [token, IsAdmin]);
-
+  const updateStatus = (id: any, status: any) => {
+    console.log(id, status);
+    window.confirm('Update status.')
+      ? dispatch(UpdataStatus({ id, status })).then(() => {
+          dispatch(getAllOrder());
+        })
+      : null;
+  };
   return (
     <div className="admin_order">
-      <h2>History</h2>
-      <h4>You have {Orders?.length} Orders</h4>
-
       <table>
         <thead>
           <tr>
             <th>User Name</th>
             <th>Total</th>
+            <th>Status</th>
             <th>Date of purchased</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {Orders?.slice()
-            .reverse()
-            .map((item: any) => {
-              return (
-                <tr key={item._id}>
-                  <td>{item.FirstName}</td>
-                  <td>
-                    {item.Total.toLocaleString('us-US', {
-                      style: 'currency',
-                      currency: 'USD',
-                    })}
-                  </td>
-                  <td>{new Date(item.createdAt).toLocaleDateString()}</td>
-                  <td>
-                    <Link to={`/dashboard/order/${item._id}`}>View</Link>
-                  </td>
-                </tr>
-              );
-            })}
+          {Orders.length > 0
+            ? Orders?.map((item: any) => {
+                return (
+                  <tr key={item._id}>
+                    <td>{item.FirstName}</td>
+                    <td>
+                      {item.Total.toLocaleString('us-US', {
+                        style: 'currency',
+                        currency: 'USD',
+                      })}
+                    </td>
+                    <td>
+                      <select
+                        className="Status"
+                        id={item.Status}
+                        name="Brand"
+                        onChange={(e: any) => {
+                          updateStatus(item._id, e.target.value);
+                        }}
+                      >
+                        <option value={item.Status} id={item.Status}>
+                          {item.Status}
+                        </option>
+                        {status.map((status: any) =>
+                          status !== item.Status ? (
+                            <option value={status} key={status} id={status}>
+                              {status}
+                            </option>
+                          ) : null
+                        )}
+                      </select>
+                    </td>
+                    <td>{new Date(item.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      <Link to={`/dashboard/order/${item._id}`}>
+                        View Detail
+                      </Link>
+                    </td>
+                  </tr>
+                );
+              })
+                .slice()
+                .reverse()
+            : null}
         </tbody>
       </table>
     </div>

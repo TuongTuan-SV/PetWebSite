@@ -12,22 +12,37 @@ import './CreateCategory.css';
 import {
   UploadCategoryImg,
   clearCategorylimg,
+  deleteCategorylimg,
 } from '../../../../redux/slices/uploadSilce';
 export default function CreateCategory() {
   const dispatch = useAppDispatch();
-  const { Newcategory } = useAppSelector((state) => state.Categories);
-
+  const { Newcategory, Categories } = useAppSelector(
+    (state) => state.Categories
+  );
+  const { categorylImg } = useAppSelector((state) => state.Upload);
   const handlecreateCategory = async (e: any) => {
     e.preventDefault();
     try {
-      dispatch(UploadCategoryImg()).then(() =>
-        dispatch(createCategory()).then(() => {
-          dispatch(getCategory());
-          dispatch(clearCategorylimg());
-          dispatch(setCategory(''));
-          alert('Category Created!');
+      if (
+        Categories.some((item: any) => {
+          return Newcategory.Name === item.Name;
         })
-      );
+      ) {
+        return alert('Category already exists!');
+      } else {
+        dispatch(UploadCategoryImg()).then((res: any) => {
+          if (res.error) {
+            return alert(res.payload);
+          }
+          dispatch(createCategory()).then(async (res: any) => {
+            console.log(res.payload.img);
+            dispatch(getCategory());
+            dispatch(clearCategorylimg());
+            dispatch(setCategory(''));
+            alert('Category Created!');
+          });
+        });
+      }
 
       //  const res = await axios.put(`/api/category/${params.id}`, { Name: category });
       //  console.log(res);

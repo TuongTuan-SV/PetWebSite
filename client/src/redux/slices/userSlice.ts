@@ -193,6 +193,9 @@ export const userSlice = createSlice({
       state.token = '';
       console.log(state.User);
     }, //=============================CART=====================================
+    setUser: (state, action) => {
+      state.User = action.payload;
+    },
     decrement: (state, action) => {
       const product = state.User.cart.find((item: any) => {
         if (item._id === action.payload)
@@ -238,7 +241,7 @@ export const userSlice = createSlice({
       // console.log(product);
     },
     //=============================ADMIN USER=====================================
-    setUser: (state, action) => {
+    setNewUser: (state, action) => {
       state.NewUser = action.payload;
     },
     setEditUser: (state, action) => {
@@ -324,6 +327,7 @@ export const userSlice = createSlice({
 
 export const {
   setLogin,
+  setUser,
   setLogout,
   decrement,
   removeItem,
@@ -334,7 +338,7 @@ export const {
   setsearch,
   setsort,
   setrole,
-  setUser,
+  setNewUser,
   setEditUser,
 } = userSlice.actions;
 

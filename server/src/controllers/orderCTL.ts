@@ -7,7 +7,7 @@ const OrderController = {
   getOrder: async (req: Request, res: Response) => {
     try {
       const payments = await Order.find();
-      console.log(payments);
+      // console.log(payments);
       res.json(payments);
     } catch (err) {
       if (err instanceof Error) {
@@ -24,14 +24,15 @@ const OrderController = {
       if (!user) return res.status(400).json({ msg: 'User not exists' });
 
       const {
-        PostalCode,
         PaymentMethod,
-        City,
-        Country,
+        Provice,
+        District,
+        Ward,
         Cart,
         Address,
-        FristName,
+        FirstName,
         LastName,
+        OrderNote,
         Total,
       } = req.body.order;
       const { _id, email } = user;
@@ -39,14 +40,15 @@ const OrderController = {
       const NewOrder = new Order({
         user_id: _id,
         email,
-        PostalCode,
         PaymentMethod,
-        City,
-        Country,
+        Provice,
+        District,
+        Ward,
         Cart,
         Address,
-        FristName,
+        FirstName,
         LastName,
+        OrderNote,
         Total,
       });
       // console.log(Cart);
@@ -59,6 +61,20 @@ const OrderController = {
 
       await NewOrder.save();
       res.json({ msg: 'Order Created' });
+    } catch (err) {
+      if (err instanceof Error) {
+        // ✅ TypeScript knows err is Error
+        return res.status(500).json({ msg: err.message });
+      } else {
+        console.log('Unexpected error', err);
+      }
+    }
+  },
+  updateStatus: async (req: any, res: Response) => {
+    try {
+      await Order.findByIdAndUpdate(req.params.id, { Status: req.body.status });
+      // console.log(payments);
+      res.json('Updated');
     } catch (err) {
       if (err instanceof Error) {
         // ✅ TypeScript knows err is Error

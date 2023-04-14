@@ -1,0 +1,121 @@
+.create_Blog {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+}
+.create_Blog_input {
+  width: 100%;
+}
+
+.create_Blog #file_up {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  outline: none;
+}
+
+.create_Blog #file_up::before {
+  content: '+';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: -88px;
+  left: 0;
+  background: white;
+  color: rgb(250, 200, 107);
+  font-size: 17rem;
+  text-align: center;
+  cursor: pointer;
+  margin: auto;
+}
+
+.create_Blog #file_img {
+  width: 100%;
+  height: 100%;
+  /* height: 100%; */
+}
+
+.create_Blog #file_img img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  left: 0;
+}
+
+.create_Blog #file_img span {
+  position: absolute;
+  top: -13px;
+  right: -13px;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  padding: 6px 10px;
+  cursor: pointer;
+  font-weight: 900;
+  color: crimson;
+  z-index: 10;
+}
+
+.create_Blog form {
+  width: 10 0%;
+  margin-right: 20px;
+}
+
+.create_Blog form .row {
+  width: 100%;
+  margin: 15px 0;
+}
+
+.create_Blog form input,
+textarea {
+  width: 100%;
+  min-height: 20px;
+  padding: 0 5px;
+}
+
+.create_Blog_input button {
+  width: 200px;
+  height: 40px;
+  background: #555;
+  color: white;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  font-weight: 700;
+}
+
+.basic-multi-select {
+  height: 20px;
+  text-align: center;
+  margin-top: 0px !important;
+}
+
+.create_Blog .upload {
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
+  width: 100%;
+  max-height: 300px;
+}
+.create_Blog .MultiUpload {
+  padding-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.create_Blog .ImgContainer {
+  width: 50%;
+  /* padding: 30px; */
+  border-color: #bbb8b8;
+  border-style: dashed;
+  max-height: 200px;
+  margin-top: 20px;
+  position: relative;
+}
+.createaBlog-btn {
+  display: flex;
+  justify-content: space-around;
+}

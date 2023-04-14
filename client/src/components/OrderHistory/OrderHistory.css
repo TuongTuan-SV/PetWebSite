@@ -40,3 +40,15 @@ table a {
   height: 100px;
   object-fit: scale-down;
 }
+#Pending {
+  background-color: #c89600;
+}
+#Shipping {
+  background-color: #c89600;
+}
+#Cancel {
+  background-color: #a51d2a;
+}
+#Complete {
+  background-color: #208637;
+}

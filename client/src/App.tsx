@@ -20,6 +20,7 @@ import {
 } from './redux/slices/userSlice';
 import { getAllOrder } from './redux/slices/orderSlice';
 import { getCarousel } from './redux/slices/carouselSlice';
+import { getBlog } from './redux/slices/blogSlice';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -36,7 +37,7 @@ function App() {
     dispatch(getCarousel());
     dispatch(getAllOrder());
     // console.log(token.accesstoken);
-    // dispatch(getuser('adasd'));
+    dispatch(getBlog());
     //Get PRODUCT
     dispatch(getProducts());
     dispatch(getNewtProducts());

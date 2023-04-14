@@ -22,7 +22,7 @@ const CarouselController = {
         special: req.body.special,
         image: req.body.image,
       });
-      console.log(newCarousel);
+      // console.log(newCarousel);
       await newCarousel.save();
       return res.json(newCarousel);
     } catch (err) {

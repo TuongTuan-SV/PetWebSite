@@ -66,12 +66,12 @@ export const ProductItem = (Props: any) => {
             <ZoomInOutlinedIcon style={{ fontSize: '25' }}></ZoomInOutlinedIcon>
           </Link>
         </div>
-        <button className="addCartBtn btn-primary Product_card_addtocart">
-          <ShoppingBagOutlinedIcon />
-          <Link to="#" onClick={() => addtocart(product)}>
+        <Link to="#" onClick={() => addtocart(product)}>
+          <button className="addCartBtn btn-primary Product_card_addtocart">
+            <ShoppingBagOutlinedIcon />
             Add To Cart
-          </Link>
-        </button>
+          </button>
+        </Link>
         {/* <div>
           <Link id="btn_buy" to="#!" onClick={() => addtocart(product)}>
             Buy

@@ -29,44 +29,52 @@ const initialState = {
 };
 
 export default function CreateProduct() {
-  const { Newproduct } = useAppSelector((state) => state.Products);
+  const { Newproduct, products } = useAppSelector((state) => state.Products);
 
   const { Brands } = useAppSelector((state) => state.Brands);
   const { images } = useAppSelector((state) => state.Upload);
   const [loading, setLoading] = useState(false);
   const dispatch = useAppDispatch();
+
   // const history = useNavigate()
   // console.log(Newproduct);
 
   const handleCreateProduct = async (e: any) => {
     e.preventDefault();
-    setLoading(true);
-    if (Newproduct.Price <= 0 || Newproduct.Stocks <= 0) {
+    if (Newproduct.Price <= 0) {
       return alert('Price need to be more than 0!');
-    }
-
-    const uploadImg = images
-      .slice()
-      .reverse()
-      .map(async (img: any) => {
-        await dispatch(UploadImg(img));
-        console.log(img);
-        return img;
-      });
-
-    Promise.all(uploadImg).then(() => {
-      dispatch(createProduct(Newproduct))
-        .then(() => {
-          dispatch(getProducts());
-          dispatch(getAdminProducts());
-        })
-        .then(() => {
-          dispatch(setNewProduct(initialState));
-          dispatch(clearimg());
-          setLoading(false);
-          alert('Product Created!');
+    } else if (Newproduct.Stocks <= 0)
+      return alert('Stocks need to be more than 0!');
+    else if (
+      products.some((item: any) => {
+        return item.Name === Newproduct.Name;
+      })
+    )
+      return alert('Product aleardy exists!');
+    else {
+      const uploadImg = images
+        .slice()
+        .reverse()
+        .map(async (img: any) => {
+          await dispatch(UploadImg(img));
+          console.log(img);
+          return img;
         });
-    });
+
+      Promise.all(uploadImg).then(() => {
+        dispatch(createProduct(Newproduct))
+          .then(() => {
+            dispatch(getProducts());
+            dispatch(getAdminProducts());
+          })
+          .then(() => {
+            dispatch(setNewProduct(initialState));
+            dispatch(clearimg());
+            setLoading(false);
+            alert('Product Created!');
+          });
+      });
+    }
   };
 
   const handleChangeInput = (e: any) => {
@@ -103,6 +111,7 @@ export default function CreateProduct() {
             <label htmlFor="price">Price</label>
             <input
               type="number"
+              min="0"
               name="Price"
               id="price"
               required
@@ -114,6 +123,7 @@ export default function CreateProduct() {
             <label htmlFor="Stocks">Stocks</label>
             <input
               type="number"
+              min="0"
               name="Stocks"
               id="price"
               required
@@ -125,6 +135,7 @@ export default function CreateProduct() {
             <label htmlFor="discount">Discount</label>
             <input
               type="Number"
+              min="0"
               max="100"
               name="Discount"
               id="Discount"

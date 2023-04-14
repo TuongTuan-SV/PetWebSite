@@ -62,12 +62,14 @@ export default function UploadCategory() {
           // style={{ backgroundColor: `${NewCarousel.color}`, display: 'flex' }}
         >
           <div style={{ margin: 'auto', width: '60%' }}>
-            {categorylImg?.map((image: any, index) => (
-              <div key={index} id="file_img">
-                <span onClick={() => handleDestroyMulti(image)}>X</span>
-                <img key={index} src={image?.url} alt=""></img>
-              </div>
-            ))}
+            {categorylImg.length > 0
+              ? categorylImg.map((image: any, index) => (
+                  <div key={index} id="file_img">
+                    <span onClick={() => handleDestroyMulti(image)}>X</span>
+                    <img key={index} src={image?.url} alt=""></img>
+                  </div>
+                ))
+              : null}
           </div>
         </div>
       </div>

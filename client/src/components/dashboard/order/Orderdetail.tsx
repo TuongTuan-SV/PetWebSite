@@ -29,6 +29,7 @@ export default function OrderDetail() {
             <th>Product</th>
             <th>Quantity</th>
             <th>Price</th>
+            <th>Total</th>
           </tr>
         </thead>
         <tbody>
@@ -39,6 +40,12 @@ export default function OrderDetail() {
               </td>
               <td>{item.Name}</td>
               <td>{item.quantity}</td>
+              <td>
+                {item.Price.toLocaleString('us-US', {
+                  style: 'currency',
+                  currency: 'USD',
+                })}
+              </td>
               <td>
                 {(item.Price * item.quantity).toLocaleString('us-US', {
                   style: 'currency',

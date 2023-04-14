@@ -2,7 +2,6 @@ import { width } from '@mui/system';
 import React, { useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import axios, { AxiosError } from 'axios';
-import { API_URL } from '../../api/config';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import { setImg, deleteimg } from '../../redux/slices/uploadSilce';
 // type image = {

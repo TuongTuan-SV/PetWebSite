@@ -33,10 +33,16 @@ export default function AdminProduct() {
   const [check, setCheck] = useState(false);
   const [CheckedProducts, setCheckProduct] = useState<Array<object>>([]);
   // const [callback, setCallback] = state.productAPI.callback;
-  const { adminproduct } = useAppSelector((state) => state.Products);
+  const { adminproduct, adminsearch } = useAppSelector(
+    (state) => state.Products
+  );
 
   const [currentPage, setCurrentPage] = useState<any>(1);
   const [productsPerPage] = useState(5); //9 Per Page
+
+  useEffect(() => {
+    dispatch(getAdminProducts());
+  }, [adminsearch]);
 
   //Get current posts
   const indexOfLastPost = currentPage * productsPerPage;
@@ -45,7 +51,7 @@ export default function AdminProduct() {
   const howManyPages = Math.ceil(adminproduct.length / productsPerPage);
   // const [loading, setloading]
 
-  console.log(adminproduct);
+  // console.log(adminproduct);
   const CheckAll = () => {
     adminproduct.forEach(async (product: any) => {
       if (CheckedProducts.includes(product)) {
@@ -95,7 +101,7 @@ export default function AdminProduct() {
       await destroyImg;
       await deleteProduct;
       dispatch(getProducts());
-      dispatch(getAdminProducts());
+      // dispatch(getAdminProducts());
       // setCallback(!callback);
     } catch (err: any) {
       alert(err.reponse.data.msg);

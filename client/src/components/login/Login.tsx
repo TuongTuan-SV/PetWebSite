@@ -38,11 +38,11 @@ export default function Login() {
         // window.location.href = "/dashboard"
       }
       //Lưu thông tin người dùng và token về state
-      console.log(res);
+      // alert(res);
     } catch (err) {
       // Bắt lỗi khi nhận respone từ axios
       if (err instanceof AxiosError) {
-        console.log(err.response?.data.msg);
+        alert(err.response?.data.msg);
       } else {
         console.log('Unexpected error', err);
       }

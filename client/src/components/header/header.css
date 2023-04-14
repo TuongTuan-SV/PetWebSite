@@ -12,6 +12,7 @@ header {
 
 header .Logo {
   flex: 1;
+  text-align: left;
 }
 
 header a {

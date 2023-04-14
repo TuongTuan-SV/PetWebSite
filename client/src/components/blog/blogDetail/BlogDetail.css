@@ -1,0 +1,39 @@
+.detailblog_container {
+  padding: 20px 50px;
+  text-align: left;
+}
+.banner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px 100px;
+}
+.banner img {
+  width: 100%;
+  height: 400px;
+  overflow: auto;
+}
+.detailblogtitle {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 50px;
+  text-transform: capitalize;
+}
+.detailblog {
+  display: flex;
+}
+.detailblog span {
+  display: flex;
+  margin: 0 5px;
+}
+.section .title {
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 50px;
+  text-transform: capitalize;
+}
+.section .description {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  text-align: 'left';
+}

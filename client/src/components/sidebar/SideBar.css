@@ -103,7 +103,12 @@
   color: crimson;
   margin: 10px 0 10px;
 }
-
+.SideBarMenu {
+  display: none;
+}
+.menuSidebar {
+  display: none;
+}
 @media (width < 600px) {
   .SideBarMenu {
     display: block;

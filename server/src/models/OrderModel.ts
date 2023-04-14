@@ -4,12 +4,13 @@ export interface IOrder {
   FirstName: string;
   LastName: string;
   Address: string;
-  Country: string;
-  City: string;
-  PostalCode: number;
+  Provice: string;
+  District: string;
+  Ward: string;
   Cart?: Array<[object]>;
   PaymentMethod: number;
-  Status: boolean;
+  OrderNote: string;
+  Status: string;
   Total: number;
 }
 
@@ -35,35 +36,44 @@ const OrderSchema = new Schema<IOrder>(
       min: 2,
       max: 100,
     },
-    Country: {
+    Provice: {
       type: String,
       require: true,
       trim: true,
       min: 2,
       max: 100,
     },
-    City: {
+    District: {
       type: String,
       require: true,
       trim: true,
       min: 2,
       max: 100,
     },
-    PostalCode: {
-      type: Number,
+    Ward: {
+      type: String,
       require: true,
       trim: true,
+      min: 2,
+      max: 100,
     },
     Cart: {
       type: Array,
       default: [],
     },
+    OrderNote: {
+      type: String,
+      require: true,
+      trim: true,
+      min: 2,
+      max: 500,
+    },
     PaymentMethod: {
       type: Number,
     },
     Status: {
-      type: Boolean,
-      default: false,
+      type: String,
+      default: 'Pending',
     },
     Total: {
       type: Number,

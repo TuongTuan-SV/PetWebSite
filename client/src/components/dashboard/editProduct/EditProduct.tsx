@@ -48,29 +48,40 @@ export default function EditProduct() {
 
   const handleCreateProduct = async (e: any) => {
     e.preventDefault();
-    const deletetmp = tmp.map(async (img: any) => {
-      await dispatch(EditDeleteImg(img.public_id));
-    });
-    const uploadNewimg = editImgs.map(async (img: any) => {
-      if (typeof img.public_id === 'object') {
-        console.log('addimg');
-        await dispatch(EditUploadImg(img.public_id)).then(() =>
-          dispatch(subtractimg())
-        );
-      }
-    });
+    if (Editproduct.Price <= 0) {
+      return alert('Price need to be more than 0!');
+    } else if (
+      products.some((item: any) => {
+        if (item.Name === Editproduct.Name && item._id !== Editproduct._id)
+          return item.Name === Editproduct.Name;
+      })
+    )
+      return alert('Product aleardy exists!');
+    else {
+      const deletetmp = tmp.map(async (img: any) => {
+        await dispatch(EditDeleteImg(img.public_id));
+      });
+      const uploadNewimg = editImgs.map(async (img: any) => {
+        if (typeof img.public_id === 'object') {
+          console.log('addimg');
+          await dispatch(EditUploadImg(img.public_id)).then(() =>
+            dispatch(subtractimg())
+          );
+        }
+      });
 
-    Promise.all(uploadNewimg).then(() => {
-      dispatch(editProduct(Editproduct))
-        .then(() => {
-          dispatch(getProducts());
-          dispatch(getAdminProducts());
-        })
-        .then(() => {
-          alert('Product Updated!');
-        });
-    });
-    deletetmp;
+      Promise.all(uploadNewimg).then(() => {
+        dispatch(editProduct(Editproduct))
+          .then(() => {
+            dispatch(getProducts());
+            dispatch(getAdminProducts());
+          })
+          .then(() => {
+            alert('Product Updated!');
+          });
+      });
+      deletetmp;
+    }
   };
 
   const handleChangeInput = (e: any) => {
@@ -109,6 +120,8 @@ export default function EditProduct() {
             <label htmlFor="price">Price</label>
             <input
               type="number"
+              min="0"
+              step="0.01"
               name="Price"
               id="price"
               required
@@ -120,9 +133,9 @@ export default function EditProduct() {
             <label htmlFor="Stocks">Stocks</label>
             <input
               type="number"
+              min="0"
               name="Stocks"
-              id="price"
-              max="100"
+              id="stocks"
               required
               value={Editproduct.Stocks}
               onChange={handleChangeInput}
@@ -132,6 +145,7 @@ export default function EditProduct() {
             <label htmlFor="discount">Discount</label>
             <input
               type="Number"
+              min="0"
               max="100"
               name="Discount"
               id="Discount"

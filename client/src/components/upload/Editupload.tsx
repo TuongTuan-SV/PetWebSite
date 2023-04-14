@@ -28,7 +28,6 @@ export default function EditUpload() {
     (state) => state.Upload
   );
   const { Editproduct } = useAppSelector((state) => state.Products);
-  const [img, setimg] = useState<any>([]);
 
   useEffect(() => {
     dispatch(setUploadEditImg(Editproduct.images));

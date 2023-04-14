@@ -29,17 +29,12 @@ export default function Filter() {
 
   const handleBrand = (e: any) => {
     dispatch(setAdminBrand(e.target.value));
-
-    dispatch(getAdminProducts());
   };
   const handleSort = (e: any) => {
     dispatch(setAdminSort(e.target.value));
-
-    dispatch(getAdminProducts());
   };
   const handleSearch = (e: any) => {
     dispatch(setAdminSearch(e.target.value.toLowerCase()));
-    dispatch(getAdminProducts());
   };
 
   return (
@@ -85,7 +80,7 @@ export default function Filter() {
         <select value={adminsearch.sort} onChange={handleSort}>
           <option value="">Newest</option>
           <option value="sort=oldest">Oldest</option>
-          <option value="sort=-sold">Best sales</option>
+          <option value="sort=-Sold">Best sales</option>
           <option value="sort=-Price">Price: Hight-Low</option>
           <option value="sort=Price">Price: Low-Hight</option>
         </select>

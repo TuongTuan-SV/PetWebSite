@@ -30,6 +30,7 @@ app.use('/api', require('./routers/carouselRouter'));
 app.use('/api', require('./routers/upload'));
 app.use('/api', require('./routers/categoryRouter'));
 app.use('/api', require('./routers/OrderRouter'));
+app.use('/api', require('./routers/blogRouter'));
 //Connect to mongoAtals
 mongoose.set('strictQuery', false);
 mongoose.connect(process.env.MONGO_URL!).then(() => {
