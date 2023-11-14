@@ -21,10 +21,10 @@ export default function OrderHistory() {
   //     getHistory();
   //   }
   // }, [token, setHistory]);
-  useEffect(() => {
-    dispatch(getuser());
-    console.log(';ádasdasd');
-  }, [Orders]);
+  // useEffect(() => {
+  //   dispatch(getuser());
+  //   console.log(';ádasdasd');
+  // }, [Orders]);
 
   const cancelOrder = (id: any) => {
     window.confirm('Cancel Order ?')
