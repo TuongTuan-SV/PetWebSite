@@ -4,6 +4,11 @@ import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import './order.css';
 import { UpdataStatus, getAllOrder } from '../../../redux/slices/orderSlice';
+import {
+  getAdminProducts,
+  getProducts,
+} from '../../../redux/slices/productSlice';
+import { getHistory } from '../../../redux/slices/userSlice';
 export default function Order() {
   // const state = useContext(GlobalState);
   // const [history, setHistory] = state.userAPI.history;
@@ -11,14 +16,23 @@ export default function Order() {
   // const [token] = state.token;
   const dispatch = useAppDispatch();
   const { Orders } = useAppSelector((state) => state.Order);
-  // useEffect(() => {;
+  const { history, User } = useAppSelector((state) => state.User);
+
   const status: any = ['Shipping', 'Cancel', 'Pending', 'Complete'];
+
+  // useEffect(() => {
+  //   dispatch(getAllOrder());
+  //   console.log(history);
+  // }, [User]);
 
   const updateStatus = (id: any, status: any) => {
     console.log(id, status);
     window.confirm('Update status.')
       ? dispatch(UpdataStatus({ id, status })).then(() => {
+          dispatch(getHistory());
           dispatch(getAllOrder());
+          dispatch(getProducts());
+          dispatch(getAdminProducts());
         })
       : null;
   };

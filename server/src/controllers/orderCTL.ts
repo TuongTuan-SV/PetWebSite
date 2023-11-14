@@ -53,7 +53,7 @@ const OrderController = {
       });
       // console.log(Cart);
       Cart.forEach((item: any) => {
-        return sold(item._id, item.quantity, item.Sold);
+        return sold(item._id, item.quantity, item.Sold, item.Stocks);
       });
       // Cart.filter((item: any) => {
       //   return sold(item._id, item.quantity, item.Sold);
@@ -73,7 +73,13 @@ const OrderController = {
   updateStatus: async (req: any, res: Response) => {
     try {
       await Order.findByIdAndUpdate(req.params.id, { Status: req.body.status });
-      // console.log(payments);
+      const _order = await Order.findById(req.params.id);
+      const Cart = _order?.Cart;
+      if (req.body.status === 'Cancel')
+        Cart?.forEach((item: any) => {
+          return cancleOrder(item._id, item.quantity, item.Sold, item.Stocks);
+        });
+
       res.json('Updated');
     } catch (err) {
       if (err instanceof Error) {
@@ -86,13 +92,28 @@ const OrderController = {
   },
 };
 
-const sold = async (id: any, quantity: any, oldsold: any) => {
+const sold = async (id: any, quantity: any, oldsold: any, Stocks: any) => {
   await Product.findOneAndUpdate(
     { _id: id },
     {
       Sold: quantity + oldsold,
+      Stocks: Stocks - quantity,
     }
   );
-  console.log('updated');
+};
+
+const cancleOrder = async (
+  id: any,
+  quantity: any,
+  oldsold: any,
+  Stocks: any
+) => {
+  await Product.findOneAndUpdate(
+    { _id: id },
+    {
+      Sold: oldsold - quantity,
+      Stocks: Stocks + quantity,
+    }
+  );
 };
 module.exports = OrderController;

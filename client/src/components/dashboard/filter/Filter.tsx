@@ -29,12 +29,15 @@ export default function Filter() {
 
   const handleBrand = (e: any) => {
     dispatch(setAdminBrand(e.target.value));
+    dispatch(getAdminProducts());
   };
   const handleSort = (e: any) => {
     dispatch(setAdminSort(e.target.value));
+    dispatch(getAdminProducts());
   };
   const handleSearch = (e: any) => {
     dispatch(setAdminSearch(e.target.value));
+    dispatch(getAdminProducts());
   };
 
   return (

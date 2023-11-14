@@ -7,6 +7,7 @@ import {
   clearOrder,
   setTotal,
 } from '../../redux/slices/orderSlice';
+import { getAdminProducts, getProducts } from '../../redux/slices/productSlice';
 export default function Checkout() {
   const dispatch = useAppDispatch();
   const { order } = useAppSelector((state) => state.Order);
@@ -31,6 +32,8 @@ export default function Checkout() {
         dispatch(clearCart());
         dispatch(updateCart());
         dispatch(clearOrder());
+        dispatch(getProducts());
+        dispatch(getAdminProducts());
       }
     });
   };

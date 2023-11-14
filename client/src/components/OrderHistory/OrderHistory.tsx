@@ -3,11 +3,13 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import './OrderHistory.css';
-import { UpdataStatus } from '../../redux/slices/orderSlice';
-import { getHistory } from '../../redux/slices/userSlice';
+import { UpdataStatus, getAllOrder } from '../../redux/slices/orderSlice';
+import { getHistory, getuser } from '../../redux/slices/userSlice';
+import { getAdminProducts, getProducts } from '../../redux/slices/productSlice';
 export default function OrderHistory() {
   const dispatch = useAppDispatch();
   const { history } = useAppSelector((state) => state.User);
+  const { Orders } = useAppSelector((state) => state.Order);
   // useEffect(() => {
   //   if (token) {
   //     const getHistory = async () => {
@@ -19,10 +21,18 @@ export default function OrderHistory() {
   //     getHistory();
   //   }
   // }, [token, setHistory]);
+  useEffect(() => {
+    dispatch(getuser());
+    console.log(';ádasdasd');
+  }, [Orders]);
+
   const cancelOrder = (id: any) => {
     window.confirm('Cancel Order ?')
       ? dispatch(UpdataStatus({ id, status: 'Cancel' })).then(() => {
           dispatch(getHistory());
+          // dispatch(getAllOrder());
+          // dispatch(getProducts());
+          // dispatch(getAdminProducts());
         })
       : null;
   };

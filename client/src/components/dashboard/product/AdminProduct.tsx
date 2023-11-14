@@ -42,7 +42,7 @@ export default function AdminProduct() {
 
   useEffect(() => {
     dispatch(getAdminProducts());
-  }, [adminsearch]);
+  }, [adminproduct]);
 
   //Get current posts
   const indexOfLastPost = currentPage * productsPerPage;
