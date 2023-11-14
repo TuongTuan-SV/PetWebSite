@@ -84,7 +84,7 @@ export const UploadImg = createAsyncThunk(
           'Content-Type': 'multipart/form-data',
         },
       });
-      const img = state.Upload.images.slice(1);
+      const img = state.Upload.images;
       // (item: any) => {
       //   if (typeof item.public_id === 'string') return item;
       // });
@@ -552,7 +552,7 @@ export const UploadBlogImg = createAsyncThunk(
           'Content-Type': 'multipart/form-data',
         },
       });
-
+      console.log(res);
       return { data: res.data };
       // if (images.length == 3) setToggleUploadMulti(true);
       // setImages((images) => [...images, res.data]);

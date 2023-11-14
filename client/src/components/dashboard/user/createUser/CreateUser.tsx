@@ -44,7 +44,9 @@ export default function CreateUser() {
     <div className="create_product">
       <form onSubmit={CreateUser}>
         <div className="row">
-          <label htmlFor="firstName">First Name</label>
+          <label htmlFor="firstName">
+            First Name <span className="require">*</span>
+          </label>
           <input
             type="text"
             name="FirstName"
@@ -56,7 +58,9 @@ export default function CreateUser() {
         </div>
 
         <div className="row">
-          <label htmlFor="lastName">Last Name</label>
+          <label htmlFor="lastName">
+            Last Name <span className="require">*</span>
+          </label>
           <input
             type="text"
             name="LastName"
@@ -68,7 +72,9 @@ export default function CreateUser() {
         </div>
 
         <div className="row">
-          <label htmlFor="email">Email</label>
+          <label htmlFor="email">
+            Email <span className="require">*</span>
+          </label>
           <input
             type="email"
             name="email"
@@ -80,7 +86,9 @@ export default function CreateUser() {
         </div>
 
         <div className="row">
-          <label htmlFor="password">Password</label>
+          <label htmlFor="password">
+            Password <span className="require">*</span>
+          </label>
           <input
             type="password"
             name="password"
@@ -92,7 +100,9 @@ export default function CreateUser() {
         </div>
 
         <div className="row">
-          <label htmlFor="role">Role</label>
+          <label htmlFor="role">
+            Role <span className="require">*</span>
+          </label>
           <select name="role" value={NewUser.role} onChange={handleChangeInput}>
             <option value="">Select Role</option>
             <option value={0}>0</option>

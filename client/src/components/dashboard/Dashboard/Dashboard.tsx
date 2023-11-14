@@ -9,49 +9,53 @@ import Card from './card/Card';
 import { useAppDispatch, useAppSelector } from '../../../hooks';
 import { getalluser } from '../../../redux/slices/userSlice';
 import './dashboard.css';
+import PendingOrders from './pendingorder/PendingOrders';
+import Comments from './Comment/Comment';
 // import PendingOrders from './pendingorder/PendingOrders';
 
 export default function Dashboard() {
   const { AdminUser } = useAppSelector((state) => state.User);
+  const { Orders } = useAppSelector((state) => state.Order);
   const dispatch = useAppDispatch();
-  const [history, setHistory] = useState([]);
+  const [history, setHistory] = useState<any>([]);
   const [Data, setData] = useState([]);
+
   useEffect(() => {
     // if (token) {
-    // const getHistory = async () => {
-    //   try {
-    //     const res = await axios.get('/api/payment');
-    //     setHistory(res.data);
-    //     // console.log(res,history)
-    //   } catch (err: any) {
-    //     alert(err.response.data.msg);
-    //   }
-    //   // };
+    const getHistory = async () => {
+      try {
+        const res = await axios.get('/api/order');
+        setHistory(res.data);
+        // console.log(res,history)
+      } catch (err: any) {
+        alert(err.response.data.msg);
+      }
+    };
     // };
-    // getHistory();
-  }, [dispatch]);
+    getHistory();
+  }, []);
 
   useEffect(() => {
     const summedResponse = history.slice(-30).reduce((day: any, cur: any) => {
       let inAcc = false;
       day.forEach((o: any) => {
         if (
-          new Date(o.createdAt).toLocaleDateString() ==
+          new Date(o.createdAt).toLocaleDateString() ===
           new Date(cur.createdAt).toLocaleDateString()
         ) {
           // if obj store is already in new array, increase sum
-          o.total += cur.total;
+          o.Total += cur.Total;
           inAcc = true;
         }
       });
-      if (!inAcc) {
+      if (!inAcc && cur.Status !== 'Cancel') {
         day.push(cur); // if obj store isn't already in new array, add it
       }
       return day;
     }, []);
+
     setData(summedResponse);
   }, [history]);
-
   const DailyRevenue = () => {
     let date = new Date();
     let total = 0;
@@ -60,7 +64,7 @@ export default function Dashboard() {
         new Date(data.createdAt).toLocaleDateString() ===
         date.toLocaleDateString()
       )
-        total += data.total;
+        total += data.Total;
     });
     return total.toLocaleString('en-US', {
       style: 'currency',
@@ -86,6 +90,10 @@ export default function Dashboard() {
     let total = 0;
     AdminUser.length > 0
       ? AdminUser?.map((user: any) => {
+          // console.log(
+          //   new Date(user.createdAt).toLocaleDateString(),
+          //   date.toLocaleDateString()
+          // );
           if (
             new Date(user.createdAt).toLocaleDateString() ===
             date.toLocaleDateString()
@@ -93,6 +101,7 @@ export default function Dashboard() {
             total += 1;
         })
       : null;
+
     return total;
   };
 
@@ -109,7 +118,7 @@ export default function Dashboard() {
       {
         name: '',
         data: Data.map((data: any) => {
-          return data.total;
+          return data.Total;
         }),
       },
     ],
@@ -136,7 +145,9 @@ export default function Dashboard() {
           content={NewUser()}
         />
       </div>
-      <div>{/* <PendingOrders /> */}</div>
+      <div>
+        <PendingOrders />
+      </div>
     </div>
   );
 }

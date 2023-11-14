@@ -57,7 +57,9 @@ export const getCategory = createAsyncThunk(
       const search = state.Categories.search;
 
       const response = await axios.get(
-        `/api/category?&${search.sort}&&Name_lower[regex]=${search.search}`
+        `/api/category?&${
+          search.sort
+        }&&Name_lower[regex]=${search.search.toLowerCase()}`
       );
       // Inferred return type: Promise<MyData>
       // console.log(response);

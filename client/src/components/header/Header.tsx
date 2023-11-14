@@ -32,7 +32,7 @@ export default function Header() {
   };
   const [Search, setsearch] = useState('');
   const handleSearch = (e: any) => {
-    dispatch(setSearch(e.target.value.toLowerCase()));
+    dispatch(setSearch(e.target.value));
     dispatch(getProducts());
   };
   // const handleChangeInput = (e: any) => {
@@ -76,23 +76,6 @@ export default function Header() {
               </h1>
             </div>
             <ul className="NavItem" style={styleMenu}>
-              {/* <li>
-                <form action="/" method="get" className="SeachBar">
-                  <div id="header-search-bar">
-                    <input
-                      type="text"
-                      id="header-search-text"
-                      placeholder="Search Here"
-                      name="search"
-                      value={search.search}
-                      onChange={handleSearch}
-                    />
-                    <button type="submit" id="Seachbtn">
-                      <SearchOutlinedIcon id="header-search-icon" />
-                    </button>
-                  </div>
-                </form>
-              </li> */}
               <li className="user-icon" onClick={handleUserTab}>
                 <div>
                   <Badge>
@@ -108,9 +91,6 @@ export default function Header() {
                           <li>
                             <Link to="#">profile</Link>
                           </li>
-                          {/* <li>
-                            <Link to="history">history</Link>
-                          </li> */}
                           <li>
                             <Link to="dashboard">dashboard</Link>
                           </li>
@@ -163,11 +143,9 @@ export default function Header() {
               <li>
                 <NavLink to="/blog">Blog</NavLink>
               </li>
-
               <li>
                 <NavLink to="/contact">Contact</NavLink>
               </li>
-
               <li>
                 <form action="/" method="get" className="SeachBar">
                   <div id="header-search-bar">
@@ -220,8 +198,6 @@ export default function Header() {
 
               <li>
                 <div className="Cart-icon">
-                  {/* <span style={styleCart}>{cart.length}</span> */}
-
                   <Link to="/cart" className="LogoText">
                     <Badge
                       badgeContent={cart ? cart.length : null}
@@ -231,8 +207,6 @@ export default function Header() {
                         sx={{ fontSize: 30 }}
                       ></ShoppingCartOutlinedIcon>
                     </Badge>
-
-                    {/* <img src={Cart} alt="" width={30}></img> */}
                   </Link>
                 </div>
               </li>

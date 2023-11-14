@@ -126,7 +126,9 @@ export const getalluser = createAsyncThunk(
       const state: any = thunkAPI.getState();
       const search = state.User.search;
       const res = await axios.get(
-        `/user/alluser?limit=9&role[regex]=${search.role}&${search.sort}&FirstName[regex]=${search.search}`
+        `/user/alluser?limit=9&role[regex]=${search.role}&${
+          search.sort
+        }&FirstName[regex]=${search.search.toLowerCase()}`
       );
       // console.log(res.data);
       // setIsLogged(true);
@@ -173,13 +175,16 @@ export const userSlice = createSlice({
       state.createAccount = !state.createAccount;
     },
     setCart: (state, action) => {
+      console.log(action.payload);
       const check = state.User.cart.every((item: any) => {
         return item._id != action.payload._id;
       });
       if (check) {
-        const cart = [...state.User.cart, { ...action.payload, quantity: 1 }];
+        const cart = [
+          ...state.User.cart,
+          { ...action.payload.product, quantity: action.payload.quantity },
+        ];
         state.User.cart = cart;
-        console.log(state.User.cart);
       } else {
         alert('This product has been add to cart');
       }

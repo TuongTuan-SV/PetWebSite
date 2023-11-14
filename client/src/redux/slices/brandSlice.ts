@@ -4,14 +4,27 @@ import axios from 'axios';
 export interface IBrand {
   Brands: Array<object>;
   SelectBrand: null | string;
+  Newbrand: string;
+  EditBrand: string;
+  search: ISearch;
   loading: boolean;
   err: string;
   msg: string;
 }
-
+export interface ISearch {
+  sort: string;
+  search: string;
+}
+const SearchinitialState: ISearch = {
+  sort: '',
+  search: '',
+};
 const initialState: IBrand = {
   Brands: [],
   SelectBrand: '',
+  Newbrand: '',
+  EditBrand: '',
+  search: SearchinitialState,
   loading: false,
   err: '',
   msg: '',
@@ -22,22 +35,29 @@ export const getBrand = createAsyncThunk(
   'Brand/getBrand',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`/api/brands`);
+      const state: any = thunkAPI.getState();
+      const search = state.Brands.search;
+      const response = await axios.get(
+        `/api/brands?&${search.sort}&Name[regex]=${search.search.toLowerCase()}`
+      );
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
       // console.log(response.data.brands);
-      return response.data.brands;
+      return response.data;
     } catch (error: any) {
       return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
-//CREATE POST
+//CREATE Brand
 export const createBrand = createAsyncThunk(
   'Brand/postBrand',
-  async (data: any, thunkAPI) => {
+  async (data, thunkAPI) => {
     try {
-      const response = await axios.post(`/api/brands`, { Name: data });
+      const state: any = thunkAPI.getState();
+      const response = await axios.post(`/api/brands`, {
+        Name: state.Brands.Newbrand,
+      });
       // Inferred return type: Promise<MyData>
       return response.data;
     } catch (error: any) {
@@ -45,6 +65,7 @@ export const createBrand = createAsyncThunk(
     }
   }
 );
+
 //SLICE
 export const BrandSlice = createSlice({
   name: 'Brand',
@@ -58,6 +79,18 @@ export const BrandSlice = createSlice({
     setBrand: (state, action) => {
       state.SelectBrand = action.payload.brand;
     },
+    setNewBrand: (state, action) => {
+      state.Newbrand = action.payload;
+    },
+    setEditBrand: (state, action) => {
+      state.EditBrand = action.payload;
+    },
+    setSearch: (state, action) => {
+      state.search.search = action.payload;
+    },
+    setSort: (state, action) => {
+      state.search.sort = action.payload;
+    },
   },
   extraReducers: (builder) => {
     //GET BRAND
@@ -67,7 +100,7 @@ export const BrandSlice = createSlice({
       })
       .addCase(getBrand.fulfilled, (state, action) => {
         state.loading = false;
-        state.Brands = action.payload;
+        state.Brands = action.payload.brands;
       })
       .addCase(getBrand.rejected, (state, action) => {
         state.loading = false;
@@ -87,6 +120,13 @@ export const BrandSlice = createSlice({
   },
 });
 
-export const { addBrands, setBrand } = BrandSlice.actions;
+export const {
+  addBrands,
+  setBrand,
+  setNewBrand,
+  setEditBrand,
+  setSearch,
+  setSort,
+} = BrandSlice.actions;
 
 export default BrandSlice.reducer;

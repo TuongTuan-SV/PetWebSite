@@ -75,8 +75,8 @@ export default function CartList() {
             <tr>
               <td></td>
               <td>Title</td>
-              <td>Price</td>
               <td>Quantity</td>
+              <td>Price</td>
               <td>button</td>
             </tr>
           </thead>

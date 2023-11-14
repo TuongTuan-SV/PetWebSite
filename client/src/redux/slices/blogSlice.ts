@@ -1,11 +1,18 @@
 import { createAsyncThunk, createSlice, current } from '@reduxjs/toolkit';
 import axios, { AxiosError } from 'axios';
 
+export interface ISearch {
+  Poster: string;
+  Title: string;
+  sort: string;
+  search: string;
+}
 export interface IBlog {
   Blog: Array<object>;
   NewBlog: INewBlog;
   EditBlog: INewBlog;
   loading: boolean;
+  search: ISearch;
   msg: string;
 }
 export interface INewBlog {
@@ -22,10 +29,17 @@ const NewBloginitialState: INewBlog = {
   Description: [],
   images: [],
 };
+const SearchinitialState: ISearch = {
+  Poster: '',
+  Title: '',
+  sort: '',
+  search: '',
+};
 const initialState: IBlog = {
   Blog: [],
   NewBlog: NewBloginitialState,
   EditBlog: NewBloginitialState,
+  search: SearchinitialState,
   loading: false,
   msg: '',
 };
@@ -56,8 +70,13 @@ export const getBlog = createAsyncThunk(
       const state: any = thunkAPI.getState();
       const img = state.Upload.blog;
       const blog = state.Blog.blog;
+      const search = state.Blog.search;
 
-      const res = await axios.get('/api/blog');
+      const res = await axios.get(
+        `/api/blog?&${
+          search.sort
+        }&Title_Lower[regex]=${search.search.toLowerCase()}&Poster[regex]=${search.Poster.toLowerCase()}`
+      );
       return res.data;
     } catch (err) {
       if (err instanceof AxiosError) {
@@ -152,6 +171,15 @@ const blogSlice = createSlice({
     setEditBlog: (state, action) => {
       state.EditBlog = action.payload;
     },
+    setSearch: (state, action) => {
+      state.search.search = action.payload;
+    },
+    setPoster: (state, action) => {
+      state.search.Poster = action.payload;
+    },
+    setSort: (state, action) => {
+      state.search.sort = action.payload;
+    },
   },
   extraReducers: (builder) => {
     //GET BLOG
@@ -188,6 +216,13 @@ const blogSlice = createSlice({
   },
 });
 
-export const { setNewBlog, clearNewBlog, setEditBlog } = blogSlice.actions;
+export const {
+  setNewBlog,
+  clearNewBlog,
+  setEditBlog,
+  setSearch,
+  setPoster,
+  setSort,
+} = blogSlice.actions;
 
 export default blogSlice.reducer;

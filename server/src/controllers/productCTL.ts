@@ -48,17 +48,17 @@ class APIfeatures {
 
     return this;
   }
-  // paginating() {
-  //   const page = this.queryString.page * 1 || 1;
+  paginating() {
+    const page = this.queryString.page * 1 || 1;
 
-  //   // limit how many result show
-  //   const limit = this.queryString.limit * 1 || 9;
-  //   const skip = (page - 1) * limit;
+    // limit how many result show
+    const limit = this.queryString.limit * 1 || 9;
+    const skip = (page - 1) * limit;
 
-  //   this.query = this.query.skip(skip).limit(limit);
+    this.query = this.query.skip(skip).limit(limit);
 
-  //   return this;
-  // }
+    return this;
+  }
 }
 const ProductController = {
   //Lấy danh sách sản phẩm
@@ -66,7 +66,8 @@ const ProductController = {
     try {
       const features = new APIfeatures(Product.find(), req.query)
         .filtering()
-        .sortting();
+        .sortting()
+        .paginating();
       const products = await features.query;
       // const find = Product.find({Category:});
       // console.log(req.query);

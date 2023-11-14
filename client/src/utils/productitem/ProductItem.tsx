@@ -36,7 +36,7 @@ export const ProductItem = (Props: any) => {
   // console.log(product.images[0]?.url);
   const addtocart = (product: any) => {
     if (product.Stocks > 0) {
-      dispatch(setCart(product));
+      dispatch(setCart({ product: product, quantity: 1 }));
       dispatch(updateCart()).then(() => {
         dispatch(getuser());
       });

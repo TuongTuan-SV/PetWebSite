@@ -2,7 +2,6 @@ import { config } from 'dotenv';
 config();
 import express, { Request, Response } from 'express';
 import mongoose from 'mongoose';
-import Deck from './models/Desk';
 import cors from 'cors';
 import fileUpload from 'express-fileupload';
 const cookieParser = require('cookie-parser');

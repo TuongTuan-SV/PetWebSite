@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useContext, useEffect, useState } from 'react';
-import { API_URL } from '../api/config';
+
 import { Carousel } from '../components/carousel/Carousel';
 import { useAppSelector, useAppDispatch } from '../hooks';
 

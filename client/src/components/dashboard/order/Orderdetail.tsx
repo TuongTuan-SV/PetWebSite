@@ -10,7 +10,6 @@ export default function OrderDetail() {
 
   useEffect(() => {
     if (parmas.id) {
-      console.log('ádasds');
       Orders.forEach((item: any) => {
         if (item._id === parmas.id) setOrderDetail(item);
       });

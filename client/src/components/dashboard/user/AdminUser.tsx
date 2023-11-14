@@ -99,13 +99,7 @@ export default function Adminuser() {
       <table>
         <thead>
           <tr>
-            <th>
-              <input
-                type="checkbox"
-                className="checkall"
-                // onChange={CheckAll}
-              ></input>
-            </th>
+            <th></th>
             <th>User_id</th>
             <th>Frist Name</th>
             <th>Last Name</th>
@@ -116,15 +110,9 @@ export default function Adminuser() {
           </tr>
         </thead>
         <tbody>
-          {currentUsers.map((user: any) => (
+          {currentUsers.map((user: any, index: any) => (
             <tr key={user._id}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={user.checked}
-                  // onChange={() => ClickUdate(user)}
-                ></input>
-              </td>
+              <td>{index + 1}</td>
               <td>{user._id}</td>
               <td>{user.FirstName}</td>
               <td>{user.LastName}</td>

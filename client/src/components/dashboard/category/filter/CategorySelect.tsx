@@ -23,29 +23,11 @@ const MenuProps = {
   },
 };
 
-const names = [
-  'Oliver Hansen',
-  'Van Henry',
-  'April Tucker',
-  'Ralph Hubbard',
-  'Omar Alexander',
-  'Carlos Abbott',
-  'Miriam Wagner',
-  'Bradley Wilkerson',
-  'Virginia Andrews',
-  'Kelly Snyder',
-];
-
 export default function CategorySelect() {
   const dispatch = useAppDispatch();
   const { Categories } = useAppSelector((state) => state.Categories);
   const [personName, setPersonName] = React.useState<string[]>([]);
 
-  //   const handleCategory = (e: any) => {
-  //     dispatch(setAdminCategory(e.target.value));
-  //     dispatch(setAdminSearch(''));
-  //     dispatch(getAdminProducts());
-  //   };
   const handleChange = (event: SelectChangeEvent<typeof personName>) => {
     const {
       target: { value },

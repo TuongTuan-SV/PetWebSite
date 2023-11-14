@@ -113,7 +113,7 @@ export default function EditCarousel() {
             onChange={handleChangeInput}
           ></textarea>
         </div>
-        <button type="submit">Create</button>
+        <button type="submit">Update</button>
       </form>
       <div className="Carouselupload">
         <EditCarouselupload />

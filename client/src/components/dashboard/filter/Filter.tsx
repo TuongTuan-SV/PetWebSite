@@ -34,7 +34,7 @@ export default function Filter() {
     dispatch(setAdminSort(e.target.value));
   };
   const handleSearch = (e: any) => {
-    dispatch(setAdminSearch(e.target.value.toLowerCase()));
+    dispatch(setAdminSearch(e.target.value));
   };
 
   return (

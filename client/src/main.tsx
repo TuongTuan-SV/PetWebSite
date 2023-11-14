@@ -42,6 +42,8 @@ import CreateBlog from './components/dashboard/blog/CreateBlog/CreateBlog';
 import EditBlog from './components/dashboard/blog/EditBlot/EditBlog';
 import BlogSceen from './sceens/BlogSceen';
 import BlogDetail from './components/blog/blogDetail/BlogDetail';
+import CreateBrand from './components/dashboard/brand/CreateBrand';
+import ContactSceen from './sceens/ContactSceen';
 
 const router = createBrowserRouter([
   {
@@ -102,6 +104,10 @@ const router = createBrowserRouter([
       {
         path: 'checkout',
         element: <Checkout />,
+      },
+      {
+        path: 'contact',
+        element: <ContactSceen />,
       },
       {
         path: 'blog',
@@ -174,6 +180,14 @@ const router = createBrowserRouter([
           },
           {
             path: 'brand',
+            element: <Brand />,
+          },
+          {
+            path: 'brand/createbrand',
+            element: <CreateBrand />,
+          },
+          {
+            path: 'brand/editbrand/:id',
             element: <Brand />,
           },
           {

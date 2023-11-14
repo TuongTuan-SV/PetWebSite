@@ -7,8 +7,8 @@ import { setCreateAccount } from '../../redux/slices/userSlice';
 
 export default function SignUp() {
   const [userInput, setUserInput] = useState<any>({
-    firstname: '',
-    lastname: '',
+    FirstName: '',
+    LastName: '',
     email: '',
     password: '',
     role: 0,
@@ -23,13 +23,11 @@ export default function SignUp() {
     e.preventDefault();
     try {
       const res = await axios.post('/user/signup', { ...userInput });
-      console.log(res);
       localStorage.setItem('firstLogin', 'true');
-
       window.location.href = '/';
     } catch (err) {
       if (err instanceof AxiosError) {
-        console.log(err.response?.data.msg);
+        alert(err.response?.data.msg);
       } else {
         console.log('Unexpected error', err);
       }

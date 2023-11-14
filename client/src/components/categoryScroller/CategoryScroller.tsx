@@ -36,7 +36,7 @@ export default function CategoryScroller() {
       <div className="media-scroller snaps-inline" ref={ref}>
         {Categories.map((item: any) => {
           return (
-            <div className="media-element">
+            <div className="media-element" key={item.Name}>
               <Link
                 onClick={(event: any) =>
                   handleLinkClick(event, `Category[all]=${item.Name}`)

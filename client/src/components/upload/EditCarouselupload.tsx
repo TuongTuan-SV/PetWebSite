@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { FileUploader } from 'react-drag-drop-files';
 import axios, { AxiosError } from 'axios';
-
+import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { useAppDispatch, useAppSelector } from '../../hooks';
 import {
   CarouseaddImg,
@@ -72,9 +72,13 @@ export default function EditCarouselupload() {
             <span className="special">{EditCarousel.special}</span>
             <h1 className="title">{EditCarousel.title}</h1>
             <span className="content">{EditCarousel.content}</span>
-            <button className="toShop">
-              <Link to="shop">Shop Now</Link>
-            </button>
+
+            <Link to="shop">
+              <button type="submit" className="toShop">
+                Shop
+                <KeyboardArrowRightIcon className="FilterBtn" />
+              </button>
+            </Link>
           </div>
           <div style={{ margin: 'auto', width: '60%' }}>
             {editcarousel?.map((image: any, index: any) => (

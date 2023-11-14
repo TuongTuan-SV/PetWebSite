@@ -68,25 +68,42 @@ export default function EditBlog() {
 
   const handleEditBlog = async (e: any) => {
     e.preventDefault();
-
-    await dispatch(EditBlogImg()).then(() => {
-      dispatch(updateBlog());
-      dispatch(DeleteEditBlogImg());
-      alert('Blog Update');
-    });
-
-    //   // .then(() => {
-    //   //   dispatch(clearEditBlogimg());
-    //   //   dispatch(DeleteEditBlogImg());
-    //   alert('Blog Update');
-    //   // });
-    // });
+    tmpBlog.url
+      ? await dispatch(EditBlogImg()).then(() => {
+          dispatch(updateBlog());
+          dispatch(DeleteEditBlogImg());
+          alert('Blog Update');
+        })
+      : dispatch(updateBlog()).then(() => {
+          alert('Blog Update');
+        });
   };
 
   const handleChangeInput = (e: any) => {
     const { name, value } = e.target;
+    name === 'Title'
+      ? containsSpecialChars(value)
+        ? alert('Title can not containt ?&#/%<>')
+        : dispatch(setEditBlog({ ...EditBlog, [name]: value }))
+      : dispatch(setEditBlog({ ...EditBlog, [name]: value }));
     dispatch(setEditBlog({ ...EditBlog, [name]: value }));
   };
+
+  const containsSpecialChars = (str: any) => {
+    const specialChars = '?&#/%<>';
+
+    const result = specialChars.split('').some((specialChar: any) => {
+      if (str.includes(specialChar)) {
+        console.log('ádasdsad');
+        return true;
+      }
+
+      return false;
+    });
+
+    return result;
+  };
+
   const handleChangeSectionInput = (index: any) => (e: any) => {
     const newArray = section.map((item, i) => {
       if (index === i) {

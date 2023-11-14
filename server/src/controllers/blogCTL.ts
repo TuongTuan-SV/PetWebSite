@@ -90,10 +90,10 @@ export const BlogController = {
       console.log(req.body);
       const NewBlog = new Blog({
         Title: req.body.Title,
-        Title_lower: req.body.Title.toLowerCase(),
+        Title_Lower: req.body.Title.toLowerCase(),
         image: req.body.img,
         Description: req.body.Description,
-        Poster: req.body.Poster,
+        Poster: req.body.Poster.toLowerCase(),
       });
 
       await NewBlog.save();
@@ -127,10 +127,10 @@ export const BlogController = {
         { _id: req.params.id },
         {
           Title: req.body.Title,
-          Title_lower: req.body.Title.toLowerCase(),
+          Title_Lower: req.body.Title.toLowerCase(),
           image: req.body.img,
           Description: req.body.Description,
-          Poster: req.body.Poster,
+          Poster: req.body.Poster.toLowerCase(),
         }
       );
 

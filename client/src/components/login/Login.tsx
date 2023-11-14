@@ -32,10 +32,6 @@ export default function Login() {
       } else {
         localStorage.setItem('admin', 'true');
         window.location.href = '/';
-        // if (pathName.pathname.includes('/dashboard'))
-        //   window.location.href = '/dashboard';
-        // else window.open('http://localhost:3000/dashboard', '_blank');
-        // window.location.href = "/dashboard"
       }
       //Lưu thông tin người dùng và token về state
       // alert(res);

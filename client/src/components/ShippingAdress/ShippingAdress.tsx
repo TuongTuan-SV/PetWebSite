@@ -181,8 +181,19 @@ export default function ShippingAdress() {
             onChange={handleChangeInput}
           ></textarea>
         </div>
-        <div className="checkout-file form-bottom">
-          <Link to="/checkout" onClick={handleOrder}>
+        <div
+          className="checkout-file form-bottom"
+          style={{
+            height: '50px !important',
+            backgroundColor: '#ff782c',
+            borderRadius: '10px',
+          }}
+        >
+          <Link
+            to="/checkout"
+            onClick={handleOrder}
+            style={{ color: '#fff', fontSize: '1.3rem' }}
+          >
             Next
           </Link>
         </div>

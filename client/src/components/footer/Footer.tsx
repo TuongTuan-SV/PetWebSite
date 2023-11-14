@@ -15,7 +15,7 @@ function Footer() {
           {/* Column1 */}
           <div className="col1">
             <li className="TieuDe">
-              <p>Liên Hệ</p>
+              <p>Contact</p>
             </li>
             <li>
               <p>
@@ -24,7 +24,7 @@ function Footer() {
                 >
                   <BsGeoAltFill />
                 </IconContext.Provider>{' '}
-                63b Lê Văn Qưới, hcm
+                63b Le Van Quy District, Ho Chi Minh
               </p>
             </li>
             <li>
@@ -34,7 +34,7 @@ function Footer() {
                 >
                   <BsFillEnvelopeFill />
                 </IconContext.Provider>{' '}
-                thepuzzleshop@gmail.com
+                petshop@gmail.com
               </p>
             </li>
             <li>
@@ -52,7 +52,7 @@ function Footer() {
           {/* Column2 */}
           <div className="col2">
             <li className="TieuDe">
-              <p>HỖ TRỢ KHÁCH HÀNG</p>
+              <p>Customer Service</p>
             </li>
             <li>
               <p>
@@ -65,25 +65,20 @@ function Footer() {
               </p>
             </li>
             <li>
-              <p>(1000đ/phút , 8-21h kể cả T7, CN)</p>
-            </li>
-            <li>
               <p>
                 <IconContext.Provider
                   value={{ color: 'gray', className: 'global-class-name' }}
                 >
                   <FaTruck />
                 </IconContext.Provider>{' '}
-                Vận chuyển và Đổi trả hàng
+                Order Tracking
               </p>
             </li>
           </div>
         </div>
         <hr />
         <div className="footet_row">
-          <p className="col-sm">
-            &copy;{new Date().getFullYear()} thepuzzleshop
-          </p>
+          <p className="col-sm">&copy;{new Date().getFullYear()} Petshop</p>
         </div>
       </div>
     </div>

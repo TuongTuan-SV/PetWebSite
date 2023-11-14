@@ -48,7 +48,7 @@ export const Carousel: React.FC<Props> = ({ images }) => {
       />
       <div className="carousel" ref={carousel}>
         {carousels?.map((carousel: any, idx: any) => {
-          console.log(carousel.image[0]);
+          // console.log(carousel.image[0]);
           return (
             <div
               key={`${idx}`}

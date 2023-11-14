@@ -169,7 +169,7 @@ export const getProducts = createAsyncThunk(
           '&'
         )}&${`Price[lte]=${search.price[1]}`}&${`Price[gte]=${search.price[0]}`}&${
           search.sort
-        }&Name_Lower[regex]=${search.search}`
+        }&Name_Lower[regex]=${search.search.toLowerCase()}`
       );
       // console.log(response);
       // // Inferred return type: Promise<MyData>
@@ -192,7 +192,7 @@ export const getAdminProducts = createAsyncThunk(
       const response = await axios.get(
         `/api/products/?${search.category.join('&')}&${search.brand}&${
           search.price > 0 ? `Price[lte]=${search.price}` : ''
-        }&${search.sort}&&Name_Lower[regex]=${search.search}`
+        }&${search.sort}&&Name_Lower[regex]=${search.search.toLowerCase()}`
       );
       // console.log(response);
       // // Inferred return type: Promise<MyData>
@@ -209,7 +209,7 @@ export const getHotProducts = createAsyncThunk(
   'Product/getHotProducts',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`/api/products/?limit=8`);
+      const response = await axios.get(`/api/products/?limit=4`);
       // console.log(
       //   response.data.products.sort((a: any, b: any) =>
       //     a.sold < b.sold ? 1 : -1
@@ -236,7 +236,7 @@ export const getNewtProducts = createAsyncThunk(
   'Product/getNewProducts',
   async (data, thunkAPI) => {
     try {
-      const response = await axios.get(`/api/products/?limit=8`);
+      const response = await axios.get(`/api/products/?limit=4`);
       // Inferred return type: Promise<MyData>
       // console.log(API_URL);
       return response.data.products.slice(0, 9);

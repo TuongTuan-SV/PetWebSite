@@ -5,13 +5,14 @@ import { deleteBlog, getBlog } from '../../../redux/slices/blogSlice';
 import { Link } from 'react-router-dom';
 import { BiEdit, BiTrash } from 'react-icons/bi';
 import Pagination from '../../../utils/pagination/Pagination';
+import Filter from './filter/Filter';
 
 export default function Blog() {
   const dispatch = useAppDispatch();
-  const { Blog } = useAppSelector((state) => state.Blog);
+  const { Blog, search } = useAppSelector((state) => state.Blog);
   useEffect(() => {
     dispatch(getBlog());
-  }, []);
+  }, [search]);
 
   const [currentPage, setCurrentPage] = useState<any>(1);
   const [blogPerPage] = useState(5); //9 Per Page
@@ -33,7 +34,7 @@ export default function Blog() {
           <h3>Delete Product </h3>
         </button> */}
       </div>
-      {/* <Filter /> */}
+      <Filter />
       <table>
         <thead>
           <tr>

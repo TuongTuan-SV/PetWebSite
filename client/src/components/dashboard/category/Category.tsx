@@ -70,13 +70,8 @@ export default function Category() {
       <table>
         <thead>
           <tr>
-            <th>
-              {/* <input
-                type="checkbox"
-                className="checkall"
-                onChange={CheckAll}
-              ></input> */}
-            </th>
+            <th></th>
+            <th></th>
             <th>Title</th>
             <th>Create At</th>
             <th>Products</th>
@@ -84,16 +79,10 @@ export default function Category() {
           </tr>
         </thead>
         <tbody>
-          {currentCategory.map((category: any) => {
+          {currentCategory.map((category: any, index: any) => {
             return (
               <tr key={category._id}>
-                {/* <td>
-                <input
-                  type="checkbox"
-                  checked={item.checked}
-                  onChange={() => ClickUdate(item)}
-                ></input>
-              </td> */}
+                <td>{index + 1}</td>
 
                 <td
                   onClick={() => {

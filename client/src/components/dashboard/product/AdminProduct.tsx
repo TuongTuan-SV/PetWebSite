@@ -100,7 +100,7 @@ export default function AdminProduct() {
 
       await destroyImg;
       await deleteProduct;
-      dispatch(getProducts());
+      dispatch(getAdminProducts());
       // dispatch(getAdminProducts());
       // setCallback(!callback);
     } catch (err: any) {
@@ -137,13 +137,7 @@ export default function AdminProduct() {
       <table>
         <thead>
           <tr>
-            <th>
-              <input
-                type="checkbox"
-                className="checkall"
-                onChange={CheckAll}
-              ></input>
-            </th>
+            <th></th>
             <th></th>
             <th>Title</th>
             {/* <th>Description</th> */}
@@ -156,15 +150,9 @@ export default function AdminProduct() {
           </tr>
         </thead>
         <tbody>
-          {currentProducts.map((item: any) => (
+          {currentProducts.map((item: any, index: number) => (
             <tr key={item._id}>
-              <td>
-                <input
-                  type="checkbox"
-                  checked={item.checked}
-                  onChange={() => ClickUdate(item)}
-                ></input>
-              </td>
+              <td>{index + 1}</td>
               <td>
                 <img src={item.images[0]?.url} alt=" " />
               </td>

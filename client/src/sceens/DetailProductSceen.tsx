@@ -31,7 +31,7 @@ export default function DetailProduct() {
   const [detailProduct, setDetailProduct] = useState<any>([]);
   const [CurrentImg, setCurrentImg] = useState<any>(0);
   const [rating, setRating] = useState<any>();
-
+  console.log(detailProduct);
   useEffect(() => {
     if (parmas.id) {
       window.scrollTo({
@@ -50,24 +50,33 @@ export default function DetailProduct() {
       });
     }
   }, [parmas.id, products]);
-
-  const addtocart = (product: any) => {
-    dispatch(setCart(product));
+  const addtocart = (e: any, product: any) => {
+    e.preventDefault();
+    console.log({ product: product, quantity: quantity });
+    dispatch(setCart({ product: product, quantity: quantity }));
     dispatch(updateCart());
   };
   if (detailProduct.length === 0) return null;
   const increment = (e: any) => {
     e.preventDefault();
-    setQuantity(quantity + 1);
+    if (quantity < detailProduct.Stocks) return setQuantity(quantity + 1);
   };
   const decrement = (e: any) => {
     e.preventDefault();
-    setQuantity(quantity - 1);
+    if (quantity > 0) return setQuantity(quantity - 1);
   };
 
   const handleLinkClick = (event: any, message: any) => {
     dispatch(setCategory(message));
   };
+
+  const handlecChangerQuantity = (event: any) => {
+    if (event.target.value < 0) return setQuantity(0);
+    if (event.target.value > detailProduct.Stocks)
+      return setQuantity(detailProduct.Stocks);
+    return setQuantity(event.target.value);
+  };
+
   const Categories = detailProduct.Category;
   const relate = products.filter((product: any) => {
     if (
@@ -76,7 +85,7 @@ export default function DetailProduct() {
     )
       return product;
   });
-  console.log(relate);
+
   return (
     <>
       <div className="DetailProduct">
@@ -96,7 +105,15 @@ export default function DetailProduct() {
             <div className="select-image-container">
               {detailProduct.images.map((item: any, index: any) => {
                 return (
-                  <div className="select-image" key={index}>
+                  <div
+                    className={
+                      CurrentImg === index
+                        ? 'select-image active'
+                        : 'select-image'
+                    }
+                    id={'image' + index}
+                    key={index}
+                  >
                     <img
                       src={item.url}
                       alt=" "
@@ -165,13 +182,14 @@ export default function DetailProduct() {
             <div className="detail-category">
               <span>
                 Categories :{' '}
-                {detailProduct.Category.map((item: any) => {
+                {detailProduct.Category.map((item: any, id: any) => {
                   return (
                     <Link
                       onClick={(event: any) =>
                         handleLinkClick(event, `Category[all]=${item}`)
                       }
                       to="http://127.0.0.1:5173/shop"
+                      key={id}
                     >
                       {item}
                     </Link>
@@ -192,8 +210,9 @@ export default function DetailProduct() {
                   </button>
                   <input
                     name="quantity"
+                    type="number"
                     value={quantity}
-                    onChange={(e: any) => setQuantity(e.target.value)}
+                    onChange={handlecChangerQuantity}
                   ></input>
                   <button className="plus" onClick={increment}>
                     <AddOutlinedIcon />
@@ -203,16 +222,20 @@ export default function DetailProduct() {
             </div>
 
             {detailProduct.Stocks > 0 ? (
-              <button className="addCartBtn btn-primary">
-                <Link to="#" onClick={() => addtocart(detailProduct)}>
-                  <ShoppingBagOutlinedIcon />
-                  Add To Cart
-                </Link>
+              <button
+                className="addCartBtn btn-primary"
+                onClick={(event: any) => addtocart(event, detailProduct)}
+              >
+                <ShoppingBagOutlinedIcon />
+                Add To Cart
               </button>
             ) : (
               <button className="addCartBtn btn-primary disabled">
                 <ShoppingBagOutlinedIcon />
-                <Link to="#" onClick={() => addtocart(detailProduct)}>
+                <Link
+                  to="#"
+                  onClick={(event: any) => addtocart(event, detailProduct)}
+                >
                   Add To Cart
                 </Link>
               </button>
@@ -231,8 +254,10 @@ export default function DetailProduct() {
       <div className="related_product">
         <h2>Related Product</h2>
         <div className="products">
-          {relate.map((product: any) => {
-            return <ProductItem key={product._id} product={product} />;
+          {relate.map((product: any, index: any) => {
+            if (index < 4) {
+              return <ProductItem key={product._id} product={product} />;
+            }
           })}
           {/* {products.map((product: any) => {
             if (product._id !== detailProduct._id)

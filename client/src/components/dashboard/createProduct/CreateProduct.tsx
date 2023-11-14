@@ -52,14 +52,11 @@ export default function CreateProduct() {
     )
       return alert('Product aleardy exists!');
     else {
-      const uploadImg = images
-        .slice()
-        .reverse()
-        .map(async (img: any) => {
-          await dispatch(UploadImg(img));
-          console.log(img);
-          return img;
-        });
+      const uploadImg = images.map(async (img: any) => {
+        await dispatch(UploadImg(img));
+        console.log(img);
+        return img;
+      });
 
       Promise.all(uploadImg).then(() => {
         dispatch(createProduct(Newproduct))
@@ -79,10 +76,31 @@ export default function CreateProduct() {
 
   const handleChangeInput = (e: any) => {
     const { name, value } = e.target;
-
-    dispatch(setNewProduct({ ...Newproduct, [name]: value }));
+    name === 'Name'
+      ? containsSpecialChars(value)
+        ? alert('Product name can not containt ?&#/%<>')
+        : dispatch(setNewProduct({ ...Newproduct, [name]: value }))
+      : dispatch(setNewProduct({ ...Newproduct, [name]: value }));
+    if (name === 'Price' || name === 'Stocks') {
+      if (value >= 0) dispatch(setNewProduct({ ...Newproduct, [name]: value }));
+      else dispatch(setNewProduct({ ...Newproduct, [name]: 0 }));
+    } else dispatch(setNewProduct({ ...Newproduct, [name]: value }));
   };
 
+  const containsSpecialChars = (str: any) => {
+    const specialChars = '?&#/%<>';
+
+    const result = specialChars.split('').some((specialChar: any) => {
+      if (str.includes(specialChar)) {
+        console.log('ádasdsad');
+        return true;
+      }
+
+      return false;
+    });
+
+    return result;
+  };
   const handleDiscount = (e: any) => {
     const { name, value } = e.target;
     dispatch(setDiscount(value));
@@ -96,7 +114,9 @@ export default function CreateProduct() {
     <div className="create_product">
       <form onSubmit={handleCreateProduct}>
         <div className="row checkout-file">
-          <label htmlFor="productName">Product Name</label>
+          <label htmlFor="productName">
+            Product Name <span className="require">*</span>
+          </label>
           <input
             type="text"
             name="Name"
@@ -108,10 +128,13 @@ export default function CreateProduct() {
         </div>
         <div className="row Price-Stock-row checkout-file">
           <div className="checkout-file">
-            <label htmlFor="price">Price</label>
+            <label htmlFor="price">
+              Price <span className="require">*</span>
+            </label>
             <input
               type="number"
               min="0"
+              step="0.01"
               name="Price"
               id="price"
               required
@@ -120,7 +143,9 @@ export default function CreateProduct() {
             ></input>
           </div>
           <div className="checkout-file">
-            <label htmlFor="Stocks">Stocks</label>
+            <label htmlFor="Stocks">
+              Stocks <span className="require">*</span>
+            </label>
             <input
               type="number"
               min="0"
@@ -146,7 +171,9 @@ export default function CreateProduct() {
           </div>
         </div>
         <div className="row checkout-file">
-          <label htmlFor="description">Description</label>
+          <label htmlFor="description">
+            Description <span className="require">*</span>
+          </label>
           <textarea
             name="Description"
             id="description"
@@ -157,7 +184,9 @@ export default function CreateProduct() {
           ></textarea>
         </div>
         <div className="row checkout-file">
-          <label htmlFor="short_description">Short Description</label>
+          <label htmlFor="short_description">
+            Short Description <span className="require">*</span>
+          </label>
           <textarea
             name="Short_Description"
             id="Short_Description"
@@ -184,7 +213,9 @@ export default function CreateProduct() {
           </select>
         </div>
         <div className="row Category checkout-file">
-          <label htmlFor="Category">Category</label>
+          <label htmlFor="Category">
+            Category <span className="require">*</span>
+          </label>
 
           <CategorySelect />
         </div>

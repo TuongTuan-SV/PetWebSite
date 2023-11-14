@@ -64,28 +64,17 @@ export default function CreateProduct() {
       <table>
         <thead>
           <tr>
-            <th>
-              {/* <input
-                type="checkbox"
-                className="checkall"
-                onChange={CheckAll}
-              ></input> */}
-            </th>
+            <th></th>
+            <th></th>
             <th>Title</th>
             <th>Create At</th>
             <th></th>
           </tr>
         </thead>
         <tbody>
-          {carousels?.map((item: any) => (
+          {carousels?.map((item: any, index: any) => (
             <tr key={item._id}>
-              {/* <td>
-                <input
-                  type="checkbox"
-                  checked={item.checked}
-                  onChange={() => ClickUdate(item)}
-                ></input>
-              </td> */}
+              <td>{index + 1}</td>
               <td>
                 <img src={item.image[0].url} alt=" " />
               </td>

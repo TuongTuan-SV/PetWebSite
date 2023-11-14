@@ -47,12 +47,10 @@ function App() {
   useEffect(() => {
     if (login || admin) {
       dispatch(setLogin());
-      setTimeout(() => {
-        dispatch(refreshToken()).then(() => {
-          dispatch(getuser());
-          dispatch(getHistory());
-        });
-      }, 500);
+      dispatch(refreshToken()).then(() => {
+        dispatch(getuser());
+        dispatch(getHistory());
+      });
     }
   }, [token]);
   return (

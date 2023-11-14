@@ -26,6 +26,9 @@
   display: flex;
   margin: 0 5px;
 }
+.section {
+  padding: 20px 0;
+}
 .section .title {
   font-size: 2rem;
   font-weight: 700;

@@ -80,8 +80,26 @@ export default function CreateBlog() {
 
   const handleChangeInput = (e: any) => {
     const { name, value } = e.target;
+    name === 'Title'
+      ? containsSpecialChars(value)
+        ? alert('Title can not containt ?&#/%<>')
+        : dispatch(setNewBlog({ ...NewBlog, [name]: value }))
+      : dispatch(setNewBlog({ ...NewBlog, [name]: value }));
+  };
 
-    dispatch(setNewBlog({ ...NewBlog, [name]: value }));
+  const containsSpecialChars = (str: any) => {
+    const specialChars = '?&#/%<>';
+
+    const result = specialChars.split('').some((specialChar: any) => {
+      if (str.includes(specialChar)) {
+        console.log('ádasdsad');
+        return true;
+      }
+
+      return false;
+    });
+
+    return result;
   };
   const handleChangeSectionInput = (index: any) => (e: any) => {
     const newArray = section.map((item, i) => {

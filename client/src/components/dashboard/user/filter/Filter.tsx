@@ -22,7 +22,7 @@ export default function Filter() {
     dispatch(getalluser());
   };
   const handleSearch = (e: any) => {
-    dispatch(setsearch(e.target.value.toLowerCase()));
+    dispatch(setsearch(e.target.value));
     dispatch(getalluser());
   };
   return (
