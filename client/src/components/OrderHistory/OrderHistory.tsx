@@ -9,7 +9,7 @@ import { getAdminProducts, getProducts } from '../../redux/slices/productSlice';
 export default function OrderHistory() {
   const dispatch = useAppDispatch();
   const { history } = useAppSelector((state) => state.User);
-  const { Orders } = useAppSelector((state) => state.Order);
+  const { Orders, loading } = useAppSelector((state) => state.Order);
   // useEffect(() => {
   //   if (token) {
   //     const getHistory = async () => {
@@ -21,18 +21,21 @@ export default function OrderHistory() {
   //     getHistory();
   //   }
   // }, [token, setHistory]);
-  // useEffect(() => {
-  //   dispatch(getuser());
-  //   console.log(';ádasdasd');
-  // }, [Orders]);
+  useEffect(() => {
+    if (loading!) {
+      dispatch(getHistory());
+      console.log('asdasd');
+    }
+  });
 
   const cancelOrder = (id: any) => {
     window.confirm('Cancel Order ?')
       ? dispatch(UpdataStatus({ id, status: 'Cancel' })).then(() => {
           dispatch(getHistory());
-          // dispatch(getAllOrder());
-          // dispatch(getProducts());
-          // dispatch(getAdminProducts());
+          dispatch(getAllOrder());
+          console.log(loading);
+          dispatch(getProducts());
+          dispatch(getAdminProducts());
         })
       : null;
   };
@@ -59,7 +62,7 @@ export default function OrderHistory() {
                 .slice()
                 .reverse()
                 ?.map((item: any) => {
-                  console.log(item._id);
+                  // console.log(item._id);
                   return (
                     <tr key={item._id}>
                       <td>{item._id}</td>

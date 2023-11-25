@@ -2,7 +2,7 @@
   display: grid;
   gap: 55px;
   grid-auto-flow: column;
-  grid-auto-columns: 200px;
+  grid-auto-columns: 20%;
   padding: 0 30px 30px;
   overflow-x: auto;
   overscroll-behavior-inline: contain;

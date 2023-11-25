@@ -31,7 +31,8 @@
   align-items: flex-start;
 }
 .carousel-right {
-  position: absolute;
+  position: relative;
+  width: 100%;
 }
 
 .toShop {

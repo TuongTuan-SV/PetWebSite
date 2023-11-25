@@ -16,21 +16,23 @@ export default function Order() {
   // const [token] = state.token;
   const dispatch = useAppDispatch();
   const { Orders } = useAppSelector((state) => state.Order);
-  const { history, User } = useAppSelector((state) => state.User);
+  const { history, User, loading } = useAppSelector((state) => state.User);
 
   const status: any = ['Shipping', 'Cancel', 'Pending', 'Complete'];
 
-  // useEffect(() => {
-  //   dispatch(getAllOrder());
-  //   console.log(history);
-  // }, [User]);
+  useEffect(() => {
+    if (loading!) {
+      dispatch(getAllOrder());
+      console.log('asdasd');
+    }
+  });
 
   const updateStatus = (id: any, status: any) => {
     console.log(id, status);
     window.confirm('Update status.')
       ? dispatch(UpdataStatus({ id, status })).then(() => {
-          dispatch(getHistory());
           dispatch(getAllOrder());
+          dispatch(getHistory());
           dispatch(getProducts());
           dispatch(getAdminProducts());
         })
