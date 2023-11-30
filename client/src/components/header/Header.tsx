@@ -123,7 +123,7 @@ export default function Header() {
                 <NavLink to="/" className="LogoText">
                   Pet Shop<PetsIcon></PetsIcon>
                 </NavLink>
-                
+               
               </h1>
             </div>
             <ul className="NavItem" style={styleMenu}>
@@ -141,13 +141,13 @@ export default function Header() {
                 </NavLink>
               </li>
               <li>
-                <NavLink to="/shop">Shop</NavLink>
+                <NavLink to="home/shop">Shop</NavLink>
               </li>
               <li>
-                <NavLink to="/blog">Blog</NavLink>
+                <NavLink to="home/blog">Blog</NavLink>
               </li>
               <li>
-                <NavLink to="/contact">Contact</NavLink>
+                <NavLink to="home/contact">Contact</NavLink>
               </li>
               <li>
                 <form action="/" method="get" className="SeachBar">
@@ -177,10 +177,10 @@ export default function Header() {
                       <div>
                         <ul className="user-tab">
                           <li>
-                            <Link to="profile">profile</Link>
+                            <Link to="home/profile">profile</Link>
                           </li>
                           <li>
-                            <Link to="history">history</Link>
+                            <Link to="home/history">history</Link>
                           </li>
                           {User.role == 0 ? null : (
                             <li>
@@ -201,7 +201,7 @@ export default function Header() {
 
               <li>
                 <div className="Cart-icon">
-                  <Link to="/cart" className="LogoText">
+                  <Link to="home/cart" className="LogoText">
                     <Badge
                       badgeContent={cart ? cart.length : null}
                       color="primary"

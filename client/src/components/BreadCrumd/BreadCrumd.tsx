@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-
+import './BreadCrumb.css'
 export default function BreadCrumd(){
     const location = useLocation()
 
@@ -9,6 +9,8 @@ export default function BreadCrumd(){
     const crumbs = location.pathname.split('/')
     .filter(crumb => crumb !='')
     .map(crumb =>{
+        crumb = crumb.toString().replaceAll('%20',' ').toLocaleUpperCase()
+        console.log(crumb)
         currentlink=+`/${crumb}`
         return(
             <div className="crumb" key = {crumb}>
@@ -17,7 +19,7 @@ export default function BreadCrumd(){
         )
     })
     return(
-        <div className="BreadCrumd">
+        <div className="breadcrumbs ">
             {crumbs}
         </div>
     )

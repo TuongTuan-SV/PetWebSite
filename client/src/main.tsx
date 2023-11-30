@@ -58,11 +58,11 @@ const router = createBrowserRouter([
         element: <Upload />,
       },
       {
-        path: 'history',
+        path: 'home/history',
         element: <History />,
       },
       {
-        path: 'history/:id',
+        path: 'home/history/:id',
         element: <OrderDetailSceen />,
       },
       {
@@ -70,7 +70,7 @@ const router = createBrowserRouter([
         element: <LoginSceen />,
       },
       {
-        path: 'profile',
+        path: 'home/profile',
         element: <ProfileSceen />,
       },
       {
@@ -86,15 +86,15 @@ const router = createBrowserRouter([
         element: <Signup />,
       },
       {
-        path: 'detail/:id',
+        path: 'home/shop/detail/:id',
         element: <DetailProduct />,
       },
       {
-        path: 'shop',
+        path: 'home/shop',
         element: <Product />,
       },
       {
-        path: 'cart',
+        path: 'home/cart',
         element: <Cart />,
       },
       {
@@ -106,11 +106,11 @@ const router = createBrowserRouter([
         element: <Checkout />,
       },
       {
-        path: 'contact',
+        path: 'home/contact',
         element: <ContactSceen />,
       },
       {
-        path: 'blog',
+        path: 'home/blog',
         element: <BlogSceen />,
       },
       {

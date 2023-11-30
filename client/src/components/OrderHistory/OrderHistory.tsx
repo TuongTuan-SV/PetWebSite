@@ -79,7 +79,7 @@ export default function OrderHistory() {
                         {item.Status}
                       </td>
                       <td>
-                        <Link to={`/history/${item._id}`}>View Detail</Link>
+                        <Link to={`./${item._id}`}>View Detail</Link>
                       </td>
                       <td>
                         <button

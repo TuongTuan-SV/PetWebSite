@@ -41,7 +41,7 @@ export default function CategoryScroller() {
                 onClick={(event: any) =>
                   handleLinkClick(event, `Category[all]=${item.Name}`)
                 }
-                to="shop"
+                to="home/shop"
               >
                 <div className="imgContainer">
                   <img src={item?.image[0]?.url} alt="" />

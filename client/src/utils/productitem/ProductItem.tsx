@@ -56,13 +56,13 @@ export const ProductItem = (Props: any) => {
           </span>
           {/* <span className="Card_level_number">{product.Discount}</span> */}
         </div>
-        <Link to={`/detail/${product._id}`}>
+        <Link to={`./detail/${product.Name}`}>
           <img src={product.images[0]?.url} alt="" />
         </Link>
 
         <div className="Product_card_view tooltip">
           <span className="tooltiptext">View Product</span>
-          <Link to={`/detail/${product._id}`}>
+          <Link to={`./detail/${product.Name}`}>
             <ZoomInOutlinedIcon style={{ fontSize: '25' }}></ZoomInOutlinedIcon>
           </Link>
         </div>
@@ -106,7 +106,7 @@ export const ProductItem = (Props: any) => {
             })}
           </span>
         )}
-        <Link to={`/detail/${product._id}`}>
+        <Link to={`./detail/${product.Name}`}>
           <span title={product.Name} className="product_item_Name">
             {product.Name}
           </span>

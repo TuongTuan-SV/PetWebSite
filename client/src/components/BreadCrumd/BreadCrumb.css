@@ -1,0 +1,22 @@
+.breadcrumbs{
+    max-width: 1200px;
+    text-align: left;
+    margin: 15px 2%;
+    position: relative;
+
+}
+
+.breadcrumbs > *{
+    display: inline;
+    margin-right: 10px;
+}
+
+.breadcrumbs .crumb::after{
+    content: '>';
+    margin-left: 10px;
+}
+
+.breadcrumbs .crumb:last-child::after{
+    display: none;
+}
+

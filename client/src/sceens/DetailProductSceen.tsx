@@ -39,7 +39,7 @@ export default function DetailProduct() {
         behavior: 'smooth',
       });
       products.forEach((product: any) => {
-        if (product._id === parmas.id) {
+        if (product.Name === parmas.id) {
           const ratings = Math.round(
             product.reviews?.reduce((a: any, b: any) => (a = a + b.rating), 0) /
               product.reviews.length

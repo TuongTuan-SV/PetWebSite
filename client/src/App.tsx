@@ -21,6 +21,7 @@ import {
 import { getAllOrder } from './redux/slices/orderSlice';
 import { getCarousel } from './redux/slices/carouselSlice';
 import { getBlog } from './redux/slices/blogSlice';
+import BreadCrumd from './components/BreadCrumd/BreadCrumd';
 
 function App() {
   const dispatch = useAppDispatch();
@@ -56,6 +57,7 @@ function App() {
   return (
     <div className="App">
       <Header></Header>
+      {location.pathname =='/'?null:<BreadCrumd></BreadCrumd>}
       <Outlet />
       
       {location.pathname.includes('dashboard') ? null : <Footer></Footer>}
