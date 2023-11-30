@@ -14,6 +14,7 @@ import './header.css';
 import { setCreateAccount, setLogout } from '../../redux/slices/userSlice';
 import axios from 'axios';
 import { setSearch, getProducts } from '../../redux/slices/productSlice';
+import BreadCrumd from '../BreadCrumd/BreadCrumd';
 
 export default function Header() {
   const dispatch = useAppDispatch();
@@ -70,6 +71,7 @@ export default function Header() {
 
             <div className="Logo">
               <h1>
+                
                 <NavLink to="/" className="LogoText">
                   Admin
                 </NavLink>
@@ -121,6 +123,7 @@ export default function Header() {
                 <NavLink to="/" className="LogoText">
                   Pet Shop<PetsIcon></PetsIcon>
                 </NavLink>
+                
               </h1>
             </div>
             <ul className="NavItem" style={styleMenu}>

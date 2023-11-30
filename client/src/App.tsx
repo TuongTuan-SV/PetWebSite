@@ -57,6 +57,7 @@ function App() {
     <div className="App">
       <Header></Header>
       <Outlet />
+      
       {location.pathname.includes('dashboard') ? null : <Footer></Footer>}
     </div>
   );

@@ -31,11 +31,13 @@ export default function OrderHistory() {
   const cancelOrder = (id: any) => {
     window.confirm('Cancel Order ?')
       ? dispatch(UpdataStatus({ id, status: 'Cancel' })).then(() => {
-          dispatch(getHistory());
-          dispatch(getAllOrder());
-          console.log(loading);
-          dispatch(getProducts());
-          dispatch(getAdminProducts());
+          dispatch(getHistory()).then(()=>{
+            dispatch(getAllOrder());
+            console.log(loading);
+            dispatch(getProducts());
+            dispatch(getAdminProducts());
+          });
+          
         })
       : null;
   };
