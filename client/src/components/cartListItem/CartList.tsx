@@ -135,7 +135,7 @@ export default function CartList() {
             </span>
           </div>
 
-          <Link to="/shippingadress" className="Checkout">
+          <Link to="./shipping adress" className="Checkout">
             Checkout
           </Link>
         </div>

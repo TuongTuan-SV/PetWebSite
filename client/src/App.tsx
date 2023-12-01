@@ -57,7 +57,7 @@ function App() {
   return (
     <div className="App">
       <Header></Header>
-      {location.pathname =='/'?null:<BreadCrumd></BreadCrumd>}
+      {location.pathname =='/' || location.pathname.includes('dashboard')  ?null:<BreadCrumd></BreadCrumd>}
       <Outlet />
       
       {location.pathname.includes('dashboard') ? null : <Footer></Footer>}

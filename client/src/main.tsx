@@ -98,7 +98,7 @@ const router = createBrowserRouter([
         element: <Cart />,
       },
       {
-        path: 'shippingadress',
+        path: '/home/cart/shipping adress',
         element: <ShippingAdress />,
       },
       {

@@ -10,7 +10,6 @@ export default function BreadCrumd(){
     .filter(crumb => crumb !='')
     .map(crumb =>{
         crumb = crumb.toString().replaceAll('%20',' ').toLocaleUpperCase()
-        console.log(crumb)
         currentlink=+`/${crumb}`
         return(
             <div className="crumb" key = {crumb}>

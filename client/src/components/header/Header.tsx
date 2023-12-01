@@ -177,14 +177,14 @@ export default function Header() {
                       <div>
                         <ul className="user-tab">
                           <li>
-                            <Link to="home/profile">profile</Link>
+                          <Link onClick = {()=> setAcive(!active)} to="home/profile">profile</Link>
                           </li>
                           <li>
-                            <Link to="home/history">history</Link>
+                            <Link onClick = {()=> setAcive(!active)} to="home/history">history</Link>
                           </li>
                           {User.role == 0 ? null : (
                             <li>
-                              <Link to="dashboard">dashboard</Link>
+                              <Link onClick = {()=> setAcive(!active)} to="dashboard">dashboard</Link>
                             </li>
                           )}
                           <li className="logout">
