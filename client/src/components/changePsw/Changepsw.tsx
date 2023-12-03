@@ -26,7 +26,7 @@ export default function ChangePwd() {
         if (err instanceof AxiosError) {
           alert(err.response?.data.msg);
         } else {
-          console.log('Unexpected error', err);
+          //console.log('Unexpected error', err);
         }
       }
       // window.location.href = '/';

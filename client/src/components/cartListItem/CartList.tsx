@@ -43,16 +43,16 @@ export default function CartList() {
   };
 
   const handleRemove = (id: any) => {
-    console.log(dispatch(removeItem(id)));
+    //console.log(dispatch(removeItem(id)));
 
     dispatch(updateCart());
     // dispatch(getuser());
   };
   const tranSuccess = async (payment: any) => {
-    console.log(payment);
+    //console.log(payment);
     const { id } = payment;
     const { name, address } = payment.payer;
-    console.log(address, id, cart, name);
+    //console.log(address, id, cart, name);
 
     // const res = await axios.post(
     //   '/api/payment',

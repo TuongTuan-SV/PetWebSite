@@ -94,7 +94,7 @@ export default function EditBlog() {
 
     const result = specialChars.split('').some((specialChar: any) => {
       if (str.includes(specialChar)) {
-        console.log('ádasdsad');
+       
         return true;
       }
 

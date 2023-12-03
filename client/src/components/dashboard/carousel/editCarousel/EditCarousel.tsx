@@ -54,7 +54,7 @@ export default function EditCarousel() {
     });
     const uploadNewimg = editcarousel.map(async (img: any) => {
       if (typeof img.public_id === 'object') {
-        console.log('addimg');
+        //console.log('addimg');
         await dispatch(EditCarouselUploadImg(img.public_id));
       }
     });

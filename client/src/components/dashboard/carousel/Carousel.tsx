@@ -28,7 +28,7 @@ export default function CreateProduct() {
   const dispatch = useAppDispatch();
   const deleteProduct = async (carousel: any) => {
     try {
-      console.log(carousel);
+      //console.log(carousel);
       const destroyImg = carousel.image.map((img: any) => {
         axios.post('/api/destroy', {
           public_id: img.public_id,

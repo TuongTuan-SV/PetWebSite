@@ -18,9 +18,9 @@ export default function LostPwd() {
 
   const changePassword = async (e: any) => {
     e.preventDefault();
-    console.log('ádasd');
+   
     if (password === confirmPassword) {
-      console.log('ádasd');
+    
       await axios.post('/user/changepassword', {
         email: email,
         password: password,

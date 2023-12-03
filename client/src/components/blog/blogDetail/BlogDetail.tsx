@@ -16,7 +16,7 @@ export default function BlogDetail() {
       });
     }
   }, [parmas]);
-  console.log(detailBlog);
+  //console.log(detailBlog);
   return (
     <>
       {detailBlog ? (
