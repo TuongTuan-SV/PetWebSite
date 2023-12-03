@@ -9,7 +9,7 @@ export default function Brand() {
   const dispatch = useAppDispatch();
   useEffect(() => {}, [dispatch]);
   const { Brands } = useAppSelector((state) => state.Brands);
-  console.log(Brands);
+  // console.log(Brands);
   return (
     <div>
       <form>
@@ -18,7 +18,7 @@ export default function Brand() {
       <p>ádasdsad</p>
       <button onClick={onClick}>click</button>
       {Brands.map((brand: any) => {
-        console.log('ádasdsad');
+
         return <p key={brand.Name}>{brand.Name}</p>;
       })}
     </div>

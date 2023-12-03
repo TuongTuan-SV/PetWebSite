@@ -24,7 +24,7 @@ export default function OrderHistory() {
   useEffect(() => {
     if (loading!) {
       dispatch(getHistory());
-      console.log('asdasd');
+ 
     }
   });
 
